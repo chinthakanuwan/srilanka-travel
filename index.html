@@ -3,313 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LankaStay - Premium Travel & Booking</title>
+    <title>Sri Lanka Travel & Flights</title>
     <style>
-        /* --- MODERN UI/UX DESIGN --- */
-        :root { --primary: #006d77; --secondary: #83c5be; --accent: #e29578; --dark: #1a1a1a; --light: #f8f9fa; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        :root { --primary: #00897B; --secondary: #FF9800; --dark: #263238; --light: #F5F7FA; --white: #ffffff; --danger: #e53935; --flight: #003580; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background: var(--light); color: var(--dark); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         
-        /* Navbar */
-        nav { background: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 24px; font-weight: 800; color: var(--primary); }
-        .nav-links { display: flex; gap: 20px; list-style: none; }
-        .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; }
-        .currency-toggle { background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        nav { background: var(--white); padding: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .logo { font-size: 24px; font-weight: bold; color: var(--primary); }
+        .nav-links { display: flex; gap: 20px; list-style: none; flex-wrap: wrap; }
+        .nav-links a { font-weight: 500; text-decoration: none; color: var(--dark); }
+        .lang-btn { background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; }
 
-        /* Hero */
-        .hero { background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1587595431922-21878402075e?w=1600'); background-size: cover; background-position: center; height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: white; padding: 20px; }
-        .hero h1 { font-size: 3rem; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        
-        /* Ad Banner */
-        .ad-banner { background: #e9ecef; border: 2px dashed #adb5bd; text-align: center; padding: 20px; margin: 20px 5%; border-radius: 10px; color: #6c757d; font-weight: bold; }
+        .hero { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1600'); background-size: cover; background-position: center; height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
+        .hero h1 { font-size: 3rem; margin-bottom: 15px; }
 
-        /* Sections */
-        section { padding: 60px 5%; }
-        h2 { text-align: center; font-size: 2.2rem; margin-bottom: 40px; color: var(--primary); }
-        
-        /* Grid */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        
-        /* Cards */
-        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.08); transition: 0.3s; cursor: pointer; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+        section { padding: 60px 0; }
+        h2 { text-align: center; font-size: 2.2rem; margin-bottom: 40px; color: var(--dark); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+
+        .card { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: 0.3s; position: relative; }
+        .card:hover { transform: translateY(-5px); }
         .card img { width: 100%; height: 220px; object-fit: cover; }
         .card-body { padding: 20px; }
-        .card-title { font-size: 1.4rem; color: var(--dark); margin-bottom: 10px; }
-        .card-price { font-size: 1.2rem; color: var(--accent); font-weight: bold; margin-bottom: 15px; }
-        .rating { color: #ffc107; margin-bottom: 10px; }
+        .card-title { font-size: 1.3rem; margin-bottom: 10px; color: var(--primary); }
+        .discount-badge { position: absolute; top: 15px; right: 15px; background: var(--danger); color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; }
 
-        /* Modal (Popup for Details) */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; overflow-y: auto; }
-        .modal-content { background: white; margin: 5% auto; padding: 30px; width: 90%; max-width: 800px; border-radius: 15px; position: relative; }
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #666; }
-        
-        /* Image Slider */
-        .slider { position: relative; width: 100%; height: 400px; overflow: hidden; border-radius: 10px; margin-bottom: 20px; }
-        .slider img { width: 100%; height: 100%; object-fit: cover; display: none; }
-        .slider img.active { display: block; }
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 10px 15px; cursor: pointer; font-size: 20px; }
-        .prev { left: 10px; } .next { right: 10px; }
+        .btn { display: block; padding: 10px 20px; border-radius: 6px; text-align: center; font-weight: 600; text-decoration: none; margin-top: 10px; transition: 0.3s; color: white; }
+        .btn-agoda { background: #003580; } .btn-booking { background: #0071C2; } 
+        .btn-klook { background: #FF5722; } .btn-whatsapp { background: #25D366; }
+        .btn-flight { background: var(--flight); }
+        .btn:hover { opacity: 0.9; }
 
-        /* Reviews */
-        .review-form { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 20px; }
-        .review-form input, .review-form textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
-        .review-item { border-bottom: 1px solid #eee; padding: 15px 0; }
-        .review-header { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .flight-search-box { background: var(--white); padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; margin-bottom: 40px; }
+        .flight-search-box h3 { margin-bottom: 15px; color: var(--flight); }
 
-        /* Buttons */
-        .btn { display: inline-block; padding: 12px 25px; background: var(--primary); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; transition: 0.3s; }
-        .btn:hover { background: #00565e; }
-        .btn-pay { background: #28a745; width: 100%; text-align: center; font-size: 1.1rem; margin-top: 15px; }
-        .btn-pay:hover { background: #218838; }
-
-        /* Footer */
-        footer { background: var(--dark); color: white; text-align: center; padding: 30px 20px; }
-        .partner-section { background: var(--secondary); padding: 40px 5%; text-align: center; margin-top: 40px; }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .nav-links { display: none; }
-            .slider { height: 250px; }
-        }
+        .loading { text-align: center; padding: 50px; font-size: 1.2rem; color: var(--primary); }
     </style>
 </head>
 <body>
 
-    <!-- Navigation -->
     <nav>
-        <div class="logo">🇰 LankaStay</div>
-        <ul class="nav-links">
-            <li><a href="#hotels">Hotels</a></li>
-            <li><a href="#experiences">Experiences</a></li>
-            <li><a href="#partner">Partner with Us</a></li>
-        </ul>
-        <button class="currency-toggle" onclick="toggleCurrency()">Switch to USD</button>
+        <div class="container nav-container">
+            <div class="logo">🇱🇰 LankaTravel</div>
+            <ul class="nav-links">
+                <li><a href="#flights">✈️ Flights</a></li>
+                <li><a href="#destinations">Destinations</a></li>
+                <li><a href="#hotels">Hotels</a></li>
+                <li><a href="#restaurants">Restaurants</a></li>
+                <li><a href="admin.html" style="color: var(--secondary);">Admin</a></li>
+            </ul>
+            <button class="lang-btn" onclick="toggleLang()">සිංහල</button>
+        </div>
     </nav>
 
-    <!-- Hero Section -->
     <header class="hero">
-        <h1>Experience the Magic of Sri Lanka</h1>
-        <p>Premium Hotels, Authentic Experiences & Secure Bookings</p>
+        <div class="container">
+            <h1 id="hero-title">Discover Sri Lanka & Fly the World</h1>
+            <p id="hero-desc">Hotels, Flights, Tours, and Experiences with Exclusive Discounts.</p>
+        </div>
     </header>
 
-    <!-- Advertisement Slot 1 -->
-    <div class="ad-banner">
-        [ Google AdSense Banner Ad - 728x90 ]<br>
-        <small>Place your AdSense code here to earn money</small>
-    </div>
-
-    <!-- Hotels Section -->
-    <section id="hotels">
-        <h2>Featured Luxury Hotels</h2>
-        <div class="grid" id="hotel-grid">
-            <!-- Hotels will be injected here by JavaScript -->
-        </div>
-    </section>
-
-    <!-- Partner / Commission Section -->
-    <section id="partner" class="partner-section">
-        <h2>Earn Commission with Us!</h2>
-        <p>Are you a hotel owner or tour operator? List your business on LankaStay and earn up to 15% commission on every booking.</p>
-        <br>
-        <a href="https://wa.me/94771234567?text=I want to partner with LankaStay" class="btn" style="background: var(--dark);">Join as a Partner</a>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 LankaStay. All Rights Reserved.</p>
-        <p>Secure Payments via Stripe & PayPal</p>
-    </footer>
-
-    <!-- Hotel Details Modal (Popup) -->
-    <div id="hotel-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <div id="modal-body">
-                <!-- Content injected by JS -->
+    <!-- FLIGHTS SECTION -->
+    <section id="flights">
+        <div class="container">
+            <h2>✈️ Popular Flight Routes</h2>
+            
+            <!-- General Search Box -->
+            <div class="flight-search-box">
+                <h3>Search & Book Flights Worldwide</h3>
+                <p>Get up to 30% OFF on international flights when you book through our partner links!</p>
+                <!-- ඔයාගේ Travelpayouts/Kiwi.com Search Link එක මෙතන දාන්න -->
+                <a href="https://www.kiwi.com/en/search/?origin=Colombo&destination=anywhere" target="_blank" class="btn btn-flight" style="max-width: 300px; margin: 20px auto 0;">Search All Flights</a>
             </div>
+
+            <div class="grid" id="flights-grid"><div class="loading">Loading Flights...</div></div>
         </div>
-    </div>
+    </section>
+
+    <section id="destinations" style="background: white;"><div class="container"><h2>Top Destinations</h2><div class="grid" id="destinations-grid"><div class="loading">Loading...</div></div></div></section>
+    <section id="hotels"><div class="container"><h2>Featured Hotels</h2><div class="grid" id="hotels-grid"><div class="loading">Loading...</div></div></div></section>
+    <section id="restaurants" style="background: white;"><div class="container"><h2>Best Restaurants</h2><div class="grid" id="restaurants-grid"><div class="loading">Loading...</div></div></div></section>
+
+    <!-- Firebase Compat SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // --- DATA: Hotels & Details (යාට මෙතනින් Edit කරන්න පුළුවන්) ---
-        const hotels = [
-            {
-                id: 1,
-                name: "Colombo Skyline Hotel",
-                location: "Colombo 03",
-                priceLKR: 25000,
-                priceUSD: 80,
-                rating: 4.8,
-                images: [
-                    "https://images.unsplash.com/photo-1566073771259-6a8506099945",
-                    "https://images.unsplash.com/photo-1582719508461-905c673771fd",
-                    "https://images.unsplash.com/photo-1590490360182-c33d57733427"
-                ],
-                description: "Experience luxury in the heart of Colombo. Features rooftop infinity pool, 5-star dining, and panoramic ocean views.",
-                amenities: ["Free WiFi", "Swimming Pool", "Gym", "Breakfast Included", "Airport Transfer"],
-                paymentLink: "https://buy.stripe.com/test_123456789", // ඔයාගේ Stripe/PayPal Link එක මෙතන දාන්න
-                affiliateLink: "https://www.booking.com/affiliate..." // Booking.com Affiliate link එක දාන්න
-            },
-            {
-                id: 2,
-                name: "Galle Fort Boutique Villa",
-                location: "Galle Fort",
-                priceLKR: 35000,
-                priceUSD: 110,
-                rating: 4.9,
-                images: [
-                    "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4",
-                    "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9",
-                    "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb"
-                ],
-                description: "A historic Dutch colonial villa converted into a luxury boutique hotel. Steps away from the ocean and historic ramparts.",
-                amenities: ["Ocean View", "AC", "Private Balcony", "Historic Architecture", "Fine Dining"],
-                paymentLink: "https://buy.stripe.com/test_987654321",
-                affiliateLink: "https://www.agoda.com/affiliate..."
-            },
-            {
-                id: 3,
-                name: "Ella Mountain Retreat",
-                location: "Ella",
-                priceLKR: 18000,
-                priceUSD: 55,
-                rating: 4.7,
-                images: [
-                    "https://images.unsplash.com/photo-1588258546177-2d8f6d7b5f2e",
-                    "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
-                    "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4"
-                ],
-                description: "Wake up to the misty mountains of Ella. Perfect for hikers and nature lovers. Close to Nine Arch Bridge.",
-                amenities: ["Mountain View", "Hiking Guides", "Organic Food", "Bonfire", "Free Parking"],
-                paymentLink: "https://buy.stripe.com/test_456789123",
-                affiliateLink: "https://www.expedia.com/affiliate..."
-            }
-        ];
+        // ⚠️ මෙතනට ඔයාගේ Firebase Config එක Paste කරන්න
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-XXXXXXXXXXXXXXXXXXXXXXXX",
+            authDomain: "srilanka-travel.firebaseapp.com",
+            projectId: "srilanka-travel",
+            storageBucket: "srilanka-travel.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef123456"
+        };
 
-        let currentCurrency = 'LKR';
-        let currentHotelId = null;
-        let currentImageIndex = 0;
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-        // --- RENDER HOTELS ---
-        function renderHotels() {
-            const grid = document.getElementById('hotel-grid');
-            grid.innerHTML = '';
-            hotels.forEach(hotel => {
-                const price = currentCurrency === 'LKR' ? `Rs. ${hotel.priceLKR.toLocaleString()}` : `$${hotel.priceUSD}`;
-                grid.innerHTML += `
-                    <div class="card" onclick="openModal(${hotel.id})">
-                        <img src="${hotel.images[0]}" alt="${hotel.name}">
-                        <div class="card-body">
-                            <div class="rating">⭐ ${hotel.rating} / 5.0</div>
-                            <h3 class="card-title">${hotel.name}</h3>
-                            <p>📍 ${hotel.location}</p>
-                            <div class="card-price">${price} / Night</div>
-                            <button class="btn" style="width:100%">View Details & Book</button>
+        let currentLang = 'en';
+        let allData = { flights: [], destinations: [], hotels: [], restaurants: [] };
+
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'si' : 'en';
+            document.querySelector('.lang-btn').innerText = currentLang === 'en' ? 'සිංහල' : 'English';
+            renderAll();
+        }
+
+        function getWhatsAppLink(item, type) {
+            const name = item.name && item.name[currentLang] ? item.name[currentLang] : (item.name?.en || 'Item');
+            const number = item.whatsappNumber || "94771234567";
+            return `https://wa.me/${number}?text=${encodeURIComponent(`Hi, I want to inquire about: ${name} (${type})`)}`;
+        }
+
+        function renderAll() {
+            // Flights
+            document.getElementById('flights-grid').innerHTML = allData.flights.map(f => `
+                <div class="card">
+                    ${f.discount ? `<div class="discount-badge">-${f.discount}% OFF</div>` : ''}
+                    <img src="${f.image || 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800'}" alt="${f.name?.en}">
+                    <div class="card-body">
+                        <h3 class="card-title" style="color: var(--flight);">✈️ ${f.name?.[currentLang] || f.name?.en}</h3>
+                        <p style="color:#666; font-size:0.9rem;">🏢 ${f.airline || 'Multiple Airlines'} | ⭐ ${f.rating || 4.5}</p>
+                        <div style="font-size: 1.2rem; font-weight: bold; color: var(--secondary); margin: 10px 0;">
+                            ${f.discount ? `<span style="text-decoration:line-through; color:#999; font-size:0.9rem;">$${f.originalPriceUSD || f.priceUSD}</span> ` : ''}
+                            From $${f.priceUSD || 0}
+                        </div>
+                        <div>
+                            ${f.affiliateLink ? `<a href="${f.affiliateLink}" target="_blank" class="btn btn-flight">Book Flight Now</a>` : ''}
+                            <a href="${getWhatsAppLink(f, 'Flight')}" target="_blank" class="btn btn-whatsapp">WhatsApp Inquiry</a>
                         </div>
                     </div>
-                `;
-            });
-        }
-
-        // --- CURRENCY TOGGLE ---
-        function toggleCurrency() {
-            currentCurrency = currentCurrency === 'LKR' ? 'USD' : 'LKR';
-            document.querySelector('.currency-toggle').innerText = `Switch to ${currentCurrency === 'LKR' ? 'USD' : 'LKR'}`;
-            renderHotels();
-        }
-
-        // --- MODAL & SLIDER LOGIC ---
-        function openModal(id) {
-            currentHotelId = id;
-            currentImageIndex = 0;
-            const hotel = hotels.find(h => h.id === id);
-            const price = currentCurrency === 'LKR' ? `Rs. ${hotel.priceLKR.toLocaleString()}` : `$${hotel.priceUSD}`;
-            
-            let imagesHtml = hotel.images.map((img, i) => `<img src="${img}" class="${i === 0 ? 'active' : ''}" id="slide-${i}">`).join('');
-            
-            let amenitiesHtml = hotel.amenities.map(a => `<li>✅ ${a}</li>`).join('');
-
-            document.getElementById('modal-body').innerHTML = `
-                <div class="slider">
-                    ${imagesHtml}
-                    <button class="slider-btn prev" onclick="changeSlide(-1)">&#10094;</button>
-                    <button class="slider-btn next" onclick="changeSlide(1)">&#10095;</button>
                 </div>
-                <h2>${hotel.name}</h2>
-                <p>📍 ${hotel.location} | ⭐ ${hotel.rating} / 5.0</p>
-                <h3 style="color:var(--accent); margin: 15px 0;">${price} / Night</h3>
-                <p>${hotel.description}</p>
-                <h4 style="margin-top:20px;">Amenities:</h4>
-                <ul style="margin-left:20px; margin-bottom:20px;">${amenitiesHtml}</ul>
-                
-                <!-- Payment & Booking Buttons -->
-                <a href="${hotel.paymentLink}" target="_blank" class="btn btn-pay">💳 Pay & Reserve Online (Secure)</a>
-                <p style="text-align:center; margin-top:10px; font-size:0.9rem; color:#666;">Or book via Booking.com to support us!</p>
-                <a href="${hotel.affiliateLink}" target="_blank" class="btn" style="width:100%; text-align:center; background:#003580; margin-top:10px;">Check Availability on Booking.com</a>
+            `).join('') || '<p style="text-align:center;">No flights found.</p>';
 
-                <!-- Reviews Section -->
-                <div class="review-form">
-                    <h3>Guest Reviews</h3>
-                    <div id="reviews-list"></div>
-                    <h4 style="margin-top:20px;">Leave a Review</h4>
-                    <input type="text" id="reviewer-name" placeholder="Your Name">
-                    <textarea id="reviewer-text" placeholder="Share your experience..."></textarea>
-                    <button class="btn" onclick="submitReview()">Submit Review</button>
-                </div>
-            `;
-            
-            document.getElementById('hotel-modal').style.display = 'block';
-            loadReviews(id);
-        }
-
-        function closeModal() {
-            document.getElementById('hotel-modal').style.display = 'none';
-        }
-
-        function changeSlide(direction) {
-            const hotel = hotels.find(h => h.id === currentHotelId);
-            document.getElementById(`slide-${currentImageIndex}`).classList.remove('active');
-            currentImageIndex = (currentImageIndex + direction + hotel.images.length) % hotel.images.length;
-            document.getElementById(`slide-${currentImageIndex}`).classList.add('active');
-        }
-
-        // --- REVIEWS SYSTEM (LocalStorage) ---
-        function submitReview() {
-            const name = document.getElementById('reviewer-name').value;
-            const text = document.getElementById('reviewer-text').value;
-            if(!name || !text) return alert("Please fill all fields");
-
-            let reviews = JSON.parse(localStorage.getItem(`reviews_${currentHotelId}`)) || [];
-            reviews.unshift({ name, text, date: new Date().toLocaleDateString() });
-            localStorage.setItem(`reviews_${currentHotelId}`, JSON.stringify(reviews));
-            
-            document.getElementById('reviewer-name').value = '';
-            document.getElementById('reviewer-text').value = '';
-            loadReviews(currentHotelId);
-        }
-
-        function loadReviews(id) {
-            const reviews = JSON.parse(localStorage.getItem(`reviews_${id}`)) || [];
-            const container = document.getElementById('reviews-list');
-            if(reviews.length === 0) {
-                container.innerHTML = '<p style="color:#666;">No reviews yet. Be the first!</p>';
-                return;
-            }
-            container.innerHTML = reviews.map(r => `
-                <div class="review-item">
-                    <div class="review-header">
-                        <strong>${r.name}</strong>
-                        <small>${r.date}</small>
+            // Destinations
+            document.getElementById('destinations-grid').innerHTML = allData.destinations.map(d => `
+                <div class="card">
+                    <img src="${d.image || 'https://via.placeholder.com/300'}" alt="${d.name?.en}">
+                    <div class="card-body">
+                        <h3 class="card-title">${d.name?.[currentLang] || d.name?.en}</h3>
+                        <p style="color:#666; font-size:0.9rem;">📍 ${d.location || ''} |  ${d.rating || 4.5}</p>
+                        <p style="margin: 10px 0;">${d.description?.[currentLang] || d.description?.en || ''}</p>
+                        <div>
+                            ${d.klookLink ? `<a href="${d.klookLink}" target="_blank" class="btn btn-klook">Book on Klook</a>` : ''}
+                            <a href="${getWhatsAppLink(d, 'Destination')}" target="_blank" class="btn btn-whatsapp">WhatsApp Inquiry</a>
+                        </div>
                     </div>
-                    <p>${r.text}</p>
                 </div>
-            `).join('');
+            `).join('') || '<p style="text-align:center;">No destinations found.</p>';
+
+            // Hotels
+            document.getElementById('hotels-grid').innerHTML = allData.hotels.map(h => `
+                <div class="card">
+                    ${h.discount ? `<div class="discount-badge">-${h.discount}% OFF</div>` : ''}
+                    <img src="${h.image || 'https://via.placeholder.com/300'}" alt="${h.name?.en}">
+                    <div class="card-body">
+                        <h3 class="card-title">${h.name?.[currentLang] || h.name?.en}</h3>
+                        <p style="color:#666; font-size:0.9rem;">📍 ${h.location?.[currentLang] || h.location?.en || ''} | ⭐ ${h.rating || 4.5}</p>
+                        <div style="font-size: 1.2rem; font-weight: bold; color: var(--secondary); margin: 10px 0;">
+                            ${h.discount ? `<span style="text-decoration:line-through; color:#999; font-size:0.9rem;">$${h.originalPriceUSD || h.priceUSD}</span> ` : ''}
+                            $${h.priceUSD || 0} <span style="font-size:0.8rem; color:#666;">/ night</span>
+                        </div>
+                        <div>
+                            ${h.agodaLink ? `<a href="${h.agodaLink}" target="_blank" class="btn btn-agoda">Book on Agoda</a>` : ''}
+                            ${h.bookingLink ? `<a href="${h.bookingLink}" target="_blank" class="btn btn-booking">Book on Booking.com</a>` : ''}
+                            <a href="${getWhatsAppLink(h, 'Hotel')}" target="_blank" class="btn btn-whatsapp">WhatsApp Booking</a>
+                        </div>
+                    </div>
+                </div>
+            `).join('') || '<p style="text-align:center;">No hotels found.</p>';
+
+            // Restaurants
+            document.getElementById('restaurants-grid').innerHTML = allData.restaurants.map(r => `
+                <div class="card">
+                    <img src="${r.image || 'https://via.placeholder.com/300'}" alt="${r.name?.en}">
+                    <div class="card-body">
+                        <h3 class="card-title">${r.name?.[currentLang] || r.name?.en}</h3>
+                        <p style="color:#666; font-size:0.9rem;">📍 ${r.location?.[currentLang] || r.location?.en || ''} | ${r.cuisine?.[currentLang] || r.cuisine?.en || ''}</p>
+                        <p style="margin: 10px 0;">${r.description?.[currentLang] || r.description?.en || ''}</p>
+                        <a href="${getWhatsAppLink(r, 'Restaurant')}" target="_blank" class="btn btn-whatsapp">Reserve Table</a>
+                    </div>
+                </div>
+            `).join('') || '<p style="text-align:center;">No restaurants found.</p>';
         }
 
-        // Initialize
-        renderHotels();
+        async function loadData() {
+            try {
+                const flightSnap = await db.collection('flights').get();
+                allData.flights = flightSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                const destSnap = await db.collection('destinations').get();
+                allData.destinations = destSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                const hotelSnap = await db.collection('hotels').get();
+                allData.hotels = hotelSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                const restSnap = await db.collection('restaurants').get();
+                allData.restaurants = restSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                renderAll();
+            } catch (error) {
+                console.error("Error loading data:", error);
+                document.querySelectorAll('.loading').forEach(el => el.innerText = 'Error loading data. Check Firebase Config.');
+            }
+        }
+
+        loadData();
     </script>
 </body>
 </html>
