@@ -3,241 +3,313 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SriLanka Advanced Travel Guide</title>
+    <title>LankaStay - Premium Travel & Booking</title>
     <style>
-        /* මෙතන තමයි Design එක (CSS) තියෙන්නේ */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: #f4f7f6; color: #333; }
+        /* --- MODERN UI/UX DESIGN --- */
+        :root { --primary: #006d77; --secondary: #83c5be; --accent: #e29578; --dark: #1a1a1a; --light: #f8f9fa; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: var(--light); color: var(--dark); line-height: 1.6; }
         
-        /* Navigation */
-        nav { background: #004d40; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        nav .logo { color: white; font-size: 24px; font-weight: bold; }
-        nav ul { list-style: none; display: flex; gap: 20px; }
-        nav ul li a { color: white; text-decoration: none; font-weight: 500; transition: 0.3s; }
-        nav ul li a:hover { color: #ffca28; }
+        /* Navbar */
+        nav { background: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 24px; font-weight: 800; color: var(--primary); }
+        .nav-links { display: flex; gap: 20px; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; }
+        .currency-toggle { background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; }
 
-        /* Hero Section */
-        .hero { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1587595431922-21878402075e?w=1600'); background-size: cover; background-position: center; height: 80vh; display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 10px; }
-        .hero p { font-size: 1.2rem; margin-bottom: 20px; }
-        .btn { padding: 12px 30px; background: #ffca28; color: #004d40; text-decoration: none; border-radius: 5px; font-weight: bold; border: none; cursor: pointer; font-size: 16px; }
-        .btn:hover { background: #ffb300; }
+        /* Hero */
+        .hero { background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1587595431922-21878402075e?w=1600'); background-size: cover; background-position: center; height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: white; padding: 20px; }
+        .hero h1 { font-size: 3rem; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        
+        /* Ad Banner */
+        .ad-banner { background: #e9ecef; border: 2px dashed #adb5bd; text-align: center; padding: 20px; margin: 20px 5%; border-radius: 10px; color: #6c757d; font-weight: bold; }
 
         /* Sections */
         section { padding: 60px 5%; }
-        h2 { text-align: center; font-size: 2.5rem; margin-bottom: 40px; color: #004d40; }
+        h2 { text-align: center; font-size: 2.2rem; margin-bottom: 40px; color: var(--primary); }
         
-        /* Grid Layouts */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        /* Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
         
         /* Cards */
-        .card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s; }
-        .card:hover { transform: translateY(-10px); }
-        .card img { width: 100%; height: 200px; object-fit: cover; }
-        .card-content { padding: 20px; }
-        .card h3 { color: #004d40; margin-bottom: 10px; }
-        .price { color: #e65100; font-size: 1.2rem; font-weight: bold; margin: 10px 0; }
-        .book-btn { display: block; width: 100%; padding: 10px; background: #25D366; color: white; text-align: center; text-decoration: none; border-radius: 5px; margin-top: 10px; font-weight: bold; }
-        .book-btn:hover { background: #128C7E; }
+        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.08); transition: 0.3s; cursor: pointer; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+        .card img { width: 100%; height: 220px; object-fit: cover; }
+        .card-body { padding: 20px; }
+        .card-title { font-size: 1.4rem; color: var(--dark); margin-bottom: 10px; }
+        .card-price { font-size: 1.2rem; color: var(--accent); font-weight: bold; margin-bottom: 15px; }
+        .rating { color: #ffc107; margin-bottom: 10px; }
 
-        /* Exchange Rates Table */
-        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background: #004d40; color: white; }
-        tr:hover { background: #f1f1f1; }
+        /* Modal (Popup for Details) */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; overflow-y: auto; }
+        .modal-content { background: white; margin: 5% auto; padding: 30px; width: 90%; max-width: 800px; border-radius: 15px; position: relative; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #666; }
+        
+        /* Image Slider */
+        .slider { position: relative; width: 100%; height: 400px; overflow: hidden; border-radius: 10px; margin-bottom: 20px; }
+        .slider img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .slider img.active { display: block; }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 10px 15px; cursor: pointer; font-size: 20px; }
+        .prev { left: 10px; } .next { right: 10px; }
+
+        /* Reviews */
+        .review-form { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 20px; }
+        .review-form input, .review-form textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+        .review-item { border-bottom: 1px solid #eee; padding: 15px 0; }
+        .review-header { display: flex; justify-content: space-between; margin-bottom: 5px; }
+
+        /* Buttons */
+        .btn { display: inline-block; padding: 12px 25px; background: var(--primary); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background: #00565e; }
+        .btn-pay { background: #28a745; width: 100%; text-align: center; font-size: 1.1rem; margin-top: 15px; }
+        .btn-pay:hover { background: #218838; }
 
         /* Footer */
-        footer { background: #004d40; color: white; text-align: center; padding: 20px; margin-top: 40px; }
+        footer { background: var(--dark); color: white; text-align: center; padding: 30px 20px; }
+        .partner-section { background: var(--secondary); padding: 40px 5%; text-align: center; margin-top: 40px; }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2rem; }
-            nav ul { display: none; } /* Mobile menu simplified for this demo */
+            .nav-links { display: none; }
+            .slider { height: 250px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Navigation Menu -->
+    <!-- Navigation -->
     <nav>
-        <div class="logo">🇰 SriLanka Travel</div>
-        <ul>
-            <li><a href="#destinations">Destinations</a></li>
+        <div class="logo">🇰 LankaStay</div>
+        <ul class="nav-links">
             <li><a href="#hotels">Hotels</a></li>
-            <li><a href="#restaurants">Restaurants</a></li>
-            <li><a href="#exchange">Exchange Rates</a></li>
+            <li><a href="#experiences">Experiences</a></li>
+            <li><a href="#partner">Partner with Us</a></li>
         </ul>
+        <button class="currency-toggle" onclick="toggleCurrency()">Switch to USD</button>
     </nav>
 
     <!-- Hero Section -->
     <header class="hero">
-        <div>
-            <h1>Discover Beautiful Sri Lanka</h1>
-            <p>Hotels, Restaurants, Tours & Live Exchange Rates</p>
-            <a href="#hotels" class="btn">Book Your Stay</a>
-        </div>
+        <h1>Experience the Magic of Sri Lanka</h1>
+        <p>Premium Hotels, Authentic Experiences & Secure Bookings</p>
     </header>
 
-    <!-- Destinations Section -->
-    <section id="destinations">
-        <h2>Popular Destinations</h2>
-        <div class="grid">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1587595431922-21878402075e" alt="Sigiriya">
-                <div class="card-content">
-                    <h3>Sigiriya Rock</h3>
-                    <p>The ancient rock fortress, a UNESCO World Heritage site.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523" alt="Kandy">
-                <div class="card-content">
-                    <h3>Kandy City</h3>
-                    <p>Home to the Temple of the Sacred Tooth Relic.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1588258546177-2d8f6d7b5f2e" alt="Ella">
-                <div class="card-content">
-                    <h3>Ella Mountains</h3>
-                    <p>Famous for Nine Arch Bridge and scenic train rides.</p>
-                </div>
-            </div>
+    <!-- Advertisement Slot 1 -->
+    <div class="ad-banner">
+        [ Google AdSense Banner Ad - 728x90 ]<br>
+        <small>Place your AdSense code here to earn money</small>
+    </div>
+
+    <!-- Hotels Section -->
+    <section id="hotels">
+        <h2>Featured Luxury Hotels</h2>
+        <div class="grid" id="hotel-grid">
+            <!-- Hotels will be injected here by JavaScript -->
         </div>
     </section>
 
-    <!-- Hotels & Booking Section -->
-    <section id="hotels" style="background: #e0f2f1;">
-        <h2>Top Hotels & Booking</h2>
-        <div class="grid">
-            <!-- Hotel 1 -->
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945" alt="Hotel 1">
-                <div class="card-content">
-                    <h3>Colombo City Hotel</h3>
-                    <p>Luxury stay in the heart of Colombo city.</p>
-                    <p class="price">$80 / Night</p>
-                    <!-- මෙතන යාගේ WhatsApp නම්බර් එක දෙන්න (947XXXXXXXX) -->
-                    <a href="https://wa.me/94771234567?text=I want to book Colombo City Hotel" class="book-btn">Book via WhatsApp</a>
-                </div>
-            </div>
-            <!-- Hotel 2 -->
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4" alt="Hotel 2">
-                <div class="card-content">
-                    <h3>Galle Beach Resort</h3>
-                    <p>Beautiful ocean view resort near Galle Fort.</p>
-                    <p class="price">$120 / Night</p>
-                    <a href="https://wa.me/94771234567?text=I want to book Galle Beach Resort" class="book-btn">Book via WhatsApp</a>
-                </div>
-            </div>
-            <!-- Hotel 3 -->
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9" alt="Hotel 3">
-                <div class="card-content">
-                    <h3>Kandy Lake View</h3>
-                    <p>Peaceful stay with a beautiful lake view.</p>
-                    <p class="price">$60 / Night</p>
-                    <a href="https://wa.me/94771234567?text=I want to book Kandy Lake View" class="book-btn">Book via WhatsApp</a>
-                </div>
-            </div>
-        </div>
+    <!-- Partner / Commission Section -->
+    <section id="partner" class="partner-section">
+        <h2>Earn Commission with Us!</h2>
+        <p>Are you a hotel owner or tour operator? List your business on LankaStay and earn up to 15% commission on every booking.</p>
+        <br>
+        <a href="https://wa.me/94771234567?text=I want to partner with LankaStay" class="btn" style="background: var(--dark);">Join as a Partner</a>
     </section>
 
-    <!-- Restaurants Section -->
-    <section id="restaurants">
-        <h2>Best Restaurants</h2>
-        <div class="grid">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4" alt="Restaurant 1">
-                <div class="card-content">
-                    <h3>Spicy Lankan Kitchen</h3>
-                    <p>Authentic Sri Lankan rice and curry.</p>
-                    <p>Open: 10:00 AM - 10:00 PM</p>
-                    <a href="https://wa.me/94771234567?text=I want to reserve a table at Spicy Lankan Kitchen" class="book-btn">Reserve Table</a>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9" alt="Restaurant 2">
-                <div class="card-content">
-                    <h3>Ocean Seafood</h3>
-                    <p>Fresh seafood by the beach in Negombo.</p>
-                    <p>Open: 11:00 AM - 11:00 PM</p>
-                    <a href="https://wa.me/94771234567?text=I want to reserve a table at Ocean Seafood" class="book-btn">Reserve Table</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Live Exchange Rates Section -->
-    <section id="exchange" style="background: #e0f2f1;">
-        <h2>Live Exchange Rates</h2>
-        <p style="text-align: center; margin-bottom: 20px;">Rates are updated automatically from the global market.</p>
-        <div style="max-width: 800px; margin: 0 auto;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Currency</th>
-                        <th>Code</th>
-                        <th>Rate (in LKR)</th>
-                    </tr>
-                </thead>
-                <tbody id="rates-body">
-                    <tr><td colspan="3" style="text-align:center;">Loading live rates...</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2026 SriLanka Travel Guide. All Rights Reserved.</p>
-        <p>Contact: +94 77 123 4567</p>
+        <p>&copy; 2026 LankaStay. All Rights Reserved.</p>
+        <p>Secure Payments via Stripe & PayPal</p>
     </footer>
 
+    <!-- Hotel Details Modal (Popup) -->
+    <div id="hotel-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div id="modal-body">
+                <!-- Content injected by JS -->
+            </div>
+        </div>
+    </div>
+
     <script>
-        // මෙතන තමයි Live Exchange Rates ගන්න Code එක තියෙන්නේ
-        async function getExchangeRates() {
-            try {
-                // මේක Free API එකක්. මේකෙන් USD base කරලා rates ගන්නවා
-                const response = await fetch('https://open.er-api.com/v6/latest/USD');
-                const data = await response.json();
-                
-                // Sri Lankan Rupee (LKR) එකට convert කරන එක
-                const lkrRate = data.rates.LKR; 
-                
-                // අපිට ඕනේ currencies ටික
-                const currencies = [
-                    { name: 'US Dollar', code: 'USD', rate: 1 },
-                    { name: 'Euro', code: 'EUR', rate: data.rates.EUR },
-                    { name: 'British Pound', code: 'GBP', rate: data.rates.GBP },
-                    { name: 'Indian Rupee', code: 'INR', rate: data.rates.INR },
-                    { name: 'Australian Dollar', code: 'AUD', rate: data.rates.AUD }
-                ];
-
-                let html = '';
-                currencies.forEach(curr => {
-                    // 1 USD = 295 LKR නම්, 1 EUR = (295 / EUR rate) * ... 
-                    // සරලව: LKR rate එක බෙදන්න ඒ currency rate එකෙන්
-                    const lkrValue = (lkrRate / curr.rate).toFixed(2);
-                    html += `
-                        <tr>
-                            <td>${curr.name}</td>
-                            <td><strong>${curr.code}</strong></td>
-                            <td>Rs. ${lkrValue}</td>
-                        </tr>
-                    `;
-                });
-
-                document.getElementById('rates-body').innerHTML = html;
-
-            } catch (error) {
-                document.getElementById('rates-body').innerHTML = '<tr><td colspan="3" style="text-align:center; color:red;">Failed to load rates. Please check internet.</td></tr>';
+        // --- DATA: Hotels & Details (යාට මෙතනින් Edit කරන්න පුළුවන්) ---
+        const hotels = [
+            {
+                id: 1,
+                name: "Colombo Skyline Hotel",
+                location: "Colombo 03",
+                priceLKR: 25000,
+                priceUSD: 80,
+                rating: 4.8,
+                images: [
+                    "https://images.unsplash.com/photo-1566073771259-6a8506099945",
+                    "https://images.unsplash.com/photo-1582719508461-905c673771fd",
+                    "https://images.unsplash.com/photo-1590490360182-c33d57733427"
+                ],
+                description: "Experience luxury in the heart of Colombo. Features rooftop infinity pool, 5-star dining, and panoramic ocean views.",
+                amenities: ["Free WiFi", "Swimming Pool", "Gym", "Breakfast Included", "Airport Transfer"],
+                paymentLink: "https://buy.stripe.com/test_123456789", // ඔයාගේ Stripe/PayPal Link එක මෙතන දාන්න
+                affiliateLink: "https://www.booking.com/affiliate..." // Booking.com Affiliate link එක දාන්න
+            },
+            {
+                id: 2,
+                name: "Galle Fort Boutique Villa",
+                location: "Galle Fort",
+                priceLKR: 35000,
+                priceUSD: 110,
+                rating: 4.9,
+                images: [
+                    "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4",
+                    "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9",
+                    "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb"
+                ],
+                description: "A historic Dutch colonial villa converted into a luxury boutique hotel. Steps away from the ocean and historic ramparts.",
+                amenities: ["Ocean View", "AC", "Private Balcony", "Historic Architecture", "Fine Dining"],
+                paymentLink: "https://buy.stripe.com/test_987654321",
+                affiliateLink: "https://www.agoda.com/affiliate..."
+            },
+            {
+                id: 3,
+                name: "Ella Mountain Retreat",
+                location: "Ella",
+                priceLKR: 18000,
+                priceUSD: 55,
+                rating: 4.7,
+                images: [
+                    "https://images.unsplash.com/photo-1588258546177-2d8f6d7b5f2e",
+                    "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
+                    "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4"
+                ],
+                description: "Wake up to the misty mountains of Ella. Perfect for hikers and nature lovers. Close to Nine Arch Bridge.",
+                amenities: ["Mountain View", "Hiking Guides", "Organic Food", "Bonfire", "Free Parking"],
+                paymentLink: "https://buy.stripe.com/test_456789123",
+                affiliateLink: "https://www.expedia.com/affiliate..."
             }
+        ];
+
+        let currentCurrency = 'LKR';
+        let currentHotelId = null;
+        let currentImageIndex = 0;
+
+        // --- RENDER HOTELS ---
+        function renderHotels() {
+            const grid = document.getElementById('hotel-grid');
+            grid.innerHTML = '';
+            hotels.forEach(hotel => {
+                const price = currentCurrency === 'LKR' ? `Rs. ${hotel.priceLKR.toLocaleString()}` : `$${hotel.priceUSD}`;
+                grid.innerHTML += `
+                    <div class="card" onclick="openModal(${hotel.id})">
+                        <img src="${hotel.images[0]}" alt="${hotel.name}">
+                        <div class="card-body">
+                            <div class="rating">⭐ ${hotel.rating} / 5.0</div>
+                            <h3 class="card-title">${hotel.name}</h3>
+                            <p>📍 ${hotel.location}</p>
+                            <div class="card-price">${price} / Night</div>
+                            <button class="btn" style="width:100%">View Details & Book</button>
+                        </div>
+                    </div>
+                `;
+            });
         }
 
-        // Page එක load වුන ගමන් මේ function එක run කරනවා
-        getExchangeRates();
-    </script>
+        // --- CURRENCY TOGGLE ---
+        function toggleCurrency() {
+            currentCurrency = currentCurrency === 'LKR' ? 'USD' : 'LKR';
+            document.querySelector('.currency-toggle').innerText = `Switch to ${currentCurrency === 'LKR' ? 'USD' : 'LKR'}`;
+            renderHotels();
+        }
 
+        // --- MODAL & SLIDER LOGIC ---
+        function openModal(id) {
+            currentHotelId = id;
+            currentImageIndex = 0;
+            const hotel = hotels.find(h => h.id === id);
+            const price = currentCurrency === 'LKR' ? `Rs. ${hotel.priceLKR.toLocaleString()}` : `$${hotel.priceUSD}`;
+            
+            let imagesHtml = hotel.images.map((img, i) => `<img src="${img}" class="${i === 0 ? 'active' : ''}" id="slide-${i}">`).join('');
+            
+            let amenitiesHtml = hotel.amenities.map(a => `<li>✅ ${a}</li>`).join('');
+
+            document.getElementById('modal-body').innerHTML = `
+                <div class="slider">
+                    ${imagesHtml}
+                    <button class="slider-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+                    <button class="slider-btn next" onclick="changeSlide(1)">&#10095;</button>
+                </div>
+                <h2>${hotel.name}</h2>
+                <p>📍 ${hotel.location} | ⭐ ${hotel.rating} / 5.0</p>
+                <h3 style="color:var(--accent); margin: 15px 0;">${price} / Night</h3>
+                <p>${hotel.description}</p>
+                <h4 style="margin-top:20px;">Amenities:</h4>
+                <ul style="margin-left:20px; margin-bottom:20px;">${amenitiesHtml}</ul>
+                
+                <!-- Payment & Booking Buttons -->
+                <a href="${hotel.paymentLink}" target="_blank" class="btn btn-pay">💳 Pay & Reserve Online (Secure)</a>
+                <p style="text-align:center; margin-top:10px; font-size:0.9rem; color:#666;">Or book via Booking.com to support us!</p>
+                <a href="${hotel.affiliateLink}" target="_blank" class="btn" style="width:100%; text-align:center; background:#003580; margin-top:10px;">Check Availability on Booking.com</a>
+
+                <!-- Reviews Section -->
+                <div class="review-form">
+                    <h3>Guest Reviews</h3>
+                    <div id="reviews-list"></div>
+                    <h4 style="margin-top:20px;">Leave a Review</h4>
+                    <input type="text" id="reviewer-name" placeholder="Your Name">
+                    <textarea id="reviewer-text" placeholder="Share your experience..."></textarea>
+                    <button class="btn" onclick="submitReview()">Submit Review</button>
+                </div>
+            `;
+            
+            document.getElementById('hotel-modal').style.display = 'block';
+            loadReviews(id);
+        }
+
+        function closeModal() {
+            document.getElementById('hotel-modal').style.display = 'none';
+        }
+
+        function changeSlide(direction) {
+            const hotel = hotels.find(h => h.id === currentHotelId);
+            document.getElementById(`slide-${currentImageIndex}`).classList.remove('active');
+            currentImageIndex = (currentImageIndex + direction + hotel.images.length) % hotel.images.length;
+            document.getElementById(`slide-${currentImageIndex}`).classList.add('active');
+        }
+
+        // --- REVIEWS SYSTEM (LocalStorage) ---
+        function submitReview() {
+            const name = document.getElementById('reviewer-name').value;
+            const text = document.getElementById('reviewer-text').value;
+            if(!name || !text) return alert("Please fill all fields");
+
+            let reviews = JSON.parse(localStorage.getItem(`reviews_${currentHotelId}`)) || [];
+            reviews.unshift({ name, text, date: new Date().toLocaleDateString() });
+            localStorage.setItem(`reviews_${currentHotelId}`, JSON.stringify(reviews));
+            
+            document.getElementById('reviewer-name').value = '';
+            document.getElementById('reviewer-text').value = '';
+            loadReviews(currentHotelId);
+        }
+
+        function loadReviews(id) {
+            const reviews = JSON.parse(localStorage.getItem(`reviews_${id}`)) || [];
+            const container = document.getElementById('reviews-list');
+            if(reviews.length === 0) {
+                container.innerHTML = '<p style="color:#666;">No reviews yet. Be the first!</p>';
+                return;
+            }
+            container.innerHTML = reviews.map(r => `
+                <div class="review-item">
+                    <div class="review-header">
+                        <strong>${r.name}</strong>
+                        <small>${r.date}</small>
+                    </div>
+                    <p>${r.text}</p>
+                </div>
+            `).join('');
+        }
+
+        // Initialize
+        renderHotels();
+    </script>
 </body>
 </html>
