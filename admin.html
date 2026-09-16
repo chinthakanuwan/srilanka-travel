@@ -3,148 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sri Lanka Travel & Flights - Book Hotels, Tours & Flights</title>
+    <title>Admin Panel - LankaTravel</title>
     <style>
-        :root { --primary: #00897B; --secondary: #FF9800; --dark: #263238; --light: #F5F7FA; --white: #ffffff; --danger: #e53935; --flight: #003580; }
+        :root { --primary: #00897B; --dark: #1e272e; --light: #f5f6fa; --white: #ffffff; --danger: #e84118; --flight: #003580; --success: #44bd32; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: var(--light); color: var(--dark); line-height: 1.6; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        body { background: var(--light); display: flex; min-height: 100vh; }
         
-        nav { background: var(--white); padding: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .logo { font-size: 24px; font-weight: bold; color: var(--primary); }
-        .nav-links { display: flex; gap: 20px; list-style: none; flex-wrap: wrap; }
-        .nav-links a { font-weight: 500; text-decoration: none; color: var(--dark); transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary); }
-        .lang-btn { background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; }
-
-        .hero { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1587595431922-21878402075e?w=1600'); background-size: cover; background-position: center; height: 60vh; display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
-        .hero h1 { font-size: 3rem; margin-bottom: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        .hero p { font-size: 1.2rem; margin-bottom: 25px; }
-
-        section { padding: 60px 0; }
-        section:nth-child(even) { background: var(--white); }
-        h2 { text-align: center; font-size: 2.2rem; margin-bottom: 40px; color: var(--dark); position: relative; padding-bottom: 15px; }
-        h2::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background: var(--secondary); border-radius: 2px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-
-        .card { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: 0.3s; position: relative; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
-        .card img { width: 100%; height: 220px; object-fit: cover; }
-        .card-body { padding: 20px; }
-        .card-title { font-size: 1.3rem; margin-bottom: 10px; color: var(--primary); }
-        .discount-badge { position: absolute; top: 15px; right: 15px; background: var(--danger); color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; z-index: 10; }
-
-        .btn { display: block; padding: 10px 20px; border-radius: 6px; text-align: center; font-weight: 600; text-decoration: none; margin-top: 10px; transition: 0.3s; color: white; border: none; cursor: pointer; }
-        .btn-agoda { background: #003580; } .btn-booking { background: #0071C2; } 
-        .btn-klook { background: #FF5722; } .btn-whatsapp { background: #25D366; }
-        .btn-flight { background: var(--flight); }
-        .btn:hover { opacity: 0.9; transform: translateY(-2px); }
-
-        .flight-search-box { background: linear-gradient(135deg, var(--flight), #001a4d); color: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,53,128,0.3); text-align: center; margin-bottom: 40px; }
-        .flight-search-box h3 { margin-bottom: 15px; font-size: 1.8rem; }
-        .flight-search-box p { margin-bottom: 25px; opacity: 0.9; }
-
-        .loading { text-align: center; padding: 50px; font-size: 1.2rem; color: var(--primary); }
+        .sidebar { width: 250px; background: var(--dark); color: white; padding: 20px; position: fixed; height: 100vh; }
+        .sidebar h2 { margin-bottom: 30px; }
+        .sidebar ul { list-style: none; }
+        .sidebar li { padding: 15px; cursor: pointer; border-radius: 6px; margin-bottom: 5px; }
+        .sidebar li:hover, .sidebar li.active { background: var(--primary); }
         
-        .stats-bar { background: var(--dark); color: white; padding: 20px 0; text-align: center; }
-        .stats-bar p { display: inline-block; margin: 0 30px; font-size: 1.1rem; }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .nav-links { display: none; }
-        }
+        .main-content { flex: 1; padding: 30px; margin-left: 250px; }
+        .form-box { background: var(--white); padding: 25px; border-radius: 10px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 500; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
+        .form-group small { color: #666; font-size: 0.85rem; }
+        
+        .btn { padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; color: white; }
+        .btn-primary { background: var(--primary); }
+        .btn-success { background: var(--success); font-size: 1.1rem; padding: 15px 30px; margin-bottom: 20px; }
+        .btn-danger { background: var(--danger); padding: 8px 15px; font-size: 0.85rem; }
+        
+        table { width: 100%; border-collapse: collapse; background: var(--white); margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: var(--dark); color: white; }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
     </style>
 </head>
 <body>
+    <aside class="sidebar">
+        <h2>🛠️ Admin Panel</h2>
+        <ul>
+            <li onclick="showTab('dashboard')" class="active">📊 Dashboard</li>
+            <li onclick="showTab('flights')">✈️ Flights</li>
+            <li onclick="showTab('destinations')">🗺️ Destinations</li>
+            <li onclick="showTab('hotels')">🏨 Hotels</li>
+            <li onclick="window.location.href='index.html'">🌐 View Website</li>
+        </ul>
+    </aside>
 
-    <nav>
-        <div class="container nav-container">
-            <div class="logo">🇱🇰 LankaTravel</div>
-            <ul class="nav-links">
-                <li><a href="#flights">️ Flights</a></li>
-                <li><a href="#destinations">Destinations</a></li>
-                <li><a href="#hotels">Hotels</a></li>
-                <li><a href="#restaurants">Restaurants</a></li>
-                <li><a href="admin.html" style="color: var(--secondary);">🔧 Admin</a></li>
-            </ul>
-            <button class="lang-btn" onclick="toggleLang()">සිංහල</button>
+    <main class="main-content">
+        <div id="dashboard" class="tab-content active">
+            <h2>📊 Dashboard</h2>
+            <button class="btn btn-success" onclick="loadSampleData()">🚀 Load All Sample Data (Flights, Places, Hotels)</button>
+            <p style="color:#666; margin-top:10px;">Click this button to instantly fill your website with sample Sri Lankan destinations, hotels, and flights!</p>
         </div>
-    </nav>
 
-    <header class="hero">
-        <div class="container">
-            <h1 id="hero-title">Discover Sri Lanka & Fly the World</h1>
-            <p id="hero-desc">Hotels, Flights, Tours, and Experiences with Exclusive Discounts up to 30% OFF</p>
-            <a href="#flights" class="btn btn-flight" style="display:inline-block; max-width:250px; margin:10px;">Book Flights Now</a>
-            <a href="#hotels" class="btn" style="display:inline-block; max-width:250px; margin:10px; background:var(--secondary);">Find Hotels</a>
-        </div>
-    </header>
-
-    <div class="stats-bar">
-        <div class="container">
-            <p>✈️ Best Flight Deals</p>
-            <p> 1000+ Hotels</p>
-            <p>🎯 30% Discount</p>
-            <p>📞 24/7 Support</p>
-        </div>
-    </div>
-
-    <!-- FLIGHTS SECTION -->
-    <section id="flights">
-        <div class="container">
-            <h2>✈️ Popular Flight Routes</h2>
-            
-            <div class="flight-search-box">
-                <h3>Search & Book Flights Worldwide</h3>
-                <p>Get up to 30% OFF on international flights when you book through our partner links!</p>
-                <a href="https://www.agoda.com/flights" target="_blank" class="btn btn-whatsapp" style="max-width: 300px; margin: 20px auto 0; background: white; color: var(--flight);">🔍 Search Flights on Agoda</a>
-                <p style="margin-top:15px; font-size:0.9rem; opacity:0.8;">Powered by Agoda - Best Price Guarantee</p>
+        <div id="flights" class="tab-content">
+            <h2>✈️ Manage Flights</h2>
+            <div class="form-box">
+                <div class="form-group"><label>Route Name</label><input type="text" id="f-name"></div>
+                <div class="form-group"><label>Airline</label><input type="text" id="f-airline"></div>
+                <div class="form-group"><label>Price (USD)</label><input type="number" id="f-price"></div>
+                <div class="form-group"><label>Original Price</label><input type="number" id="f-orig-price"></div>
+                <div class="form-group"><label>Discount %</label><input type="number" id="f-discount"></div>
+                <div class="form-group"><label>Image URL</label><input type="text" id="f-image"></div>
+                <div class="form-group"><label>Agoda Affiliate Link</label><input type="text" id="f-link"></div>
+                <button class="btn btn-primary" onclick="addFlight()">Add Flight</button>
             </div>
-
-            <div class="grid" id="flights-grid"><div class="loading">Loading Flights...</div></div>
+            <table><thead><tr><th>Route</th><th>Price</th><th>Action</th></tr></thead><tbody id="flight-table"></tbody></table>
         </div>
-    </section>
 
-    <!-- DESTINATIONS SECTION -->
-    <section id="destinations">
-        <div class="container">
-            <h2>🏛️ Top Destinations in Sri Lanka</h2>
-            <div class="grid" id="destinations-grid"><div class="loading">Loading...</div></div>
+        <div id="destinations" class="tab-content">
+            <h2>🗺️ Manage Destinations</h2>
+            <div class="form-box">
+                <div class="form-group"><label>Name</label><input type="text" id="d-name"></div>
+                <div class="form-group"><label>Location</label><input type="text" id="d-loc"></div>
+                <div class="form-group"><label>Description</label><textarea id="d-desc"></textarea></div>
+                <div class="form-group"><label>Image URL</label><input type="text" id="d-img"></div>
+                <div class="form-group"><label>Klook/Agoda Link</label><input type="text" id="d-link"></div>
+                <button class="btn btn-primary" onclick="addDest()">Add Destination</button>
+            </div>
+            <table><thead><tr><th>Name</th><th>Location</th><th>Action</th></tr></thead><tbody id="dest-table"></tbody></table>
         </div>
-    </section>
 
-    <!-- HOTELS SECTION -->
-    <section id="hotels">
-        <div class="container">
-            <h2>🏨 Featured Hotels & Resorts</h2>
-            <div class="grid" id="hotels-grid"><div class="loading">Loading...</div></div>
+        <div id="hotels" class="tab-content">
+            <h2>🏨 Manage Hotels (Advanced)</h2>
+            <div class="form-box">
+                <div class="form-group"><label>Hotel Name</label><input type="text" id="h-name"></div>
+                <div class="form-group"><label>Location</label><input type="text" id="h-loc"></div>
+                <div class="form-group"><label>Base Price (USD)</label><input type="number" id="h-price"></div>
+                <div class="form-group"><label>Discount %</label><input type="number" id="h-disc"></div>
+                <div class="form-group"><label>Main Image URL</label><input type="text" id="h-img"></div>
+                <div class="form-group"><label>Gallery Images (Comma separated URLs)</label><input type="text" id="h-gallery" placeholder="url1, url2, url3"></div>
+                <div class="form-group"><label>Room Types (Format: Room Name:Price | Room Name:Price)</label><input type="text" id="h-rooms" placeholder="Deluxe:120 | Suite:250"></div>
+                <div class="form-group"><label>Reviews (Separate by | )</label><textarea id="h-reviews" placeholder="Great place! | Loved the food | Excellent service"></textarea></div>
+                <div class="form-group"><label>Description</label><textarea id="h-desc"></textarea></div>
+                <div class="form-group"><label>Agoda Affiliate Link</label><input type="text" id="h-agoda"></div>
+                <button class="btn btn-primary" onclick="addHotel()">Add Hotel</button>
+            </div>
+            <table><thead><tr><th>Name</th><th>Price</th><th>Action</th></tr></thead><tbody id="hotel-table"></tbody></table>
         </div>
-    </section>
+    </main>
 
-    <!-- RESTAURANTS SECTION -->
-    <section id="restaurants">
-        <div class="container">
-            <h2>🍽️ Best Restaurants</h2>
-            <div class="grid" id="restaurants-grid"><div class="loading">Loading...</div></div>
-        </div>
-    </section>
-
-    <footer style="background: var(--dark); color: white; text-align: center; padding: 40px 20px;">
-        <div class="container">
-            <h3>🇱🇰 Sri Lanka Travel Guide</h3>
-            <p style="margin:15px 0;">Your Trusted Partner for Exploring Paradise</p>
-            <p style="margin:10px 0; opacity:0.8;"> WhatsApp: +94 77 123 4567 | ✉️ info@srilankatravel.com</p>
-            <p style="margin-top:20px; opacity:0.6;">&copy; 2026 Sri Lanka Travel Guide. All Rights Reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Firebase Compat SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-
     <script>
-        // ⚠️ මෙතනට ඔයාගේ Firebase Config එක Paste කරන්න
         const firebaseConfig = {
             apiKey: "AIzaSyD-XXXXXXXXXXXXXXXXXXXXXXXX",
             authDomain: "srilanka-travel.firebaseapp.com",
@@ -153,122 +112,66 @@
             messagingSenderId: "123456789",
             appId: "1:123456789:web:abcdef123456"
         };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        let currentLang = 'en';
-        let allData = { flights: [], destinations: [], hotels: [], restaurants: [] };
-
-        function toggleLang() {
-            currentLang = currentLang === 'en' ? 'si' : 'en';
-            document.querySelector('.lang-btn').innerText = currentLang === 'en' ? 'සිංහල' : 'English';
-            document.getElementById('hero-title').innerText = currentLang === 'en' ? 'Discover Sri Lanka & Fly the World' : 'ශ්රී ලංකාව සොයාගන්න - ලෝකය පුරා ගමන් කරන්න';
-            document.getElementById('hero-desc').innerText = currentLang === 'en' ? 'Hotels, Flights, Tours, and Experiences with Exclusive Discounts up to 30% OFF' : 'හෝටල්, ගුවන් යානා, සංචාර සහ අත්දැකීම් - 30% දක්වා වට්ටම්';
-            renderAll();
+        function showTab(id) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.sidebar li').forEach(l => l.classList.remove('active'));
+            event.target.classList.add('active');
+            loadData();
         }
 
-        function getWhatsAppLink(item, type) {
-            const name = item.name && item.name[currentLang] ? item.name[currentLang] : (item.name?.en || 'Item');
-            const number = item.whatsappNumber || "94771234567";
-            return `https://wa.me/${number}?text=${encodeURIComponent(`Hi, I want to inquire about: ${name} (${type})`)}`;
-        }
+        // 🚀 SAMPLE DATA SEEDER
+        async function loadSampleData() {
+            if(!confirm('This will add sample data to your database. Continue?')) return;
+            
+            const sampleFlights = [
+                { name: {en: "Colombo to Dubai"}, airline: "Emirates", priceUSD: 350, originalPriceUSD: 500, discount: 30, image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800", affiliateLink: "https://www.agoda.com/flights" },
+                { name: {en: "Colombo to London"}, airline: "SriLankan Airlines", priceUSD: 650, originalPriceUSD: 900, discount: 28, image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800", affiliateLink: "https://www.agoda.com/flights" },
+                { name: {en: "Colombo to Bangkok"}, airline: "AirAsia", priceUSD: 120, originalPriceUSD: 180, discount: 33, image: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=800", affiliateLink: "https://www.agoda.com/flights" }
+            ];
+            
+            const sampleDests = [
+                { name: {en: "Sigiriya Rock Fortress"}, location: "Central Province", description: {en: "Ancient rock fortress and UNESCO World Heritage Site."}, image: "https://images.unsplash.com/photo-1587595431922-21878402075e?w=800", klookLink: "https://www.klook.com" },
+                { name: {en: "Nine Arch Bridge"}, location: "Ella", description: {en: "Iconic colonial-era railway bridge surrounded by lush green mountains."}, image: "https://images.unsplash.com/photo-1588258546177-2d8f6d7b5f2e?w=800", klookLink: "https://www.klook.com" },
+                { name: {en: "Galle Fort"}, location: "Southern Province", description: {en: "16th-century Portuguese fort, now a UNESCO World Heritage Site."}, image: "https://images.unsplash.com/photo-1596422846543-75c6fc194f07?w=800", klookLink: "https://www.klook.com" },
+                { name: {en: "Yala National Park"}, location: "Southern Province", description: {en: "Sri Lanka's most visited national park, famous for leopards."}, image: "https://images.unsplash.com/photo-1516426122078-c64e70f135f7?w=800", klookLink: "https://www.klook.com" }
+            ];
 
-        function renderAll() {
-            // Flights
-            document.getElementById('flights-grid').innerHTML = allData.flights.map(f => `
-                <div class="card">
-                    ${f.discount ? `<div class="discount-badge">-${f.discount}% OFF</div>` : ''}
-                    <img src="${f.image || 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800'}" alt="${f.name?.en}">
-                    <div class="card-body">
-                        <h3 class="card-title" style="color: var(--flight);">✈️ ${f.name?.[currentLang] || f.name?.en}</h3>
-                        <p style="color:#666; font-size:0.9rem;">🏢 ${f.airline || 'Multiple Airlines'} | ⭐ ${f.rating || 4.5}</p>
-                        <div style="font-size: 1.2rem; font-weight: bold; color: var(--secondary); margin: 10px 0;">
-                            ${f.discount ? `<span style="text-decoration:line-through; color:#999; font-size:0.9rem;">$${f.originalPriceUSD || f.priceUSD}</span> ` : ''}
-                            From $${f.priceUSD || 0}
-                        </div>
-                        <div>
-                            ${f.affiliateLink ? `<a href="${f.affiliateLink}" target="_blank" class="btn btn-flight">Book Flight Now</a>` : ''}
-                            <a href="${getWhatsAppLink(f, 'Flight')}" target="_blank" class="btn btn-whatsapp">WhatsApp Inquiry</a>
-                        </div>
-                    </div>
-                </div>
-            `).join('') || '<p style="text-align:center; grid-column: 1/-1;">No flights found. Check back soon!</p>';
+            const sampleHotels = [
+                { name: {en: "Cinnamon Grand Colombo"}, location: {en: "Colombo 03"}, priceUSD: 110, discount: 27, image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800", images: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800, https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800", rooms: "Deluxe Room:110 | Executive Suite:180 | Presidential:350", reviewsData: "Amazing pool and great breakfast! | Very friendly staff. | Best location in Colombo.", description: {en: "Luxury 5-star hotel in the heart of Colombo."}, agodaLink: "https://www.agoda.com" },
+                { name: {en: "98 Acres Resort"}, location: {en: "Ella"}, priceUSD: 90, discount: 31, image: "https://images.unsplash.com/photo-1588258546177-2d8f6d7b5f2e?w=800", images: "https://images.unsplash.com/photo-1588258546177-2d8f6d7b5f2e?w=800, https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800", rooms: "Mountain View Room:90 | Luxury Villa:150", reviewsData: "Stunning views of Ella rock! | Food was organic and delicious.", description: {en: "Boutique resort with stunning mountain views."}, agodaLink: "https://www.agoda.com" }
+            ];
 
-            // Destinations
-            document.getElementById('destinations-grid').innerHTML = allData.destinations.map(d => `
-                <div class="card">
-                    <img src="${d.image || 'https://via.placeholder.com/300'}" alt="${d.name?.en}">
-                    <div class="card-body">
-                        <h3 class="card-title">${d.name?.[currentLang] || d.name?.en}</h3>
-                        <p style="color:#666; font-size:0.9rem;">📍 ${d.location || ''} | ⭐ ${d.rating || 4.5}</p>
-                        <p style="margin: 10px 0; color:#555;">${d.description?.[currentLang] || d.description?.en || ''}</p>
-                        <p style="font-size:0.9rem; color:#888; margin:5px 0;"> ${d.ticketPrice?.en || ''}</p>
-                        <div>
-                            ${d.klookLink ? `<a href="${d.klookLink}" target="_blank" class="btn btn-klook">Book on Klook</a>` : ''}
-                            <a href="${getWhatsAppLink(d, 'Destination')}" target="_blank" class="btn btn-whatsapp">WhatsApp Inquiry</a>
-                        </div>
-                    </div>
-                </div>
-            `).join('') || '<p style="text-align:center; grid-column: 1/-1;">No destinations found.</p>';
-
-            // Hotels
-            document.getElementById('hotels-grid').innerHTML = allData.hotels.map(h => `
-                <div class="card">
-                    ${h.discount ? `<div class="discount-badge">-${h.discount}% OFF</div>` : ''}
-                    <img src="${h.image || 'https://via.placeholder.com/300'}" alt="${h.name?.en}">
-                    <div class="card-body">
-                        <h3 class="card-title">${h.name?.[currentLang] || h.name?.en}</h3>
-                        <p style="color:#666; font-size:0.9rem;">📍 ${h.location?.[currentLang] || h.location?.en || ''} | ⭐ ${h.rating || 4.5}</p>
-                        <div style="font-size: 1.2rem; font-weight: bold; color: var(--secondary); margin: 10px 0;">
-                            ${h.discount ? `<span style="text-decoration:line-through; color:#999; font-size:0.9rem;">$${h.originalPriceUSD || h.priceUSD}</span> ` : ''}
-                            $${h.priceUSD || 0} <span style="font-size:0.8rem; color:#666;">/ night</span>
-                        </div>
-                        <div>
-                            ${h.agodaLink ? `<a href="${h.agodaLink}" target="_blank" class="btn btn-agoda">Book on Agoda</a>` : ''}
-                            ${h.bookingLink ? `<a href="${h.bookingLink}" target="_blank" class="btn btn-booking">Book on Booking.com</a>` : ''}
-                            <a href="${getWhatsAppLink(h, 'Hotel')}" target="_blank" class="btn btn-whatsapp">WhatsApp Booking</a>
-                        </div>
-                    </div>
-                </div>
-            `).join('') || '<p style="text-align:center; grid-column: 1/-1;">No hotels found.</p>';
-
-            // Restaurants
-            document.getElementById('restaurants-grid').innerHTML = allData.restaurants.map(r => `
-                <div class="card">
-                    <img src="${r.image || 'https://via.placeholder.com/300'}" alt="${r.name?.en}">
-                    <div class="card-body">
-                        <h3 class="card-title">${r.name?.[currentLang] || r.name?.en}</h3>
-                        <p style="color:#666; font-size:0.9rem;">📍 ${r.location?.[currentLang] || r.location?.en || ''} | ${r.cuisine?.[currentLang] || r.cuisine?.en || ''}</p>
-                        <p style="margin: 10px 0; color:#555;">${r.description?.[currentLang] || r.description?.en || ''}</p>
-                        <p style="font-size:0.9rem; color:#888; margin:5px 0;">🕐 ${r.hours?.[currentLang] || r.hours?.en || ''}</p>
-                        <a href="${getWhatsAppLink(r, 'Restaurant')}" target="_blank" class="btn btn-whatsapp">Reserve Table</a>
-                    </div>
-                </div>
-            `).join('') || '<p style="text-align:center; grid-column: 1/-1;">No restaurants found.</p>';
+            for(let f of sampleFlights) await db.collection('flights').add(f);
+            for(let d of sampleDests) await db.collection('destinations').add(d);
+            for(let h of sampleHotels) await db.collection('hotels').add(h);
+            
+            alert('✅ Sample Data Loaded Successfully! Go check your website.');
+            loadData();
         }
 
         async function loadData() {
-            try {
-                const flightSnap = await db.collection('flights').get();
-                allData.flights = flightSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-                const destSnap = await db.collection('destinations').get();
-                allData.destinations = destSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-                const hotelSnap = await db.collection('hotels').get();
-                allData.hotels = hotelSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-                const restSnap = await db.collection('restaurants').get();
-                allData.restaurants = restSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-                renderAll();
-            } catch (error) {
-                console.error("Error loading data:", error);
-                document.querySelectorAll('.loading').forEach(el => el.innerText = 'Error loading data. Check Firebase Config.');
-            }
+            document.getElementById('flight-table').innerHTML = (await db.collection('flights').get()).docs.map(d => `<tr><td>${d.data().name?.en}</td><td>$${d.data().priceUSD}</td><td><button class="btn btn-danger" onclick="del('flights','${d.id}')">Delete</button></td></tr>`).join('');
+            document.getElementById('dest-table').innerHTML = (await db.collection('destinations').get()).docs.map(d => `<tr><td>${d.data().name?.en}</td><td>${d.data().location}</td><td><button class="btn btn-danger" onclick="del('destinations','${d.id}')">Delete</button></td></tr>`).join('');
+            document.getElementById('hotel-table').innerHTML = (await db.collection('hotels').get()).docs.map(d => `<tr><td>${d.data().name?.en}</td><td>$${d.data().priceUSD}</td><td><button class="btn btn-danger" onclick="del('hotels','${d.id}')">Delete</button></td></tr>`).join('');
         }
 
+        async function addFlight() {
+            await db.collection('flights').add({ name: {en: document.getElementById('f-name').value}, airline: document.getElementById('f-airline').value, priceUSD: +document.getElementById('f-price').value, originalPriceUSD: +document.getElementById('f-orig-price').value, discount: +document.getElementById('f-discount').value, image: document.getElementById('f-image').value, affiliateLink: document.getElementById('f-link').value });
+            alert('Added!'); loadData();
+        }
+        async function addDest() {
+            await db.collection('destinations').add({ name: {en: document.getElementById('d-name').value}, location: document.getElementById('d-loc').value, description: {en: document.getElementById('d-desc').value}, image: document.getElementById('d-img').value, klookLink: document.getElementById('d-link').value });
+            alert('Added!'); loadData();
+        }
+        async function addHotel() {
+            await db.collection('hotels').add({ name: {en: document.getElementById('h-name').value}, location: {en: document.getElementById('h-loc').value}, priceUSD: +document.getElementById('h-price').value, discount: +document.getElementById('h-disc').value, image: document.getElementById('h-img').value, images: document.getElementById('h-gallery').value, rooms: document.getElementById('h-rooms').value, reviewsData: document.getElementById('h-reviews').value, description: {en: document.getElementById('h-desc').value}, agodaLink: document.getElementById('h-agoda').value });
+            alert('Added!'); loadData();
+        }
+        async function del(col, id) { if(confirm('Delete?')) { await db.collection(col).doc(id).delete(); loadData(); } }
         loadData();
     </script>
 </body>
