@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchange Rates - SriLanka Travel Guide</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .exchange-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+        
+        .exchange-table th,
+        .exchange-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .exchange-table th {
+            background: #1a1a2e;
+            color: white;
+        }
+        
+        .exchange-table tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .calculator {
+            background: #f9f9f9;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+        
+        .calculator input,
+        .calculator select {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .calculator button {
+            background: #00d9ff;
+            color: #1a1a2e;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        #result {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #16a085;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">🇰 SriLanka Travel Guide</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="destinations.html">Destinations</a></li>
+                <li><a href="tours.html">Tours</a></li>
+                <li><a href="exchange.html" class="active">Exchange Rates</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section>
+        <div class="container">
+            <h2>Currency Exchange Rates</h2>
+            <p id="current-date" style="text-align: center; margin-bottom: 2rem;"></p>
+            
+            <table class="exchange-table">
+                <thead>
+                    <tr>
+                        <th>Currency</th>
+                        <th>Buy Rate (LKR)</th>
+                        <th>Sell Rate (LKR)</th>
+                        <th>1 USD =</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>🇺🇸 US Dollar (USD)</td>
+                        <td>290.00</td>
+                        <td>300.00</td>
+                        <td>1.00</td>
+                    </tr>
+                    <tr>
+                        <td>🇪🇺 Euro (EUR)</td>
+                        <td>315.00</td>
+                        <td>325.00</td>
+                        <td>1.08</td>
+                    </tr>
+                    <tr>
+                        <td>🇬🇧 British Pound (GBP)</td>
+                        <td>365.00</td>
+                        <td>375.00</td>
+                        <td>1.25</td>
+                    </tr>
+                    <tr>
+                        <td>🇮🇳 Indian Rupee (INR)</td>
+                        <td>3.45</td>
+                        <td>3.55</td>
+                        <td>0.012</td>
+                    </tr>
+                    <tr>
+                        <td>🇸🇬 Singapore Dollar (SGD)</td>
+                        <td>215.00</td>
+                        <td>225.00</td>
+                        <td>0.74</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="calculator">
+                <h3>Currency Converter</h3>
+                <input type="number" id="amount" placeholder="Amount" value="1">
+                <select id="from">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="LKR">LKR</option>
+                    <option value="INR">INR</option>
+                </select>
+                <span>to</span>
+                <select id="to">
+                    <option value="LKR">LKR</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="INR">INR</option>
+                </select>
+                <br>
+                <button onclick="calculateExchange()">Convert</button>
+                <div id="result"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 SriLanka Travel Guide. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
