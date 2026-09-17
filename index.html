@@ -69,7 +69,7 @@
             <a href="#" class="logo">🇱🇰 LankaTravel</a>
             <ul class="nav-links">
                 <li><a href="#flights">✈️ Flights</a></li>
-                <li><a href="#destinations">🗺️ Places</a></li>
+                <li><a href="#destinations">️ Places</a></li>
                 <li><a href="#hotels">🏨 Hotels</a></li>
                 <li><a href="admin.html" style="color: var(--secondary);">🔧 Admin</a></li>
             </ul>
@@ -110,7 +110,7 @@
 
     <footer>
         <div class="container">
-            <h3>🇰 LankaTravel Guide</h3>
+            <h3>🇱🇰 LankaTravel Guide</h3>
             <p>Direct Contact: <a href="https://wa.me/94766488689" style="color: var(--whatsapp); text-decoration: none;">WhatsApp: 076 648 8689</a></p>
             <p style="margin-top:15px; opacity:0.6;">&copy; 2026 Sri Lanka Travel Guide. All Rights Reserved.</p>
         </div>
@@ -126,7 +126,7 @@
                 <p id="modal-location" style="color:#666; margin-bottom:15px;"></p>
                 <p id="modal-desc"></p>
                 
-                <h3 style="margin-top:20px; color:var(--primary);">️ Photo Gallery</h3>
+                <h3 style="margin-top:20px; color:var(--primary);">📷 Photo Gallery</h3>
                 <div class="gallery-thumbs" id="modal-gallery"></div>
 
                 <h3 style="margin-top:20px; color:var(--primary);">🛏️ Room Types & Rates</h3>
@@ -143,24 +143,25 @@
         </div>
     </div>
 
-    <!-- Firebase SDK -->
+    <!-- Firebase Compat SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // ⚠️ යාගේ Firebase Config එක මෙතනට දාන්න
+        // Your Firebase Config
         const firebaseConfig = {
-            apiKey: "AIzaSyD-XXXXXXXXXXXXXXXXXXXXXXXX",
-            authDomain: "srilanka-travel.firebaseapp.com",
-            projectId: "srilanka-travel",
-            storageBucket: "srilanka-travel.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123456789:web:abcdef123456"
+            apiKey: "AIzaSyBQhTvJO0MafUNFHlP9LXPb-XBDic3X4pc",
+            authDomain: "srilanka-travel-ddcc3.firebaseapp.com",
+            projectId: "srilanka-travel-ddcc3",
+            storageBucket: "srilanka-travel-ddcc3.firebasestorage.app",
+            messagingSenderId: "964910006559",
+            appId: "1:964910006559:web:d3d2d3d678a0b02a73702a",
+            measurementId: "G-FQP5RV0H14"
         };
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-        const MY_WHATSAPP = "94766488689"; // ඔයාගේ නම්බර් එක
+        const MY_WHATSAPP = "94766488689";
 
         let currentLang = 'en';
         let allData = { flights: [], destinations: [], hotels: [] };
@@ -183,12 +184,10 @@
             document.getElementById('modal-desc').innerText = hotel.description?.en || '';
             document.getElementById('modal-main-img').src = hotel.image || 'https://via.placeholder.com/800x400';
             
-            // Gallery
             const gallery = document.getElementById('modal-gallery');
             const images = hotel.images ? hotel.images.split(',') : [hotel.image];
             gallery.innerHTML = images.map(img => `<img src="${img.trim()}" onclick="document.getElementById('modal-main-img').src='${img.trim()}'">`).join('');
 
-            // Rooms
             const rooms = document.getElementById('modal-rooms');
             if(hotel.rooms) {
                 rooms.innerHTML = hotel.rooms.split('|').map(r => {
@@ -199,7 +198,6 @@
                 rooms.innerHTML = '<p>Standard Room: $' + (hotel.priceUSD || 0) + '/night</p>';
             }
 
-            // Reviews
             const reviews = document.getElementById('modal-reviews');
             if(hotel.reviewsData) {
                 reviews.innerHTML = hotel.reviewsData.split('|').map(r => `<p style="margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px;">"${r}"</p>`).join('');
@@ -207,7 +205,6 @@
                 reviews.innerHTML = '<p>"Excellent location and great service!" - Guest</p>';
             }
 
-            // Buttons
             document.getElementById('modal-agoda-btn').href = hotel.agodaLink || '#';
             document.getElementById('modal-whatsapp-btn').href = getWaLink(hotel, 'Hotel Booking');
             
@@ -217,7 +214,6 @@
         function closeModal() { document.getElementById('hotel-modal').style.display = 'none'; }
 
         function renderAll() {
-            // Flights
             document.getElementById('flights-grid').innerHTML = allData.flights.map(f => `
                 <div class="card">
                     ${f.discount ? `<div class="discount-badge">-${f.discount}% OFF</div>` : ''}
@@ -235,7 +231,6 @@
                 </div>
             `).join('') || '<p style="text-align:center; grid-column:1/-1;">No flights found.</p>';
 
-            // Destinations
             document.getElementById('destinations-grid').innerHTML = allData.destinations.map(d => `
                 <div class="card">
                     <img src="${d.image || 'https://via.placeholder.com/300'}" alt="${d.name?.en}">
@@ -249,7 +244,6 @@
                 </div>
             `).join('') || '<p style="text-align:center; grid-column:1/-1;">No destinations found.</p>';
 
-            // Hotels
             document.getElementById('hotels-grid').innerHTML = allData.hotels.map(h => `
                 <div class="card">
                     ${h.discount ? `<div class="discount-badge">-${h.discount}% OFF</div>` : ''}
