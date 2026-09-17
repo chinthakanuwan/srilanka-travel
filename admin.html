@@ -5,48 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - LankaTravel</title>
     <style>
-        :root { --primary: #00897B; --dark: #1e272e; --light: #f5f6fa; --white: #ffffff; --danger: #e84118; --flight: #003580; --success: #44bd32; --klook-orange: #FF5722; --warning: #f39c12; }
+        :root { --primary: #00897B; --dark: #1e272e; --light: #f5f6fa; --white: #ffffff; --danger: #e84118; --success: #44bd32; --warning: #f39c12; --info: #3498db; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background: var(--light); display: flex; min-height: 100vh; }
         
         .sidebar { width: 250px; background: var(--dark); color: white; padding: 20px; position: fixed; height: 100vh; overflow-y: auto; }
-        .sidebar h2 { margin-bottom: 30px; }
+        .sidebar h2 { margin-bottom: 30px; font-size: 1.5rem; }
         .sidebar ul { list-style: none; }
-        .sidebar li { padding: 15px; cursor: pointer; border-radius: 6px; margin-bottom: 5px; }
+        .sidebar li { padding: 15px; cursor: pointer; border-radius: 6px; margin-bottom: 5px; transition: 0.3s; }
         .sidebar li:hover, .sidebar li.active { background: var(--primary); }
         
         .main-content { flex: 1; padding: 30px; margin-left: 250px; }
         .form-box { background: var(--white); padding: 25px; border-radius: 10px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: 500; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #333; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; }
-        .form-group small { color: #666; font-size: 0.85rem; }
+        .form-group small { color: #666; font-size: 0.85rem; display: block; margin-top: 5px; }
         
-        .btn { padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; color: white; }
+        .btn { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; color: white; transition: 0.3s; }
         .btn-primary { background: var(--primary); }
-        .btn-success { background: var(--success); font-size: 1.1rem; padding: 15px 30px; margin-bottom: 20px; }
+        .btn-success { background: var(--success); font-size: 1.1rem; padding: 15px 30px; }
         .btn-danger { background: var(--danger); padding: 8px 15px; font-size: 0.85rem; }
         .btn-warning { background: var(--warning); padding: 8px 15px; font-size: 0.85rem; }
-        .btn-info { background: #3498db; padding: 8px 15px; font-size: 0.85rem; }
+        .btn:hover { opacity: 0.9; transform: translateY(-2px); }
         
-        table { width: 100%; border-collapse: collapse; background: var(--white); margin-top: 20px; border-radius: 8px; overflow: hidden; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        table { width: 100%; border-collapse: collapse; background: var(--white); margin-top: 20px; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
         th { background: var(--dark); color: white; }
         
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        .slide-preview { display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap; }
-        .slide-card { width: 200px; border: 2px solid #ddd; border-radius: 8px; overflow: hidden; position: relative; }
-        .slide-card img { width: 100%; height: 120px; object-fit: cover; }
-        .slide-card-body { padding: 10px; }
-        .slide-card-body h4 { font-size: 0.9rem; margin-bottom: 5px; }
-        .slide-card-body p { font-size: 0.8rem; color: #666; }
+        .edit-banner { background: #fff3cd; border: 2px solid var(--warning); padding: 15px; border-radius: 8px; margin-bottom: 20px; display: none; align-items: center; justify-content: space-between; }
+        .edit-banner h3 { color: #856404; margin: 0; }
         
-        .edit-mode { background: #fff3cd; border: 2px solid var(--warning); padding: 15px; border-radius: 8px; margin-bottom: 20px; }
-        .edit-mode h3 { color: var(--warning); margin-bottom: 10px; }
-        
-        .action-buttons { display: flex; gap: 5px; }
+        .action-btns { display: flex; gap: 8px; }
     </style>
 </head>
 <body>
@@ -57,138 +50,147 @@
             <li onclick="showTab('slides')">🖼️ Hero Slider</li>
             <li onclick="showTab('flights')">✈️ Flights</li>
             <li onclick="showTab('destinations')">🗺️ Destinations</li>
-            <li onclick="showTab('hotels')">🏨 Hotels</li>
-            <li onclick="window.location.href='index.html'"> View Website</li>
+            <li onclick="showTab('hotels')"> Hotels</li>
+            <li onclick="showTab('local-places')">🏞️ Local Places</li>
+            <li onclick="window.location.href='index.html'" style="background: var(--info);">🌐 View Website</li>
         </ul>
     </aside>
 
     <main class="main-content">
+        <!-- DASHBOARD -->
         <div id="dashboard" class="tab-content active">
-            <h2>📊 Dashboard</h2>
+            <h2> Dashboard</h2>
             <button class="btn btn-success" onclick="loadSampleData()">🚀 Load All Sample Data</button>
-            <p style="color:#666; margin-top:10px;">Click to instantly fill your website with sample data!</p>
+            <p style="color:#666; margin-top:15px;">Click above to instantly fill your website with sample Slides, Flights, Destinations, Hotels, and Local Places!</p>
         </div>
 
-        <!-- SLIDER TAB -->
+        <!-- SLIDES -->
         <div id="slides" class="tab-content">
             <h2>🖼️ Manage Hero Slider</h2>
-            
-            <div id="slide-edit-mode" class="edit-mode" style="display:none;">
-                <h3>✏️ Editing Slide</h3>
-                <p id="edit-slide-id"></p>
-                <button class="btn btn-danger" onclick="cancelSlideEdit()" style="margin-top:10px;">Cancel Edit</button>
+            <div class="edit-banner" id="slide-edit-banner">
+                <h3>✏️ Editing Slide...</h3>
+                <button class="btn btn-danger" onclick="cancelEdit('slide')">Cancel</button>
             </div>
-            
             <div class="form-box">
                 <h3 id="slide-form-title">Add New Slide</h3>
-                <input type="hidden" id="s-edit-id">
-                <div class="form-group">
-                    <label>Slide Title (English)</label>
-                    <input type="text" id="s-title" placeholder="e.g., Explore Beautiful Sri Lanka">
-                </div>
-                <div class="form-group">
-                    <label>Slide Subtitle (English)</label>
-                    <input type="text" id="s-subtitle" placeholder="e.g., Best deals on hotels and flights">
-                </div>
-                <div class="form-group">
-                    <label>Image URL</label>
-                    <input type="text" id="s-image" placeholder="https://images.unsplash.com/...">
-                    <small>Use high-quality images (1920x1080 recommended)</small>
-                </div>
-                <button class="btn btn-warning" id="slide-submit-btn" onclick="saveSlide()">➕ Add Slide</button>
+                <input type="hidden" id="s-id">
+                <div class="form-group"><label>Title</label><input type="text" id="s-title"></div>
+                <div class="form-group"><label>Subtitle</label><input type="text" id="s-subtitle"></div>
+                <div class="form-group"><label>Image URL</label><input type="text" id="s-image"></div>
+                <button class="btn btn-primary" id="slide-btn" onclick="saveSlide()">➕ Add Slide</button>
             </div>
-
-            <h3 style="margin-top:30px;">Current Slides</h3>
-            <div class="slide-preview" id="slides-preview"></div>
-            <table style="margin-top:30px;">
-                <thead><tr><th>Title</th><th>Image</th><th>Actions</th></tr></thead>
-                <tbody id="slides-table"></tbody>
-            </table>
+            <table><thead><tr><th>Title</th><th>Actions</th></tr></thead><tbody id="slide-table"></tbody></table>
         </div>
 
-        <!-- FLIGHTS TAB -->
+        <!-- FLIGHTS -->
         <div id="flights" class="tab-content">
             <h2>✈️ Manage Flights</h2>
-            
-            <div id="flight-edit-mode" class="edit-mode" style="display:none;">
-                <h3>✏️ Editing Flight</h3>
-                <button class="btn btn-danger" onclick="cancelFlightEdit()" style="margin-top:10px;">Cancel Edit</button>
+            <div class="edit-banner" id="flight-edit-banner">
+                <h3>✏️ Editing Flight...</h3>
+                <button class="btn btn-danger" onclick="cancelEdit('flight')">Cancel</button>
             </div>
-            
             <div class="form-box">
                 <h3 id="flight-form-title">Add New Flight</h3>
-                <input type="hidden" id="f-edit-id">
+                <input type="hidden" id="f-id">
                 <div class="form-group"><label>Route Name</label><input type="text" id="f-name"></div>
                 <div class="form-group"><label>Airline</label><input type="text" id="f-airline"></div>
                 <div class="form-group"><label>Price (USD)</label><input type="number" id="f-price"></div>
-                <div class="form-group"><label>Original Price</label><input type="number" id="f-orig-price"></div>
-                <div class="form-group"><label>Discount %</label><input type="number" id="f-discount"></div>
-                <div class="form-group"><label>Image URL</label><input type="text" id="f-image"></div>
-                <div class="form-group"><label>Agoda Affiliate Link</label><input type="text" id="f-link"></div>
-                <button class="btn btn-primary" id="flight-submit-btn" onclick="saveFlight()">Add Flight</button>
+                <div class="form-group"><label>Original Price</label><input type="number" id="f-orig"></div>
+                <div class="form-group"><label>Discount %</label><input type="number" id="f-disc"></div>
+                <div class="form-group"><label>Image URL</label><input type="text" id="f-img"></div>
+                <div class="form-group"><label>Affiliate Link</label><input type="text" id="f-link"></div>
+                <button class="btn btn-primary" id="flight-btn" onclick="saveFlight()">➕ Add Flight</button>
             </div>
             <table><thead><tr><th>Route</th><th>Price</th><th>Actions</th></tr></thead><tbody id="flight-table"></tbody></table>
         </div>
 
-        <!-- DESTINATIONS TAB -->
+        <!-- DESTINATIONS -->
         <div id="destinations" class="tab-content">
             <h2>🗺️ Manage Destinations</h2>
-            
-            <div id="dest-edit-mode" class="edit-mode" style="display:none;">
-                <h3>✏️ Editing Destination</h3>
-                <button class="btn btn-danger" onclick="cancelDestEdit()" style="margin-top:10px;">Cancel Edit</button>
+            <div class="edit-banner" id="dest-edit-banner">
+                <h3>✏️ Editing Destination...</h3>
+                <button class="btn btn-danger" onclick="cancelEdit('dest')">Cancel</button>
             </div>
-            
             <div class="form-box">
                 <h3 id="dest-form-title">Add New Destination</h3>
-                <input type="hidden" id="d-edit-id">
+                <input type="hidden" id="d-id">
                 <div class="form-group"><label>Name</label><input type="text" id="d-name"></div>
                 <div class="form-group"><label>Location</label><input type="text" id="d-loc"></div>
                 <div class="form-group"><label>Description</label><textarea id="d-desc"></textarea></div>
                 <div class="form-group"><label>Image URL</label><input type="text" id="d-img"></div>
-                <div class="form-group"><label>Klook/Agoda Link</label><input type="text" id="d-link"></div>
-                <button class="btn btn-primary" id="dest-submit-btn" onclick="saveDest()">Add Destination</button>
+                <div class="form-group"><label>Affiliate Link</label><input type="text" id="d-link"></div>
+                <button class="btn btn-primary" id="dest-btn" onclick="saveDest()">➕ Add Destination</button>
             </div>
             <table><thead><tr><th>Name</th><th>Location</th><th>Actions</th></tr></thead><tbody id="dest-table"></tbody></table>
         </div>
 
-        <!-- HOTELS TAB -->
+        <!-- HOTELS -->
         <div id="hotels" class="tab-content">
-            <h2>🏨 Manage Hotels (Advanced)</h2>
-            
-            <div id="hotel-edit-mode" class="edit-mode" style="display:none;">
-                <h3>✏️ Editing Hotel</h3>
-                <button class="btn btn-danger" onclick="cancelHotelEdit()" style="margin-top:10px;">Cancel Edit</button>
+            <h2>🏨 Manage Hotels</h2>
+            <div class="edit-banner" id="hotel-edit-banner">
+                <h3>️ Editing Hotel...</h3>
+                <button class="btn btn-danger" onclick="cancelEdit('hotel')">Cancel</button>
             </div>
-            
             <div class="form-box">
                 <h3 id="hotel-form-title">Add New Hotel</h3>
-                <input type="hidden" id="h-edit-id">
+                <input type="hidden" id="h-id">
                 <div class="form-group"><label>Hotel Name</label><input type="text" id="h-name"></div>
                 <div class="form-group"><label>Location</label><input type="text" id="h-loc"></div>
-                <div class="form-group"><label>Base Price (USD)</label><input type="number" id="h-price"></div>
+                <div class="form-group"><label>Price (USD)</label><input type="number" id="h-price"></div>
                 <div class="form-group"><label>Discount %</label><input type="number" id="h-disc"></div>
                 <div class="form-group"><label>Main Image URL</label><input type="text" id="h-img"></div>
-                <div class="form-group"><label>Gallery Images (Comma separated URLs)</label><input type="text" id="h-gallery" placeholder="url1, url2, url3"></div>
-                <div class="form-group"><label>Room Types (Format: Room Name:Price | Room Name:Price)</label><input type="text" id="h-rooms" placeholder="Deluxe:120 | Suite:250"></div>
-                <div class="form-group"><label>Reviews (Separate by | )</label><textarea id="h-reviews" placeholder="Great place! | Loved the food"></textarea></div>
+                <div class="form-group"><label>Gallery Images (comma separated)</label><input type="text" id="h-gallery"></div>
+                <div class="form-group"><label>Rooms (Name:Price | Name:Price)</label><input type="text" id="h-rooms"></div>
+                <div class="form-group"><label>Reviews (separated by |)</label><textarea id="h-reviews"></textarea></div>
                 <div class="form-group"><label>Description</label><textarea id="h-desc"></textarea></div>
-                <div class="form-group"><label>Agoda Affiliate Link</label><input type="text" id="h-agoda"></div>
-                <div class="form-group"><label>Rating Score (e.g., 9.1)</label><input type="number" id="h-rating-score" step="0.1" min="0" max="10" placeholder="9.1"></div>
-                <div class="form-group"><label>Distance from City Center</label><input type="text" id="h-distance" placeholder="270 meters"></div>
-                <div class="form-group">
-                    <label>Parking</label>
-                    <select id="h-parking">
-                        <option value="FREE">FREE</option>
-                        <option value="PAID">PAID</option>
-                        <option value="NOT AVAILABLE">Not Available</option>
-                    </select>
-                </div>
-                <div class="form-group"><label>Popular Landmarks (Format: Name:Distance | Name:Distance)</label><input type="text" id="h-landmarks" placeholder="Temple of the Tooth:1.5 km | Kandy Lake:0.8 km"></div>
-                <div class="form-group"><label>Closest Landmarks (Format: Name:Distance | Name:Distance)</label><input type="text" id="h-closest-landmarks" placeholder="Bus Station:130 m | Restaurant:250 m"></div>
-                <button class="btn btn-primary" id="hotel-submit-btn" onclick="saveHotel()">Add Hotel</button>
+                <div class="form-group"><label>Agoda Link</label><input type="text" id="h-agoda"></div>
+                <div class="form-group"><label>Rating Score (0-10)</label><input type="number" step="0.1" id="h-rating" placeholder="9.1"></div>
+                <div class="form-group"><label>Distance from Center</label><input type="text" id="h-dist" placeholder="270 meters"></div>
+                <div class="form-group"><label>Parking</label><select id="h-park"><option>FREE</option><option>PAID</option><option>NOT AVAILABLE</option></select></div>
+                <div class="form-group"><label>Landmarks (Name:Dist | Name:Dist)</label><input type="text" id="h-land"></div>
+                <div class="form-group"><label>Closest Landmarks</label><input type="text" id="h-close"></div>
+                <button class="btn btn-primary" id="hotel-btn" onclick="saveHotel()">➕ Add Hotel</button>
             </div>
             <table><thead><tr><th>Name</th><th>Price</th><th>Actions</th></tr></thead><tbody id="hotel-table"></tbody></table>
+        </div>
+
+        <!-- LOCAL PLACES -->
+        <div id="local-places" class="tab-content">
+            <h2>🏞️ Manage Local Travel Places</h2>
+            <div class="edit-banner" id="local-edit-banner">
+                <h3>✏️ Editing Local Place...</h3>
+                <button class="btn btn-danger" onclick="cancelEdit('local')">Cancel</button>
+            </div>
+            <div class="form-box">
+                <h3 id="local-form-title">Add New Local Place</h3>
+                <input type="hidden" id="lp-id">
+                <div class="form-group"><label>Place Name</label><input type="text" id="lp-name"></div>
+                <div class="form-group"><label>Location / District</label><input type="text" id="lp-loc"></div>
+                <div class="form-group"><label>Province</label>
+                    <select id="lp-prov">
+                        <option>Central Province</option><option>Southern Province</option><option>Western Province</option>
+                        <option>Uva Province</option><option>Sabaragamuwa Province</option><option>North Central Province</option>
+                        <option>Eastern Province</option><option>Northern Province</option><option>North Western Province</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Category</label>
+                    <select id="lp-cat">
+                        <option>Waterfall</option><option>Beach</option><option>Temple</option><option>Historical Site</option>
+                        <option>National Park</option><option>Mountain</option><option>View Point</option><option>Other</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Description</label><textarea id="lp-desc"></textarea></div>
+                <div class="form-group"><label>Main Image URL</label><input type="text" id="lp-img"></div>
+                <div class="form-group"><label>Gallery Images (comma separated)</label><input type="text" id="lp-gallery"></div>
+                <div class="form-group"><label>Entry Fee</label><input type="text" id="lp-fee" placeholder="Free or $5"></div>
+                <div class="form-group"><label>Opening Hours</label><input type="text" id="lp-hours"></div>
+                <div class="form-group"><label>Best Time to Visit</label><input type="text" id="lp-best"></div>
+                <div class="form-group"><label>Google Maps Link</label><input type="text" id="lp-maps"></div>
+                <div class="form-group"><label>Highlights (separated by |)</label><textarea id="lp-high"></textarea></div>
+                <div class="form-group"><label>How to Get There</label><textarea id="lp-dir"></textarea></div>
+                <button class="btn btn-primary" id="local-btn" onclick="saveLocal()">➕ Add Local Place</button>
+            </div>
+            <table><thead><tr><th>Name</th><th>Category</th><th>Location</th><th>Actions</th></tr></thead><tbody id="local-table"></tbody></table>
         </div>
     </main>
 
@@ -207,356 +209,133 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        // Global storage for easy editing
+        let dbData = { slides: [], flights: [], destinations: [], hotels: [], localPlaces: [] };
+
         function showTab(id) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             document.querySelectorAll('.sidebar li').forEach(l => l.classList.remove('active'));
             event.target.classList.add('active');
-            loadData();
+            if(id !== 'dashboard') loadData();
         }
 
-        // ============ SLIDES ============
+        // ============ LOAD DATA ============
+        async function loadData() {
+            const s = await db.collection('slides').orderBy('order').get();
+            dbData.slides = s.docs.map(d => ({id: d.id, ...d.data()}));
+            document.getElementById('slide-table').innerHTML = dbData.slides.map(x => `<tr><td>${x.title?.en}</td><td><div class="action-btns"><button class="btn btn-warning" onclick="editItem('slide','${x.id}')">️</button><button class="btn btn-danger" onclick="deleteItem('slides','${x.id}')">🗑️</button></div></td></tr>`).join('');
+
+            const f = await db.collection('flights').get();
+            dbData.flights = f.docs.map(d => ({id: d.id, ...d.data()}));
+            document.getElementById('flight-table').innerHTML = dbData.flights.map(x => `<tr><td>${x.name?.en}</td><td>$${x.priceUSD}</td><td><div class="action-btns"><button class="btn btn-warning" onclick="editItem('flight','${x.id}')">✏️</button><button class="btn btn-danger" onclick="deleteItem('flights','${x.id}')">🗑️</button></div></td></tr>`).join('');
+
+            const d = await db.collection('destinations').get();
+            dbData.destinations = d.docs.map(d => ({id: d.id, ...d.data()}));
+            document.getElementById('dest-table').innerHTML = dbData.destinations.map(x => `<tr><td>${x.name?.en}</td><td>${x.location}</td><td><div class="action-btns"><button class="btn btn-warning" onclick="editItem('dest','${x.id}')">✏️</button><button class="btn btn-danger" onclick="deleteItem('destinations','${x.id}')">🗑️</button></div></td></tr>`).join('');
+
+            const h = await db.collection('hotels').get();
+            dbData.hotels = h.docs.map(d => ({id: d.id, ...d.data()}));
+            document.getElementById('hotel-table').innerHTML = dbData.hotels.map(x => `<tr><td>${x.name?.en}</td><td>$${x.priceUSD}</td><td><div class="action-btns"><button class="btn btn-warning" onclick="editItem('hotel','${x.id}')">✏️</button><button class="btn btn-danger" onclick="deleteItem('hotels','${x.id}')">🗑️</button></div></td></tr>`).join('');
+
+            const l = await db.collection('localPlaces').get();
+            dbData.localPlaces = l.docs.map(d => ({id: d.id, ...d.data()}));
+            document.getElementById('local-table').innerHTML = dbData.localPlaces.map(x => `<tr><td>${x.name?.en}</td><td>${x.category}</td><td>${x.location}</td><td><div class="action-btns"><button class="btn btn-warning" onclick="editItem('local','${x.id}')">✏️</button><button class="btn btn-danger" onclick="deleteItem('localPlaces','${x.id}')">🗑️</button></div></td></tr>`).join('');
+        }
+
+        // ============ EDIT & CANCEL LOGIC ============
+        function editItem(type, id) {
+            cancelEdit(type); // Clear first
+            document.getElementById(`${type}-edit-banner`).style.display = 'flex';
+            document.getElementById(`${type}-form-title`).innerText = '✏️ Editing...';
+            document.getElementById(`${type}-btn`).innerText = '💾 Update';
+            
+            let item;
+            if(type === 'slide') item = dbData.slides.find(x => x.id === id);
+            if(type === 'flight') item = dbData.flights.find(x => x.id === id);
+            if(type === 'dest') item = dbData.destinations.find(x => x.id === id);
+            if(type === 'hotel') item = dbData.hotels.find(x => x.id === id);
+            if(type === 'local') item = dbData.localPlaces.find(x => x.id === id);
+
+            if(!item) return;
+            document.getElementById(`${type}-id`).value = id;
+
+            // Populate fields based on type
+            if(type === 'slide') { document.getElementById('s-title').value = item.title?.en; document.getElementById('s-subtitle').value = item.subtitle?.en; document.getElementById('s-image').value = item.image; }
+            if(type === 'flight') { document.getElementById('f-name').value = item.name?.en; document.getElementById('f-airline').value = item.airline; document.getElementById('f-price').value = item.priceUSD; document.getElementById('f-orig').value = item.originalPriceUSD; document.getElementById('f-disc').value = item.discount; document.getElementById('f-img').value = item.image; document.getElementById('f-link').value = item.affiliateLink; }
+            if(type === 'dest') { document.getElementById('d-name').value = item.name?.en; document.getElementById('d-loc').value = item.location; document.getElementById('d-desc').value = item.description?.en; document.getElementById('d-img').value = item.image; document.getElementById('d-link').value = item.klookLink; }
+            if(type === 'hotel') { document.getElementById('h-name').value = item.name?.en; document.getElementById('h-loc').value = item.location?.en; document.getElementById('h-price').value = item.priceUSD; document.getElementById('h-disc').value = item.discount; document.getElementById('h-img').value = item.image; document.getElementById('h-gallery').value = item.images; document.getElementById('h-rooms').value = item.rooms; document.getElementById('h-reviews').value = item.reviewsData; document.getElementById('h-desc').value = item.description?.en; document.getElementById('h-agoda').value = item.agodaLink; document.getElementById('h-rating').value = item.ratingScore; document.getElementById('h-dist').value = item.distanceFromCenter; document.getElementById('h-park').value = item.parking; document.getElementById('h-land').value = item.landmarks; document.getElementById('h-close').value = item.closestLandmarks; }
+            if(type === 'local') { document.getElementById('lp-name').value = item.name?.en; document.getElementById('lp-loc').value = item.location; document.getElementById('lp-prov').value = item.province; document.getElementById('lp-cat').value = item.category; document.getElementById('lp-desc').value = item.description?.en; document.getElementById('lp-img').value = item.image; document.getElementById('lp-gallery').value = item.gallery; document.getElementById('lp-fee').value = item.entryFee; document.getElementById('lp-hours').value = item.openingHours; document.getElementById('lp-best').value = item.bestTimeToVisit; document.getElementById('lp-maps').value = item.googleMapsLink; document.getElementById('lp-high').value = item.highlights; document.getElementById('lp-dir').value = item.directions; }
+            
+            window.scrollTo(0,0);
+        }
+
+        function cancelEdit(type) {
+            document.getElementById(`${type}-edit-banner`).style.display = 'none';
+            document.getElementById(`${type}-form-title`).innerText = document.getElementById(`${type}-form-title`).innerText.replace('✏️ Editing...', 'Add New').replace('Add New Add New', 'Add New');
+            // Fix title text properly
+            const titles = {slide:'Add New Slide', flight:'Add New Flight', dest:'Add New Destination', hotel:'Add New Hotel', local:'Add New Local Place'};
+            document.getElementById(`${type}-form-title`).innerText = titles[type];
+            document.getElementById(`${type}-btn`).innerText = '➕ Add';
+            document.getElementById(`${type}-id`).value = '';
+            
+            // Clear inputs
+            document.querySelectorAll(`#${type === 'local' ? 'local-places' : type === 'dest' ? 'destinations' : type}s .form-box input, #${type === 'local' ? 'local-places' : type === 'dest' ? 'destinations' : type}s .form-box textarea, #${type === 'local' ? 'local-places' : type === 'dest' ? 'destinations' : type}s .form-box select`).forEach(el => {
+                if(el.type !== 'hidden' && el.id !== 'h-park' && el.id !== 'lp-prov' && el.id !== 'lp-cat') el.value = '';
+            });
+        }
+
+        async function deleteItem(col, id) {
+            if(confirm('Are you sure you want to delete this?')) {
+                await db.collection(col).doc(id).delete();
+                loadData();
+            }
+        }
+
+        // ============ SAVE FUNCTIONS ============
         async function saveSlide() {
-            const editId = document.getElementById('s-edit-id').value;
-            const data = {
-                title: { en: document.getElementById('s-title').value, si: '' },
-                subtitle: { en: document.getElementById('s-subtitle').value, si: '' },
-                image: document.getElementById('s-image').value,
-                order: Date.now()
-            };
-
-            if (editId) {
-                await db.collection('slides').doc(editId).update(data);
-                alert('✅ Slide Updated Successfully!');
-                cancelSlideEdit();
-            } else {
-                await db.collection('slides').add(data);
-                alert('✅ Slide Added Successfully!');
-            }
-            
-            document.getElementById('s-title').value = '';
-            document.getElementById('s-subtitle').value = '';
-            document.getElementById('s-image').value = '';
-            loadData();
+            const id = document.getElementById('s-id').value;
+            const data = { title: {en: document.getElementById('s-title').value}, subtitle: {en: document.getElementById('s-subtitle').value}, image: document.getElementById('s-image').value, order: Date.now() };
+            if(id) await db.collection('slides').doc(id).update(data); else await db.collection('slides').add(data);
+            alert('✅ Saved!'); cancelEdit('slide'); loadData();
         }
-
-        function editSlide(id, title, subtitle, image) {
-            document.getElementById('s-edit-id').value = id;
-            document.getElementById('s-title').value = title;
-            document.getElementById('s-subtitle').value = subtitle;
-            document.getElementById('s-image').value = image;
-            document.getElementById('slide-form-title').innerText = '✏️ Edit Slide';
-            document.getElementById('slide-submit-btn').innerText = '💾 Update Slide';
-            document.getElementById('slide-edit-mode').style.display = 'block';
-            document.getElementById('edit-slide-id').innerText = 'Editing ID: ' + id;
-            window.scrollTo(0, 0);
-        }
-
-        function cancelSlideEdit() {
-            document.getElementById('s-edit-id').value = '';
-            document.getElementById('slide-form-title').innerText = 'Add New Slide';
-            document.getElementById('slide-submit-btn').innerText = '➕ Add Slide';
-            document.getElementById('slide-edit-mode').style.display = 'none';
-            document.getElementById('s-title').value = '';
-            document.getElementById('s-subtitle').value = '';
-            document.getElementById('s-image').value = '';
-        }
-
-        async function deleteSlide(id) {
-            if(confirm('Delete this slide?')) {
-                await db.collection('slides').doc(id).delete();
-                loadData();
-            }
-        }
-
-        // ============ FLIGHTS ============
         async function saveFlight() {
-            const editId = document.getElementById('f-edit-id').value;
-            const data = {
-                name: {en: document.getElementById('f-name').value},
-                airline: document.getElementById('f-airline').value,
-                priceUSD: +document.getElementById('f-price').value,
-                originalPriceUSD: +document.getElementById('f-orig-price').value,
-                discount: +document.getElementById('f-discount').value,
-                image: document.getElementById('f-image').value,
-                affiliateLink: document.getElementById('f-link').value
-            };
-
-            if (editId) {
-                await db.collection('flights').doc(editId).update(data);
-                alert('✅ Flight Updated Successfully!');
-                cancelFlightEdit();
-            } else {
-                await db.collection('flights').add(data);
-                alert('✅ Flight Added Successfully!');
-            }
-            
-            clearFlightForm();
-            loadData();
+            const id = document.getElementById('f-id').value;
+            const data = { name: {en: document.getElementById('f-name').value}, airline: document.getElementById('f-airline').value, priceUSD: +document.getElementById('f-price').value, originalPriceUSD: +document.getElementById('f-orig').value, discount: +document.getElementById('f-disc').value, image: document.getElementById('f-img').value, affiliateLink: document.getElementById('f-link').value };
+            if(id) await db.collection('flights').doc(id).update(data); else await db.collection('flights').add(data);
+            alert('✅ Saved!'); cancelEdit('flight'); loadData();
         }
-
-        function editFlight(id, name, airline, price, origPrice, discount, image, link) {
-            document.getElementById('f-edit-id').value = id;
-            document.getElementById('f-name').value = name;
-            document.getElementById('f-airline').value = airline;
-            document.getElementById('f-price').value = price;
-            document.getElementById('f-orig-price').value = origPrice;
-            document.getElementById('f-discount').value = discount;
-            document.getElementById('f-image').value = image;
-            document.getElementById('f-link').value = link;
-            document.getElementById('flight-form-title').innerText = '✏️ Edit Flight';
-            document.getElementById('flight-submit-btn').innerText = '💾 Update Flight';
-            document.getElementById('flight-edit-mode').style.display = 'block';
-            window.scrollTo(0, 0);
-        }
-
-        function cancelFlightEdit() {
-            document.getElementById('f-edit-id').value = '';
-            document.getElementById('flight-form-title').innerText = 'Add New Flight';
-            document.getElementById('flight-submit-btn').innerText = 'Add Flight';
-            document.getElementById('flight-edit-mode').style.display = 'none';
-            clearFlightForm();
-        }
-
-        function clearFlightForm() {
-            document.getElementById('f-name').value = '';
-            document.getElementById('f-airline').value = '';
-            document.getElementById('f-price').value = '';
-            document.getElementById('f-orig-price').value = '';
-            document.getElementById('f-discount').value = '';
-            document.getElementById('f-image').value = '';
-            document.getElementById('f-link').value = '';
-        }
-
-        async function deleteFlight(id) {
-            if(confirm('Delete this flight?')) {
-                await db.collection('flights').doc(id).delete();
-                loadData();
-            }
-        }
-
-        // ============ DESTINATIONS ============
         async function saveDest() {
-            const editId = document.getElementById('d-edit-id').value;
-            const data = {
-                name: {en: document.getElementById('d-name').value},
-                location: document.getElementById('d-loc').value,
-                description: {en: document.getElementById('d-desc').value},
-                image: document.getElementById('d-img').value,
-                klookLink: document.getElementById('d-link').value
-            };
-
-            if (editId) {
-                await db.collection('destinations').doc(editId).update(data);
-                alert('✅ Destination Updated Successfully!');
-                cancelDestEdit();
-            } else {
-                await db.collection('destinations').add(data);
-                alert('✅ Destination Added Successfully!');
-            }
-            
-            clearDestForm();
-            loadData();
+            const id = document.getElementById('d-id').value;
+            const data = { name: {en: document.getElementById('d-name').value}, location: document.getElementById('d-loc').value, description: {en: document.getElementById('d-desc').value}, image: document.getElementById('d-img').value, klookLink: document.getElementById('d-link').value };
+            if(id) await db.collection('destinations').doc(id).update(data); else await db.collection('destinations').add(data);
+            alert('✅ Saved!'); cancelEdit('dest'); loadData();
         }
-
-        function editDest(id, name, location, description, image, link) {
-            document.getElementById('d-edit-id').value = id;
-            document.getElementById('d-name').value = name;
-            document.getElementById('d-loc').value = location;
-            document.getElementById('d-desc').value = description;
-            document.getElementById('d-img').value = image;
-            document.getElementById('d-link').value = link;
-            document.getElementById('dest-form-title').innerText = '✏️ Edit Destination';
-            document.getElementById('dest-submit-btn').innerText = '💾 Update Destination';
-            document.getElementById('dest-edit-mode').style.display = 'block';
-            window.scrollTo(0, 0);
-        }
-
-        function cancelDestEdit() {
-            document.getElementById('d-edit-id').value = '';
-            document.getElementById('dest-form-title').innerText = 'Add New Destination';
-            document.getElementById('dest-submit-btn').innerText = 'Add Destination';
-            document.getElementById('dest-edit-mode').style.display = 'none';
-            clearDestForm();
-        }
-
-        function clearDestForm() {
-            document.getElementById('d-name').value = '';
-            document.getElementById('d-loc').value = '';
-            document.getElementById('d-desc').value = '';
-            document.getElementById('d-img').value = '';
-            document.getElementById('d-link').value = '';
-        }
-
-        async function deleteDest(id) {
-            if(confirm('Delete this destination?')) {
-                await db.collection('destinations').doc(id).delete();
-                loadData();
-            }
-        }
-
-        // ============ HOTELS ============
         async function saveHotel() {
-            const editId = document.getElementById('h-edit-id').value;
-            const data = {
-                name: {en: document.getElementById('h-name').value},
-                location: {en: document.getElementById('h-loc').value},
-                priceUSD: +document.getElementById('h-price').value,
-                discount: +document.getElementById('h-disc').value,
-                image: document.getElementById('h-img').value,
-                images: document.getElementById('h-gallery').value,
-                rooms: document.getElementById('h-rooms').value,
-                reviewsData: document.getElementById('h-reviews').value,
-                description: {en: document.getElementById('h-desc').value},
-                agodaLink: document.getElementById('h-agoda').value,
-                ratingScore: document.getElementById('h-rating-score').value || '9.1',
-                distanceFromCenter: document.getElementById('h-distance').value || '270 meters',
-                parking: document.getElementById('h-parking').value || 'FREE',
-                landmarks: document.getElementById('h-landmarks').value,
-                closestLandmarks: document.getElementById('h-closest-landmarks').value
-            };
-
-            if (editId) {
-                await db.collection('hotels').doc(editId).update(data);
-                alert('✅ Hotel Updated Successfully!');
-                cancelHotelEdit();
-            } else {
-                await db.collection('hotels').add(data);
-                alert('✅ Hotel Added Successfully!');
-            }
-            
-            clearHotelForm();
-            loadData();
+            const id = document.getElementById('h-id').value;
+            const data = { name: {en: document.getElementById('h-name').value}, location: {en: document.getElementById('h-loc').value}, priceUSD: +document.getElementById('h-price').value, discount: +document.getElementById('h-disc').value, image: document.getElementById('h-img').value, images: document.getElementById('h-gallery').value, rooms: document.getElementById('h-rooms').value, reviewsData: document.getElementById('h-reviews').value, description: {en: document.getElementById('h-desc').value}, agodaLink: document.getElementById('h-agoda').value, ratingScore: document.getElementById('h-rating').value, distanceFromCenter: document.getElementById('h-dist').value, parking: document.getElementById('h-park').value, landmarks: document.getElementById('h-land').value, closestLandmarks: document.getElementById('h-close').value };
+            if(id) await db.collection('hotels').doc(id).update(data); else await db.collection('hotels').add(data);
+            alert('✅ Saved!'); cancelEdit('hotel'); loadData();
         }
-
-        function editHotel(id, hotel) {
-            document.getElementById('h-edit-id').value = id;
-            document.getElementById('h-name').value = hotel.name?.en || '';
-            document.getElementById('h-loc').value = hotel.location?.en || '';
-            document.getElementById('h-price').value = hotel.priceUSD || '';
-            document.getElementById('h-disc').value = hotel.discount || '';
-            document.getElementById('h-img').value = hotel.image || '';
-            document.getElementById('h-gallery').value = hotel.images || '';
-            document.getElementById('h-rooms').value = hotel.rooms || '';
-            document.getElementById('h-reviews').value = hotel.reviewsData || '';
-            document.getElementById('h-desc').value = hotel.description?.en || '';
-            document.getElementById('h-agoda').value = hotel.agodaLink || '';
-            document.getElementById('h-rating-score').value = hotel.ratingScore || '9.1';
-            document.getElementById('h-distance').value = hotel.distanceFromCenter || '270 meters';
-            document.getElementById('h-parking').value = hotel.parking || 'FREE';
-            document.getElementById('h-landmarks').value = hotel.landmarks || '';
-            document.getElementById('h-closest-landmarks').value = hotel.closestLandmarks || '';
-            document.getElementById('hotel-form-title').innerText = '✏️ Edit Hotel';
-            document.getElementById('hotel-submit-btn').innerText = '💾 Update Hotel';
-            document.getElementById('hotel-edit-mode').style.display = 'block';
-            window.scrollTo(0, 0);
-        }
-
-        function cancelHotelEdit() {
-            document.getElementById('h-edit-id').value = '';
-            document.getElementById('hotel-form-title').innerText = 'Add New Hotel';
-            document.getElementById('hotel-submit-btn').innerText = 'Add Hotel';
-            document.getElementById('hotel-edit-mode').style.display = 'none';
-            clearHotelForm();
-        }
-
-        function clearHotelForm() {
-            document.getElementById('h-name').value = '';
-            document.getElementById('h-loc').value = '';
-            document.getElementById('h-price').value = '';
-            document.getElementById('h-disc').value = '';
-            document.getElementById('h-img').value = '';
-            document.getElementById('h-gallery').value = '';
-            document.getElementById('h-rooms').value = '';
-            document.getElementById('h-reviews').value = '';
-            document.getElementById('h-desc').value = '';
-            document.getElementById('h-agoda').value = '';
-            document.getElementById('h-rating-score').value = '';
-            document.getElementById('h-distance').value = '';
-            document.getElementById('h-parking').value = 'FREE';
-            document.getElementById('h-landmarks').value = '';
-            document.getElementById('h-closest-landmarks').value = '';
-        }
-
-        async function deleteHotel(id) {
-            if(confirm('Delete this hotel?')) {
-                await db.collection('hotels').doc(id).delete();
-                loadData();
-            }
+        async function saveLocal() {
+            const id = document.getElementById('lp-id').value;
+            const data = { name: {en: document.getElementById('lp-name').value}, location: document.getElementById('lp-loc').value, province: document.getElementById('lp-prov').value, category: document.getElementById('lp-cat').value, description: {en: document.getElementById('lp-desc').value}, image: document.getElementById('lp-img').value, gallery: document.getElementById('lp-gallery').value, entryFee: document.getElementById('lp-fee').value, openingHours: document.getElementById('lp-hours').value, bestTimeToVisit: document.getElementById('lp-best').value, googleMapsLink: document.getElementById('lp-maps').value, highlights: document.getElementById('lp-high').value, directions: document.getElementById('lp-dir').value };
+            if(id) await db.collection('localPlaces').doc(id).update(data); else await db.collection('localPlaces').add(data);
+            alert('✅ Saved!'); cancelEdit('local'); loadData();
         }
 
         // ============ SAMPLE DATA ============
         async function loadSampleData() {
             if(!confirm('This will add sample data. Continue?')) return;
-            
-            const sampleSlides = [
-                { title: {en: "Explore Beautiful Sri Lanka"}, subtitle: {en: "Best deals on hotels and flights - Up to 30% OFF!"}, image: "https://images.unsplash.com/photo-1587595431922-21878402075e?w=1600", order: 1 },
-                { title: {en: "Luxury Hotels & Resorts"}, subtitle: {en: "Book now and save big on your dream vacation"}, image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600", order: 2 },
-                { title: {en: "Fly to Your Dream Destination"}, subtitle: {en: "Colombo to Dubai, London, Bangkok & more"}, image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1600", order: 3 }
-            ];
-
-            const sampleFlights = [
-                { name: {en: "Colombo to Dubai"}, airline: "Emirates", priceUSD: 350, originalPriceUSD: 500, discount: 30, image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800", affiliateLink: "https://www.agoda.com/flights" },
-                { name: {en: "Colombo to London"}, airline: "SriLankan Airlines", priceUSD: 650, originalPriceUSD: 900, discount: 28, image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800", affiliateLink: "https://www.agoda.com/flights" },
-                { name: {en: "Colombo to Bangkok"}, airline: "AirAsia", priceUSD: 120, originalPriceUSD: 180, discount: 33, image: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=800", affiliateLink: "https://www.agoda.com/flights" }
-            ];
-            
-            const sampleDests = [
-                { name: {en: "Sigiriya Rock Fortress"}, location: "Central Province", description: {en: "Ancient rock fortress and UNESCO World Heritage Site."}, image: "https://images.unsplash.com/photo-1587595431922-21878402075e?w=800", klookLink: "https://www.klook.com" },
-                { name: {en: "Nine Arch Bridge"}, location: "Ella", description: {en: "Iconic colonial-era railway bridge surrounded by lush green mountains."}, image: "https://images.unsplash.com/photo-1588258546177-2d8f6d7b5f2e?w=800", klookLink: "https://www.klook.com" },
-                { name: {en: "Galle Fort"}, location: "Southern Province", description: {en: "16th-century Portuguese fort, now a UNESCO World Heritage Site."}, image: "https://images.unsplash.com/photo-1596422846543-75c6fc194f07?w=800", klookLink: "https://www.klook.com" },
-                { name: {en: "Yala National Park"}, location: "Southern Province", description: {en: "Sri Lanka's most visited national park, famous for leopards."}, image: "https://images.unsplash.com/photo-1516426122078-c64e70f135f7?w=800", klookLink: "https://www.klook.com" }
-            ];
-
-            const sampleHotels = [
-                { name: {en: "Cinnamon Grand Colombo"}, location: {en: "Colombo 03"}, priceUSD: 110, discount: 27, image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800", images: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800, https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800", rooms: "Deluxe Room:110 | Executive Suite:180 | Presidential:350", reviewsData: "Amazing pool and great breakfast! | Very friendly staff. | Best location in Colombo.", description: {en: "Luxury 5-star hotel in the heart of Colombo."}, agodaLink: "https://www.agoda.com", ratingScore: "9.1", distanceFromCenter: "270 meters", parking: "FREE", landmarks: "Temple of the Tooth:1.5 km | Kandy Lake:0.8 km | Kandy Museum:1.2 km", closestLandmarks: "Blackout Restaurant:130 m | Asgiriya Stadium:250 m" },
-                { name: {en: "98 Acres Resort"}, location: {en: "Ella"}, priceUSD: 90, discount: 31, image: "https://images.unsplash.com/photo-1588258546177-2d8f6d7b5f2e?w=800", images: "https://images.unsplash.com/photo-1588258546177-2d8f6d7b5f2e?w=800, https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800", rooms: "Mountain View Room:90 | Luxury Villa:150", reviewsData: "Stunning views of Ella rock! | Food was organic and delicious.", description: {en: "Boutique resort with stunning mountain views."}, agodaLink: "https://www.agoda.com", ratingScore: "9.3", distanceFromCenter: "1.2 km", parking: "FREE", landmarks: "Nine Arch Bridge:2 km | Ella Rock:3 km", closestLandmarks: "Cafe:100 m | Shop:200 m" }
-            ];
-
-            for(let s of sampleSlides) await db.collection('slides').add(s);
-            for(let f of sampleFlights) await db.collection('flights').add(f);
-            for(let d of sampleDests) await db.collection('destinations').add(d);
-            for(let h of sampleHotels) await db.collection('hotels').add(h);
-            
-            alert('✅ Sample Data Loaded Successfully!');
-            loadData();
+            await db.collection('slides').add({ title: {en: "Explore Sri Lanka"}, subtitle: {en: "Best deals up to 30% OFF!"}, image: "https://images.unsplash.com/photo-1587595431922-21878402075e?w=1600", order: 1 });
+            await db.collection('flights').add({ name: {en: "Colombo to Dubai"}, airline: "Emirates", priceUSD: 350, originalPriceUSD: 500, discount: 30, image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800", affiliateLink: "https://www.agoda.com" });
+            await db.collection('destinations').add({ name: {en: "Sigiriya"}, location: "Central Province", description: {en: "Ancient rock fortress."}, image: "https://images.unsplash.com/photo-1587595431922-21878402075e?w=800", klookLink: "https://www.klook.com" });
+            await db.collection('hotels').add({ name: {en: "Cinnamon Grand"}, location: {en: "Colombo"}, priceUSD: 110, discount: 27, image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800", ratingScore: "9.1", distanceFromCenter: "270 meters", parking: "FREE" });
+            await db.collection('localPlaces').add({ name: {en: "Ravana Falls"}, location: "Ella", province: "Uva Province", category: "Waterfall", description: {en: "Beautiful waterfall near Ella."}, image: "https://images.unsplash.com/photo-1588258546177-2d8f6d7b5f2e?w=800", entryFee: "Free", openingHours: "6AM - 6PM" });
+            alert('✅ Sample Data Loaded!'); loadData();
         }
 
-        // ============ LOAD DATA ============
-        async function loadData() {
-            // Slides
-            const slidesSnap = await db.collection('slides').orderBy('order').get();
-            document.getElementById('slides-preview').innerHTML = slidesSnap.docs.map(d => {
-                const s = d.data();
-                return `<div class="slide-card"><img src="${s.image}"><div class="slide-card-body"><h4>${s.title?.en}</h4><p>${s.subtitle?.en}</p><div style="display:flex;gap:5px;margin-top:5px;"><button class="btn btn-warning" onclick="editSlide('${d.id}','${s.title?.en}','${s.subtitle?.en}','${s.image}')">✏️ Edit</button><button class="btn btn-danger" onclick="deleteSlide('${d.id}')">🗑️ Delete</button></div></div></div>`;
-            }).join('');
-            document.getElementById('slides-table').innerHTML = slidesSnap.docs.map(d => {
-                const s = d.data();
-                return `<tr><td>${s.title?.en}</td><td><img src="${s.image}" style="width:100px;"></td><td><div class="action-buttons"><button class="btn btn-warning" onclick="editSlide('${d.id}','${s.title?.en}','${s.subtitle?.en}','${s.image}')">✏️ Edit</button><button class="btn btn-danger" onclick="deleteSlide('${d.id}')">🗑️ Delete</button></div></td></tr>`;
-            }).join('');
-
-            // Flights
-            const flightsSnap = await db.collection('flights').get();
-            document.getElementById('flight-table').innerHTML = flightsSnap.docs.map(d => {
-                const f = d.data();
-                return `<tr><td>${f.name?.en}</td><td>$${f.priceUSD}</td><td><div class="action-buttons"><button class="btn btn-warning" onclick="editFlight('${d.id}','${f.name?.en}','${f.airline}',${f.priceUSD},${f.originalPriceUSD},${f.discount},'${f.image}','${f.affiliateLink}')">✏️ Edit</button><button class="btn btn-danger" onclick="deleteFlight('${d.id}')">🗑️ Delete</button></div></td></tr>`;
-            }).join('');
-
-            // Destinations
-            const destSnap = await db.collection('destinations').get();
-            document.getElementById('dest-table').innerHTML = destSnap.docs.map(d => {
-                const dest = d.data();
-                return `<tr><td>${dest.name?.en}</td><td>${dest.location}</td><td><div class="action-buttons"><button class="btn btn-warning" onclick="editDest('${d.id}','${dest.name?.en}','${dest.location}','${dest.description?.en}','${dest.image}','${dest.klookLink}')">✏️ Edit</button><button class="btn btn-danger" onclick="deleteDest('${d.id}')">️ Delete</button></div></td></tr>`;
-            }).join('');
-
-            // Hotels
-            const hotelSnap = await db.collection('hotels').get();
-            document.getElementById('hotel-table').innerHTML = hotelSnap.docs.map(d => {
-                const h = d.data();
-                return `<tr><td>${h.name?.en}</td><td>$${h.priceUSD}</td><td><div class="action-buttons"><button class="btn btn-warning" onclick="editHotel('${d.id}',${JSON.stringify(h).replace(/"/g, '&quot;')})">✏️ Edit</button><button class="btn btn-danger" onclick="deleteHotel('${d.id}')">🗑️ Delete</button></div></td></tr>`;
-            }).join('');
-        }
-
+        // Initial load
         loadData();
     </script>
 </body>
