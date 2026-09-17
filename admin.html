@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - LankaTravel</title>
     <style>
-        :root { --primary: #00897B; --dark: #1e272e; --light: #f5f6fa; --white: #ffffff; --danger: #e84118; --flight: #003580; --success: #44bd32; }
+        :root { --primary: #00897B; --dark: #1e272e; --light: #f5f6fa; --white: #ffffff; --danger: #e84118; --flight: #003580; --success: #44bd32; --klook-orange: #FF5722; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background: var(--light); display: flex; min-height: 100vh; }
         
-        .sidebar { width: 250px; background: var(--dark); color: white; padding: 20px; position: fixed; height: 100vh; }
+        .sidebar { width: 250px; background: var(--dark); color: white; padding: 20px; position: fixed; height: 100vh; overflow-y: auto; }
         .sidebar h2 { margin-bottom: 30px; }
         .sidebar ul { list-style: none; }
         .sidebar li { padding: 15px; cursor: pointer; border-radius: 6px; margin-bottom: 5px; }
@@ -26,6 +26,7 @@
         .btn-primary { background: var(--primary); }
         .btn-success { background: var(--success); font-size: 1.1rem; padding: 15px 30px; margin-bottom: 20px; }
         .btn-danger { background: var(--danger); padding: 8px 15px; font-size: 0.85rem; }
+        .btn-warning { background: var(--klook-orange); }
         
         table { width: 100%; border-collapse: collapse; background: var(--white); margin-top: 20px; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
@@ -33,6 +34,13 @@
         
         .tab-content { display: none; }
         .tab-content.active { display: block; }
+
+        .slide-preview { display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap; }
+        .slide-card { width: 200px; border: 2px solid #ddd; border-radius: 8px; overflow: hidden; position: relative; }
+        .slide-card img { width: 100%; height: 120px; object-fit: cover; }
+        .slide-card-body { padding: 10px; }
+        .slide-card-body h4 { font-size: 0.9rem; margin-bottom: 5px; }
+        .slide-card-body p { font-size: 0.8rem; color: #666; }
     </style>
 </head>
 <body>
@@ -40,18 +48,48 @@
         <h2>🛠️ Admin Panel</h2>
         <ul>
             <li onclick="showTab('dashboard')" class="active">📊 Dashboard</li>
-            <li onclick="showTab('flights')">️ Flights</li>
+            <li onclick="showTab('slides')">️ Hero Slider</li>
+            <li onclick="showTab('flights')">✈️ Flights</li>
             <li onclick="showTab('destinations')">🗺️ Destinations</li>
             <li onclick="showTab('hotels')">🏨 Hotels</li>
-            <li onclick="window.location.href='index.html'">🌐 View Website</li>
+            <li onclick="window.location.href='index.html'"> View Website</li>
         </ul>
     </aside>
 
     <main class="main-content">
         <div id="dashboard" class="tab-content active">
             <h2>📊 Dashboard</h2>
-            <button class="btn btn-success" onclick="loadSampleData()">🚀 Load All Sample Data (Flights, Places, Hotels)</button>
-            <p style="color:#666; margin-top:10px;">Click this button to instantly fill your website with sample Sri Lankan destinations, hotels, and flights!</p>
+            <button class="btn btn-success" onclick="loadSampleData()">🚀 Load All Sample Data</button>
+            <p style="color:#666; margin-top:10px;">Click to instantly fill your website with sample data!</p>
+        </div>
+
+        <!-- SLIDER MANAGEMENT TAB -->
+        <div id="slides" class="tab-content">
+            <h2>🖼️ Manage Hero Slider (Klook-Style)</h2>
+            <div class="form-box">
+                <h3>Add New Slide</h3>
+                <div class="form-group">
+                    <label>Slide Title (English)</label>
+                    <input type="text" id="s-title" placeholder="e.g., Explore Beautiful Sri Lanka">
+                </div>
+                <div class="form-group">
+                    <label>Slide Subtitle (English)</label>
+                    <input type="text" id="s-subtitle" placeholder="e.g., Best deals on hotels and flights">
+                </div>
+                <div class="form-group">
+                    <label>Image URL</label>
+                    <input type="text" id="s-image" placeholder="https://images.unsplash.com/...">
+                    <small>Use high-quality images (1920x1080 recommended)</small>
+                </div>
+                <button class="btn btn-warning" onclick="addSlide()">➕ Add Slide</button>
+            </div>
+
+            <h3 style="margin-top:30px;">Current Slides</h3>
+            <div class="slide-preview" id="slides-preview"></div>
+            <table style="margin-top:30px;">
+                <thead><tr><th>Title</th><th>Image</th><th>Action</th></tr></thead>
+                <tbody id="slides-table"></tbody>
+            </table>
         </div>
 
         <div id="flights" class="tab-content">
@@ -70,7 +108,7 @@
         </div>
 
         <div id="destinations" class="tab-content">
-            <h2>🗺️ Manage Destinations</h2>
+            <h2>️ Manage Destinations</h2>
             <div class="form-box">
                 <div class="form-group"><label>Name</label><input type="text" id="d-name"></div>
                 <div class="form-group"><label>Location</label><input type="text" id="d-loc"></div>
@@ -83,16 +121,16 @@
         </div>
 
         <div id="hotels" class="tab-content">
-            <h2>🏨 Manage Hotels (Advanced)</h2>
+            <h2>🏨 Manage Hotels</h2>
             <div class="form-box">
                 <div class="form-group"><label>Hotel Name</label><input type="text" id="h-name"></div>
                 <div class="form-group"><label>Location</label><input type="text" id="h-loc"></div>
                 <div class="form-group"><label>Base Price (USD)</label><input type="number" id="h-price"></div>
                 <div class="form-group"><label>Discount %</label><input type="number" id="h-disc"></div>
                 <div class="form-group"><label>Main Image URL</label><input type="text" id="h-img"></div>
-                <div class="form-group"><label>Gallery Images (Comma separated URLs)</label><input type="text" id="h-gallery" placeholder="url1, url2, url3"></div>
-                <div class="form-group"><label>Room Types (Format: Room Name:Price | Room Name:Price)</label><input type="text" id="h-rooms" placeholder="Deluxe:120 | Suite:250"></div>
-                <div class="form-group"><label>Reviews (Separate by | )</label><textarea id="h-reviews" placeholder="Great place! | Loved the food | Excellent service"></textarea></div>
+                <div class="form-group"><label>Gallery Images (Comma separated)</label><input type="text" id="h-gallery"></div>
+                <div class="form-group"><label>Room Types (Room:Price | Room:Price)</label><input type="text" id="h-rooms"></div>
+                <div class="form-group"><label>Reviews (Separate by |)</label><textarea id="h-reviews"></textarea></div>
                 <div class="form-group"><label>Description</label><textarea id="h-desc"></textarea></div>
                 <div class="form-group"><label>Agoda Affiliate Link</label><input type="text" id="h-agoda"></div>
                 <button class="btn btn-primary" onclick="addHotel()">Add Hotel</button>
@@ -124,9 +162,48 @@
             loadData();
         }
 
-        async function loadSampleData() {
-            if(!confirm('This will add sample data to your database. Continue?')) return;
+        // SLIDER FUNCTIONS
+        async function addSlide() {
+            const title = document.getElementById('s-title').value;
+            const subtitle = document.getElementById('s-subtitle').value;
+            const image = document.getElementById('s-image').value;
             
+            if (!title || !image) {
+                alert('Please enter title and image URL!');
+                return;
+            }
+
+            await db.collection('slides').add({
+                title: { en: title, si: '' },
+                subtitle: { en: subtitle, si: '' },
+                image: image,
+                order: Date.now()
+            });
+            
+            alert('✅ Slide Added Successfully!');
+            document.getElementById('s-title').value = '';
+            document.getElementById('s-subtitle').value = '';
+            document.getElementById('s-image').value = '';
+            loadData();
+        }
+
+        async function deleteSlide(id) {
+            if(confirm('Delete this slide?')) {
+                await db.collection('slides').doc(id).delete();
+                loadData();
+            }
+        }
+
+        async function loadSampleData() {
+            if(!confirm('This will add sample data. Continue?')) return;
+            
+            // Sample Slides
+            const sampleSlides = [
+                { title: {en: "Explore Beautiful Sri Lanka"}, subtitle: {en: "Best deals on hotels and flights - Up to 30% OFF!"}, image: "https://images.unsplash.com/photo-1587595431922-21878402075e?w=1600", order: 1 },
+                { title: {en: "Luxury Hotels & Resorts"}, subtitle: {en: "Book now and save big on your dream vacation"}, image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600", order: 2 },
+                { title: {en: "Fly to Your Dream Destination"}, subtitle: {en: "Colombo to Dubai, London, Bangkok & more"}, image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1600", order: 3 }
+            ];
+
             const sampleFlights = [
                 { name: {en: "Colombo to Dubai"}, airline: "Emirates", priceUSD: 350, originalPriceUSD: 500, discount: 30, image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800", affiliateLink: "https://www.agoda.com/flights" },
                 { name: {en: "Colombo to London"}, airline: "SriLankan Airlines", priceUSD: 650, originalPriceUSD: 900, discount: 28, image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800", affiliateLink: "https://www.agoda.com/flights" },
@@ -145,15 +222,28 @@
                 { name: {en: "98 Acres Resort"}, location: {en: "Ella"}, priceUSD: 90, discount: 31, image: "https://images.unsplash.com/photo-1588258546177-2d8f6d7b5f2e?w=800", images: "https://images.unsplash.com/photo-1588258546177-2d8f6d7b5f2e?w=800, https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800", rooms: "Mountain View Room:90 | Luxury Villa:150", reviewsData: "Stunning views of Ella rock! | Food was organic and delicious.", description: {en: "Boutique resort with stunning mountain views."}, agodaLink: "https://www.agoda.com" }
             ];
 
+            for(let s of sampleSlides) await db.collection('slides').add(s);
             for(let f of sampleFlights) await db.collection('flights').add(f);
             for(let d of sampleDests) await db.collection('destinations').add(d);
             for(let h of sampleHotels) await db.collection('hotels').add(h);
             
-            alert('✅ Sample Data Loaded Successfully! Go check your website.');
+            alert('✅ Sample Data Loaded Successfully!');
             loadData();
         }
 
         async function loadData() {
+            // Load Slides
+            const slidesSnap = await db.collection('slides').orderBy('order').get();
+            document.getElementById('slides-preview').innerHTML = slidesSnap.docs.map(d => {
+                const s = d.data();
+                return `<div class="slide-card"><img src="${s.image}"><div class="slide-card-body"><h4>${s.title?.en}</h4><p>${s.subtitle?.en}</p><button class="btn btn-danger" onclick="deleteSlide('${d.id}')" style="margin-top:5px;">Delete</button></div></div>`;
+            }).join('');
+            document.getElementById('slides-table').innerHTML = slidesSnap.docs.map(d => {
+                const s = d.data();
+                return `<tr><td>${s.title?.en}</td><td><img src="${s.image}" style="width:100px;"></td><td><button class="btn btn-danger" onclick="deleteSlide('${d.id}')">Delete</button></td></tr>`;
+            }).join('');
+
+            // Load other data
             document.getElementById('flight-table').innerHTML = (await db.collection('flights').get()).docs.map(d => `<tr><td>${d.data().name?.en}</td><td>$${d.data().priceUSD}</td><td><button class="btn btn-danger" onclick="del('flights','${d.id}')">Delete</button></td></tr>`).join('');
             document.getElementById('dest-table').innerHTML = (await db.collection('destinations').get()).docs.map(d => `<tr><td>${d.data().name?.en}</td><td>${d.data().location}</td><td><button class="btn btn-danger" onclick="del('destinations','${d.id}')">Delete</button></td></tr>`).join('');
             document.getElementById('hotel-table').innerHTML = (await db.collection('hotels').get()).docs.map(d => `<tr><td>${d.data().name?.en}</td><td>$${d.data().priceUSD}</td><td><button class="btn btn-danger" onclick="del('hotels','${d.id}')">Delete</button></td></tr>`).join('');
