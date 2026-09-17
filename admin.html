@@ -40,7 +40,7 @@
         <h2>🛠️ Admin Panel</h2>
         <ul>
             <li onclick="showTab('dashboard')" class="active">📊 Dashboard</li>
-            <li onclick="showTab('flights')">✈️ Flights</li>
+            <li onclick="showTab('flights')">️ Flights</li>
             <li onclick="showTab('destinations')">🗺️ Destinations</li>
             <li onclick="showTab('hotels')">🏨 Hotels</li>
             <li onclick="window.location.href='index.html'">🌐 View Website</li>
@@ -105,12 +105,13 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyD-XXXXXXXXXXXXXXXXXXXXXXXX",
-            authDomain: "srilanka-travel.firebaseapp.com",
-            projectId: "srilanka-travel",
-            storageBucket: "srilanka-travel.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123456789:web:abcdef123456"
+            apiKey: "AIzaSyBQhTvJO0MafUNFHlP9LXPb-XBDic3X4pc",
+            authDomain: "srilanka-travel-ddcc3.firebaseapp.com",
+            projectId: "srilanka-travel-ddcc3",
+            storageBucket: "srilanka-travel-ddcc3.firebasestorage.app",
+            messagingSenderId: "964910006559",
+            appId: "1:964910006559:web:d3d2d3d678a0b02a73702a",
+            measurementId: "G-FQP5RV0H14"
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
@@ -123,7 +124,6 @@
             loadData();
         }
 
-        // 🚀 SAMPLE DATA SEEDER
         async function loadSampleData() {
             if(!confirm('This will add sample data to your database. Continue?')) return;
             
