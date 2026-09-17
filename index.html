@@ -13,9 +13,11 @@
         nav { background: var(--white); padding: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
         .nav-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         .logo { font-size: 24px; font-weight: bold; color: var(--primary); text-decoration: none; }
-        .nav-links { display: flex; gap: 20px; list-style: none; }
+        .nav-links { display: flex; gap: 20px; list-style: none; align-items: center; }
         .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; }
-        .lang-btn { background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; }
+        .lang-btn, .refresh-btn, .currency-btn { background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: 600; }
+        .refresh-btn { background: var(--secondary); margin-left: 10px; }
+        .currency-btn { background: var(--flight); margin-left: 10px; }
 
         .hero-slider { position: relative; height: 600px; overflow: hidden; }
         .slider-container { position: relative; width: 100%; height: 100%; }
@@ -25,26 +27,21 @@
         .slide-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)); display: flex; align-items: center; justify-content: center; }
         .slide-content { text-align: center; color: white; z-index: 10; padding: 20px; }
         .slide-content h1 { font-size: 3.5rem; margin-bottom: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        .slide-content p { font-size: 1.3rem; margin-bottom: 30px; }
         
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.3); border: none; color: white; font-size: 2rem; padding: 15px 20px; cursor: pointer; border-radius: 50%; transition: 0.3s; z-index: 20; }
-        .slider-btn:hover { background: rgba(255,255,255,0.5); }
-        .slider-prev { left: 20px; }
-        .slider-next { right: 20px; }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.3); border: none; color: white; font-size: 2rem; padding: 15px 20px; cursor: pointer; border-radius: 50%; z-index: 20; }
+        .slider-prev { left: 20px; } .slider-next { right: 20px; }
         .slider-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 20; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: 0.3s; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; }
         .dot.active { background: white; width: 30px; border-radius: 6px; }
 
         .search-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); max-width: 1000px; margin: -80px auto 0; position: relative; z-index: 30; }
         .search-tabs { display: flex; gap: 20px; margin-bottom: 25px; border-bottom: 2px solid #eee; }
-        .search-tab { padding: 15px 25px; cursor: pointer; font-weight: 600; color: #666; border-bottom: 3px solid transparent; transition: 0.3s; }
+        .search-tab { padding: 15px 25px; cursor: pointer; font-weight: 600; color: #666; border-bottom: 3px solid transparent; }
         .search-tab.active { color: var(--klook-orange); border-bottom-color: var(--klook-orange); }
         .search-form { display: grid; grid-template-columns: 2fr 1.5fr 1.5fr auto; gap: 15px; align-items: end; }
-        .search-field label { display: block; font-size: 0.9rem; color: #666; margin-bottom: 8px; font-weight: 500; }
-        .search-field input, .search-field select { width: 100%; padding: 12px 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; transition: 0.3s; }
-        .search-field input:focus, .search-field select:focus { outline: none; border-color: var(--klook-orange); }
-        .search-btn { background: var(--klook-orange); color: white; border: none; padding: 15px 40px; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: 0.3s; height: 50px; }
-        .search-btn:hover { background: #e64a19; transform: translateY(-2px); }
+        .search-field label { display: block; font-size: 0.9rem; color: #666; margin-bottom: 8px; }
+        .search-field input, .search-field select { width: 100%; padding: 12px 15px; border: 2px solid #ddd; border-radius: 8px; }
+        .search-btn { background: var(--klook-orange); color: white; border: none; padding: 15px 40px; border-radius: 8px; font-weight: 600; cursor: pointer; height: 50px; }
 
         section { padding: 60px 0; }
         section:nth-child(even) { background: var(--white); }
@@ -52,39 +49,38 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
 
         .card { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: 0.3s; position: relative; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+        .card:hover { transform: translateY(-5px); }
         .card img { width: 100%; height: 220px; object-fit: cover; }
         .card-body { padding: 20px; }
         .card-title { font-size: 1.3rem; margin-bottom: 10px; color: var(--primary); }
         .discount-badge { position: absolute; top: 15px; right: 15px; background: var(--danger); color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; z-index: 10; }
         .category-badge { position: absolute; top: 10px; left: 10px; background: var(--secondary); color: white; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; z-index: 10; }
 
-        .btn { display: block; padding: 10px 20px; border-radius: 6px; text-align: center; font-weight: 600; text-decoration: none; margin-top: 10px; transition: 0.3s; color: white; border: none; cursor: pointer; width: 100%; }
+        .btn { display: block; padding: 10px 20px; border-radius: 6px; text-align: center; font-weight: 600; text-decoration: none; margin-top: 10px; color: white; border: none; cursor: pointer; width: 100%; }
         .btn-agoda { background: var(--flight); } .btn-whatsapp { background: var(--whatsapp); }
-        .btn-view { background: var(--secondary); } .btn-klook { background: #FF5722; }
-        .btn:hover { opacity: 0.9; transform: translateY(-2px); }
+        .btn-view { background: var(--secondary); } .btn-pay { background: #6c5ce7; }
+        .btn:hover { opacity: 0.9; }
 
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; overflow-y: auto; }
-        .modal-content { background: white; margin: 5% auto; padding: 0; width: 90%; max-width: 800px; border-radius: 15px; position: relative; animation: slideDown 0.4s; }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-content { background: white; margin: 5% auto; padding: 0; width: 90%; max-width: 800px; border-radius: 15px; position: relative; }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: white; background: rgba(0,0,0,0.5); width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; z-index: 10; }
         .modal-header-img { width: 100%; height: 350px; object-fit: cover; border-radius: 15px 15px 0 0; }
         .modal-body { padding: 30px; }
         .gallery-thumbs { display: flex; gap: 10px; margin: 15px 0; overflow-x: auto; }
-        .gallery-thumbs img { width: 80px; height: 60px; object-fit: cover; border-radius: 5px; cursor: pointer; border: 2px solid transparent; }
-        .gallery-thumbs img:hover { border-color: var(--primary); }
+        .gallery-thumbs img { width: 80px; height: 60px; object-fit: cover; border-radius: 5px; cursor: pointer; }
         .room-list, .review-list, .landmark-list { background: var(--light); padding: 15px; border-radius: 8px; margin: 15px 0; }
         .room-item, .landmark-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #ddd; }
-        .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
+        .modal-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 25px; }
+
+        /* Currency Widget */
+        .currency-widget { position: fixed; bottom: 20px; right: 20px; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); z-index: 99; display: none; }
+        .currency-widget.active { display: block; }
+        .currency-widget h4 { margin-bottom: 10px; color: var(--primary); }
+        .currency-widget input { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        .currency-widget p { font-weight: bold; color: var(--dark); }
 
         .loading { text-align: center; padding: 50px; font-size: 1.2rem; color: var(--primary); }
         footer { background: var(--dark); color: white; text-align: center; padding: 40px 20px; }
-
-        @media (max-width: 768px) {
-            .search-form { grid-template-columns: 1fr; }
-            .hero-slider { height: 500px; }
-            .slide-content h1 { font-size: 2rem; }
-        }
     </style>
 </head>
 <body>
@@ -94,12 +90,16 @@
             <a href="#" class="logo">🇱🇰 LankaTravel</a>
             <ul class="nav-links">
                 <li><a href="#flights">✈️ Flights</a></li>
-                <li><a href="#destinations">️ Places</a></li>
-                <li><a href="#local-places">️ Local</a></li>
+                <li><a href="#destinations">🗺️ Places</a></li>
+                <li><a href="#local-places">🏞️ Local</a></li>
                 <li><a href="#hotels"> Hotels</a></li>
                 <li><a href="admin.html" style="color: var(--secondary);">🔧 Admin</a></li>
             </ul>
-            <button class="lang-btn" onclick="toggleLang()">සිංහල</button>
+            <div>
+                <button class="currency-btn" onclick="toggleCurrency()">💱 Exchange Rate</button>
+                <button class="refresh-btn" onclick="location.reload()">🔄 Reload</button>
+                <button class="lang-btn" onclick="toggleLang()">සිංහල</button>
+            </div>
         </div>
     </nav>
 
@@ -113,154 +113,96 @@
     <div class="container">
         <div class="search-box">
             <div class="search-tabs">
-                <div class="search-tab active" onclick="switchTab('hotels')">🏨 Hotels</div>
-                <div class="search-tab" onclick="switchTab('flights')">✈️ Flights</div>
-                <div class="search-tab" onclick="switchTab('tours')">🗺️ Tours</div>
+                <div class="search-tab active">🏨 Hotels</div>
+                <div class="search-tab">✈️ Flights</div>
+                <div class="search-tab">🗺️ Tours</div>
             </div>
-            <div class="search-form" id="search-form">
-                <div class="search-field">
-                    <label>Where to?</label>
-                    <input type="text" id="search-destination" placeholder="Enter destination (e.g., Colombo, Galle, Ella)">
-                </div>
-                <div class="search-field">
-                    <label>Check-in / Check-out</label>
-                    <input type="date" id="search-checkin">
-                </div>
-                <div class="search-field">
-                    <label>Guests & Rooms</label>
-                    <select id="search-guests">
-                        <option>1 Adult, 1 Room</option>
-                        <option>2 Adults, 1 Room</option>
-                        <option>2 Adults, 2 Rooms</option>
-                        <option>Family (2+2), 1 Room</option>
-                    </select>
-                </div>
-                <button class="search-btn" onclick="performSearch()">🔍 Search</button>
+            <div class="search-form">
+                <div class="search-field"><label>Where to?</label><input type="text" id="search-dest" placeholder="Colombo, Galle, Ella..."></div>
+                <div class="search-field"><label>Check-in</label><input type="date" id="search-date"></div>
+                <div class="search-field"><label>Guests</label><select><option>2 Adults, 1 Room</option></select></div>
+                <button class="search-btn" onclick="performSearch()"> Search</button>
             </div>
         </div>
     </div>
 
-    <section id="flights">
-        <div class="container">
-            <h2>✈️ Popular Flight Routes</h2>
-            <div class="grid" id="flights-grid"><div class="loading">Loading Flights...</div></div>
-        </div>
-    </section>
-
-    <section id="destinations" style="background: white;">
-        <div class="container">
-            <h2>🗺️ Top Visiting Places in Sri Lanka</h2>
-            <div class="grid" id="destinations-grid"><div class="loading">Loading...</div></div>
-        </div>
-    </section>
-
-    <section id="local-places">
-        <div class="container">
-            <h2>🏞️ Local Travel Places</h2>
-            <div class="grid" id="local-places-grid"><div class="loading">Loading Local Places...</div></div>
-        </div>
-    </section>
-
-    <section id="hotels" style="background: white;">
-        <div class="container">
-            <h2>🏨 Featured Hotels & Resorts</h2>
-            <div class="grid" id="hotels-grid"><div class="loading">Loading...</div></div>
-        </div>
-    </section>
+    <section id="flights"><div class="container"><h2>✈️ Popular Flight Routes</h2><div class="grid" id="flights-grid"><div class="loading">Loading...</div></div></div></section>
+    <section id="destinations" style="background: white;"><div class="container"><h2>🗺️ Top Visiting Places</h2><div class="grid" id="destinations-grid"><div class="loading">Loading...</div></div></div></section>
+    <section id="local-places"><div class="container"><h2>🏞️ Local Travel Places</h2><div class="grid" id="local-places-grid"><div class="loading">Loading...</div></div></div></section>
+    <section id="hotels" style="background: white;"><div class="container"><h2>🏨 Featured Hotels</h2><div class="grid" id="hotels-grid"><div class="loading">Loading...</div></div></div></section>
 
     <footer>
         <div class="container">
-            <h3>🇰 LankaTravel Guide</h3>
-            <p>Direct Contact: <a href="https://wa.me/94766488689" style="color: var(--whatsapp); text-decoration: none;">WhatsApp: 076 648 8689</a></p>
-            <p style="margin-top:15px; opacity:0.6;">&copy; 2026 Sri Lanka Travel Guide. All Rights Reserved.</p>
+            <h3>🇱🇰 LankaTravel Guide</h3>
+            <p>WhatsApp: <a href="https://wa.me/94766488689" style="color: var(--whatsapp);">076 648 8689</a></p>
+            <p style="margin-top:15px; opacity:0.6;">&copy; 2026 Sri Lanka Travel Guide.</p>
         </div>
     </footer>
 
-    <!-- HOTEL DETAILS MODAL -->
+    <!-- HOTEL MODAL -->
     <div id="hotel-modal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
-            <img id="modal-main-img" class="modal-header-img" src="" alt="Hotel">
+            <img id="modal-img" class="modal-header-img" src="" alt="Hotel">
             <div class="modal-body">
-                <h2 id="modal-title" style="text-align:left; margin-bottom:5px;"></h2>
-                <p id="modal-location" style="color:#666; margin-bottom:15px;"></p>
+                <h2 id="modal-title" style="margin-bottom:5px;"></h2>
+                <p id="modal-loc" style="color:#666; margin-bottom:15px;"></p>
                 
-                <div style="background: linear-gradient(135deg, #00b894, #00cec9); color: white; padding: 20px; border-radius: 10px; margin: 20px 0; text-align: center;">
-                    <div style="font-size: 3rem; font-weight: bold; margin-bottom: 5px;"><span id="modal-rating">9.1</span></div>
-                    <div style="font-size: 1.2rem; font-weight: 600;">Exceptional</div>
-                    <div style="font-size: 0.9rem; opacity: 0.9; margin-top: 5px;">Location rating score</div>
+                <div style="background: linear-gradient(135deg, #00b894, #00cec9); color: white; padding: 20px; border-radius: 10px; text-align: center; margin: 20px 0;">
+                    <div style="font-size: 3rem; font-weight: bold;"><span id="modal-rating">9.1</span></div>
+                    <div>Exceptional Location</div>
                 </div>
 
                 <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                        <span style="font-size: 1.5rem;">🏆</span>
-                        <div><strong style="color: #00b894;">Exceptional location</strong><div style="color: #666; font-size: 0.9rem;"><span id="modal-distance">270 meters</span> from city center</div></div>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-top: 1px solid #ddd;">
-                        <div style="display: flex; align-items: center; gap: 10px;"><span style="font-size: 1.3rem;">🅿️</span><span>Parking</span></div>
-                        <span style="color: #00b894; font-weight: bold;" id="modal-parking">FREE</span>
-                    </div>
+                    <p>📍 <span id="modal-dist">270 meters</span> from city center</p>
+                    <p>🅿️ Parking: <strong id="modal-park" style="color:#00b894;">FREE</strong></p>
                 </div>
 
-                <div style="margin: 20px 0;">
-                    <div style="background: #e9ecef; height: 250px; border-radius: 10px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
-                        <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800" alt="Map" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.6;">
-                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-                            <div style="font-size: 3rem; margin-bottom: 10px;">📍</div>
-                            <button onclick="openGoogleMap()" style="background: #003580; color: white; border: none; padding: 12px 30px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem;">️ SEE MAP</button>
-                        </div>
-                    </div>
-                </div>
+                <button onclick="openMap()" style="width:100%; background:#003580; color:white; padding:12px; border:none; border-radius:8px; font-weight:600; cursor:pointer; margin:10px 0;">🗺️ SEE ON GOOGLE MAP</button>
 
-                <p id="modal-desc" style="margin: 20px 0;"></p>
-
-                <h3 style="margin-top:20px; color:var(--primary);">📷 Photo Gallery</h3>
+                <h3 style="margin-top:20px; color:var(--primary);">📷 Gallery</h3>
                 <div class="gallery-thumbs" id="modal-gallery"></div>
 
-                <h3 style="margin-top:20px; color:var(--primary);">🛏️ Room Types & Rates</h3>
+                <h3 style="margin-top:20px; color:var(--primary);">🛏️ Rooms & Rates</h3>
                 <div class="room-list" id="modal-rooms"></div>
 
-                <h3 style="margin-top:20px; color:var(--primary);">️ Popular Landmarks</h3>
+                <h3 style="margin-top:20px; color:var(--primary);">🏛️ Nearby Landmarks</h3>
                 <div class="landmark-list" id="modal-landmarks"></div>
 
-                <h3 style="margin-top:20px; color:var(--primary);">📍 Closest Landmarks</h3>
-                <div class="landmark-list" id="modal-closest-landmarks"></div>
-
-                <h3 style="margin-top:20px; color:var(--primary);">⭐ Guest Reviews</h3>
+                <h3 style="margin-top:20px; color:var(--primary);">⭐ Reviews</h3>
                 <div class="review-list" id="modal-reviews"></div>
 
                 <div class="modal-actions">
-                    <a id="modal-agoda-btn" href="#" target="_blank" class="btn btn-agoda">Book on Agoda (Best Price)</a>
-                    <a id="modal-whatsapp-btn" href="#" target="_blank" class="btn btn-whatsapp">Book via WhatsApp</a>
+                    <a id="modal-agoda" href="#" target="_blank" class="btn btn-agoda">Book on Agoda</a>
+                    <button onclick="payOnline()" class="btn btn-pay">💳 Pay Online</button>
+                    <a id="modal-wa" href="#" target="_blank" class="btn btn-whatsapp">💬 WhatsApp</a>
                 </div>
-                
-                <button onclick="seeNearbyPlaces()" style="width: 100%; margin-top: 15px; background: white; color: #003580; border: 2px solid #003580; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer;">🔍 See nearby places</button>
 
-                <!-- SOCIAL SHARE SECTION -->
-                <div style="margin-top: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
-                    <h3 style="margin-bottom: 15px; color: var(--primary);">📱 Share This</h3>
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                        <button onclick="shareOnFacebook()" style="flex: 1; padding: 10px; background: #3b5998; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
-                            <span style="font-size: 1.2rem;">📘</span> Facebook
-                        </button>
-                        <button onclick="shareOnWhatsApp()" style="flex: 1; padding: 10px; background: #25D366; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
-                            <span style="font-size: 1.2rem;">💬</span> WhatsApp
-                        </button>
-                        <button onclick="shareOnTwitter()" style="flex: 1; padding: 10px; background: #1da1f2; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
-                            <span style="font-size: 1.2rem;">🐦</span> Twitter
-                        </button>
-                        <button onclick="copyLink()" style="flex: 1; padding: 10px; background: var(--secondary); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
-                            <span style="font-size: 1.2rem;">🔗</span> Copy Link
-                        </button>
+                <!-- Social Share -->
+                <div style="margin-top: 25px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                    <h4 style="margin-bottom:10px;">📱 Share This</h4>
+                    <div style="display:flex; gap:10px;">
+                        <button onclick="shareFB()" style="flex:1; padding:8px; background:#3b5998; color:white; border:none; border-radius:5px; cursor:pointer;">Facebook</button>
+                        <button onclick="shareWA()" style="flex:1; padding:8px; background:#25D366; color:white; border:none; border-radius:5px; cursor:pointer;">WhatsApp</button>
+                        <button onclick="copyLink()" style="flex:1; padding:8px; background:var(--secondary); color:white; border:none; border-radius:5px; cursor:pointer;">Copy Link</button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Currency Widget -->
+    <div class="currency-widget" id="currency-widget">
+        <h4>💱 Currency Converter</h4>
+        <label style="font-size:0.8rem;">USD Amount:</label>
+        <input type="number" id="usd-input" placeholder="Enter USD" oninput="convertCurrency()">
+        <p id="lkr-output">LKR: 0.00</p>
+        <p style="font-size:0.8rem; color:#666; margin-top:5px;">Rate: 1 USD = <span id="exchange-rate">300</span> LKR</p>
+        <button onclick="toggleCurrency()" style="width:100%; margin-top:10px; padding:5px; background:var(--danger); color:white; border:none; border-radius:5px; cursor:pointer;">Close</button>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyBQhTvJO0MafUNFHlP9LXPb-XBDic3X4pc",
@@ -271,308 +213,119 @@
             appId: "1:964910006559:web:d3d2d3d678a0b02a73702a",
             measurementId: "G-FQP5RV0H14"
         };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-        const MY_WHATSAPP = "94766488689";
-
-        let currentLang = 'en';
+        const MY_WA = "94766488689";
+        let exchangeRate = 300; // Default fallback rate
         let allData = { flights: [], destinations: [], hotels: [], slides: [], localPlaces: [] };
-        let currentSlide = 0;
-        let slideInterval;
+        let currentSlide = 0, slideInterval;
 
-        function toggleLang() {
-            currentLang = currentLang === 'en' ? 'si' : 'en';
-            document.querySelector('.lang-btn').innerText = currentLang === 'en' ? 'සිංහල' : 'English';
-            renderAll();
+        // Currency Converter
+        async function fetchExchangeRate() {
+            try {
+                const res = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+                const data = await res.json();
+                exchangeRate = data.rates.LKR || 300;
+                document.getElementById('exchange-rate').innerText = exchangeRate.toFixed(2);
+            } catch(e) { console.log('Using default rate'); }
+        }
+        fetchExchangeRate();
+
+        function toggleCurrency() { document.getElementById('currency-widget').classList.toggle('active'); }
+        function convertCurrency() {
+            const usd = document.getElementById('usd-input').value;
+            const lkr = usd * exchangeRate;
+            document.getElementById('lkr-output').innerText = `LKR: ${lkr.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
         }
 
-        function getWaLink(item, type) {
-            const name = item.name?.[currentLang] || item.name?.en || 'Item';
-            const msg = `Hi, I want to inquire about: ${name} (${type}). Please send me more details.`;
-            return `https://wa.me/${MY_WHATSAPP}?text=${encodeURIComponent(msg)}`;
-        }
-
-        // SLIDER FUNCTIONS
-        function renderSlider() {
-            const container = document.getElementById('slider-container');
-            const dots = document.getElementById('slider-dots');
-            
-            container.innerHTML = allData.slides.map((slide, index) => `
-                <div class="slide ${index === 0 ? 'active' : ''}">
-                    <img src="${slide.image || 'https://images.unsplash.com/photo-1587595431922-21878402075e?w=1600'}" alt="${slide.title?.en || ''}">
-                    <div class="slide-overlay">
-                        <div class="slide-content">
-                            <h1>${slide.title?.en || ''}</h1>
-                            <p>${slide.subtitle?.en || ''}</p>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-
-            dots.innerHTML = allData.slides.map((_, index) => `
-                <div class="dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></div>
-            `).join('');
-
-            startSlider();
-        }
-
-        function changeSlide(direction) {
-            const slides = document.querySelectorAll('.slide');
-            const dots = document.querySelectorAll('.dot');
-            if(slides.length === 0) return;
-            slides[currentSlide].classList.remove('active');
-            dots[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + direction + slides.length) % slides.length;
-            slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
-            resetSlider();
-        }
-
-        function goToSlide(index) {
-            const slides = document.querySelectorAll('.slide');
-            const dots = document.querySelectorAll('.dot');
-            if(slides.length === 0) return;
-            slides[currentSlide].classList.remove('active');
-            dots[currentSlide].classList.remove('active');
-            currentSlide = index;
-            slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
-            resetSlider();
-        }
-
-        function startSlider() {
-            slideInterval = setInterval(() => changeSlide(1), 5000);
-        }
-
-        function resetSlider() {
-            clearInterval(slideInterval);
-            startSlider();
-        }
-
-        // SEARCH FUNCTIONS
-        function switchTab(tab) {
-            document.querySelectorAll('.search-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-
+        function toggleLang() { alert('Language toggle coming soon!'); }
         function performSearch() {
-            const destination = document.getElementById('search-destination').value;
-            const checkin = document.getElementById('search-checkin').value;
-            const guests = document.getElementById('search-guests').value;
+            const dest = document.getElementById('search-dest').value;
+            if(!dest) { alert('Enter destination!'); return; }
+            window.open(`https://wa.me/${MY_WA}?text=${encodeURIComponent(`Hi, I want to search for: ${dest}`)}`, '_blank');
+        }
+
+        // Slider
+        function renderSlider() {
+            const c = document.getElementById('slider-container'), d = document.getElementById('slider-dots');
+            c.innerHTML = allData.slides.map((s, i) => `<div class="slide ${i===0?'active':''}"><img src="${s.image}"><div class="slide-overlay"><div class="slide-content"><h1>${s.title?.en}</h1><p>${s.subtitle?.en}</p></div></div></div>`).join('');
+            d.innerHTML = allData.slides.map((_, i) => `<div class="dot ${i===0?'active':''}" onclick="goToSlide(${i})"></div>`).join('');
+            startSlider();
+        }
+        function changeSlide(dir) {
+            const s = document.querySelectorAll('.slide'), d = document.querySelectorAll('.dot');
+            if(!s.length) return;
+            s[currentSlide].classList.remove('active'); d[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + dir + s.length) % s.length;
+            s[currentSlide].classList.add('active'); d[currentSlide].classList.add('active');
+            resetSlider();
+        }
+        function goToSlide(i) {
+            const s = document.querySelectorAll('.slide'), d = document.querySelectorAll('.dot');
+            s[currentSlide].classList.remove('active'); d[currentSlide].classList.remove('active');
+            currentSlide = i; s[i].classList.add('active'); d[i].classList.add('active'); resetSlider();
+        }
+        function startSlider() { slideInterval = setInterval(() => changeSlide(1), 5000); }
+        function resetSlider() { clearInterval(slideInterval); startSlider(); }
+
+        // Hotel Modal & Payment
+        function openHotelModal(h) {
+            document.getElementById('modal-title').innerText = h.name?.en;
+            document.getElementById('modal-loc').innerText = `📍 ${h.location?.en} | ⭐ ${h.rating || 4.5}`;
+            document.getElementById('modal-img').src = h.image;
+            document.getElementById('modal-rating').innerText = h.ratingScore || '9.1';
+            document.getElementById('modal-dist').innerText = h.distanceFromCenter || '270m';
+            document.getElementById('modal-park').innerText = h.parking || 'FREE';
             
-            if (!destination) {
-                alert('Please enter a destination!');
-                return;
-            }
-
-            const msg = `Hi, I want to search for:\n📍 Destination: ${destination}\n📅 Check-in: ${checkin || 'Not specified'}\n Guests: ${guests}\n\nPlease send me available options!`;
-            window.open(`https://wa.me/${MY_WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
-        }
-
-        // SOCIAL SHARE FUNCTIONS
-        function shareOnFacebook() {
-            const url = encodeURIComponent(window.location.href);
-            const title = encodeURIComponent(document.getElementById('modal-title').innerText);
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${title}`, '_blank', 'width=600,height=400');
-        }
-
-        function shareOnWhatsApp() {
-            const title = document.getElementById('modal-title').innerText;
-            const location = document.getElementById('modal-location').innerText;
-            const url = window.location.href;
-            const text = encodeURIComponent(`Check out ${title}\n${location}\nBook now: ${url}`);
-            window.open(`https://wa.me/?text=${text}`, '_blank');
-        }
-
-        function shareOnTwitter() {
-            const title = encodeURIComponent(document.getElementById('modal-title').innerText);
-            const url = encodeURIComponent(window.location.href);
-            window.open(`https://twitter.com/intent/tweet?text=${title}&url=${url}`, '_blank', 'width=600,height=400');
-        }
-
-        function copyLink() {
-            const url = window.location.href;
-            navigator.clipboard.writeText(url).then(() => {
-                alert('✅ Link copied to clipboard!');
-            }).catch(() => {
-                const textArea = document.createElement('textarea');
-                textArea.value = url;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                alert('✅ Link copied to clipboard!');
-            });
-        }
-
-        // HOTEL MODAL FUNCTIONS
-        function openHotelModal(hotel) {
-            document.getElementById('modal-title').innerText = hotel.name?.en || '';
-            document.getElementById('modal-location').innerText = `📍 ${hotel.location?.en || ''} | ⭐ ${hotel.rating || 4.5}`;
-            document.getElementById('modal-desc').innerText = hotel.description?.en || '';
-            document.getElementById('modal-main-img').src = hotel.image || 'https://via.placeholder.com/800x400';
+            document.getElementById('modal-gallery').innerHTML = (h.images ? h.images.split(',') : [h.image]).map(i => `<img src="${i.trim()}" onclick="document.getElementById('modal-img').src='${i.trim()}'">`).join('');
+            document.getElementById('modal-rooms').innerHTML = (h.rooms ? h.rooms.split('|') : ['Standard:'+h.priceUSD]).map(r => { const [n,p]=r.split(':'); return `<div class="room-item"><span>${n}</span><strong>$${p}/night (LKR ${(p*exchangeRate).toFixed(0)})</strong></div>`; }).join('');
+            document.getElementById('modal-landmarks').innerHTML = (h.landmarks ? h.landmarks.split('|') : []).map(l => { const [n,d]=l.split(':'); return `<div class="landmark-item"><span>🏛️ ${n}</span><span>${d}</span></div>`; }).join('') || '<p>No data</p>';
+            document.getElementById('modal-reviews').innerHTML = (h.reviewsData ? h.reviewsData.split('|') : ['Great place!']).map(r => `<p style="margin-bottom:10px;">"${r}"</p>`).join('');
             
-            document.getElementById('modal-rating').innerText = hotel.ratingScore || '9.1';
-            document.getElementById('modal-distance').innerText = hotel.distanceFromCenter || '270 meters';
-            document.getElementById('modal-parking').innerText = hotel.parking || 'FREE';
-            document.getElementById('modal-parking').style.color = hotel.parking === 'FREE' ? '#00b894' : '#666';
-            
-            const gallery = document.getElementById('modal-gallery');
-            const images = hotel.images ? hotel.images.split(',') : [hotel.image];
-            gallery.innerHTML = images.map(img => `<img src="${img.trim()}" onclick="document.getElementById('modal-main-img').src='${img.trim()}'">`).join('');
-
-            const rooms = document.getElementById('modal-rooms');
-            if(hotel.rooms) {
-                rooms.innerHTML = hotel.rooms.split('|').map(r => {
-                    const [name, price] = r.split(':');
-                    return `<div class="room-item"><span>${name}</span><strong>$${price}/night</strong></div>`;
-                }).join('');
-            } else {
-                rooms.innerHTML = '<p>Standard Room: $' + (hotel.priceUSD || 0) + '/night</p>';
-            }
-
-            const landmarksDiv = document.getElementById('modal-landmarks');
-            if(hotel.landmarks) {
-                landmarksDiv.innerHTML = hotel.landmarks.split('|').map(l => {
-                    const [name, distance] = l.split(':');
-                    return `<div class="landmark-item"><span>🏛️ ${name}</span><span style="color: #666;">${distance}</span></div>`;
-                }).join('');
-            } else {
-                landmarksDiv.innerHTML = '<p>No landmarks data available</p>';
-            }
-
-            const closestDiv = document.getElementById('modal-closest-landmarks');
-            if(hotel.closestLandmarks) {
-                closestDiv.innerHTML = hotel.closestLandmarks.split('|').map(l => {
-                    const [name, distance] = l.split(':');
-                    return `<div class="landmark-item"><span>📍 ${name}</span><span style="color: #666;">${distance}</span></div>`;
-                }).join('');
-            } else {
-                closestDiv.innerHTML = '<p>No nearby places data</p>';
-            }
-
-            const reviews = document.getElementById('modal-reviews');
-            if(hotel.reviewsData) {
-                reviews.innerHTML = hotel.reviewsData.split('|').map(r => `<p style="margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px;">"${r}"</p>`).join('');
-            } else {
-                reviews.innerHTML = '<p>"Excellent location and great service!" - Guest</p>';
-            }
-
-            document.getElementById('modal-agoda-btn').href = hotel.agodaLink || '#';
-            document.getElementById('modal-whatsapp-btn').href = getWaLink(hotel, 'Hotel Booking');
-            
-            window.currentHotel = hotel;
+            document.getElementById('modal-agoda').href = h.agodaLink || '#';
+            document.getElementById('modal-wa').href = `https://wa.me/${MY_WA}?text=${encodeURIComponent(`Hi, I want to book ${h.name?.en}`)}`;
+            window.currentHotel = h;
             document.getElementById('hotel-modal').style.display = 'block';
         }
 
-        function openGoogleMap() {
-            if(window.currentHotel && window.currentHotel.location?.en) {
-                const query = encodeURIComponent(`${window.currentHotel.name?.en}, ${window.currentHotel.location?.en}, Sri Lanka`);
-                window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
-            } else {
-                alert('Map location not available');
-            }
+        function payOnline() {
+            const h = window.currentHotel;
+            if(!h) return;
+            const msg = `Hi, I want to book *${h.name?.en}*.\n📅 Dates: [Enter Dates]\n💰 Price: $${h.priceUSD} (Approx LKR ${(h.priceUSD * exchangeRate).toFixed(0)})\n\nPlease send me the Online Payment Link (PayHere/Bank Transfer).`;
+            window.open(`https://wa.me/${MY_WA}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        function seeNearbyPlaces() {
-            if(window.currentHotel && window.currentHotel.location?.en) {
-                const query = encodeURIComponent(`tourist attractions near ${window.currentHotel.location?.en}, Sri Lanka`);
-                window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
-            }
+        function openMap() {
+            const h = window.currentHotel;
+            if(h) window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name?.en + ' ' + h.location?.en + ' Sri Lanka')}`, '_blank');
         }
+        function closeModal() { document.getElementById('hotel-modal').style.display = 'none'; }
 
-        function closeModal() { 
-            document.getElementById('hotel-modal').style.display = 'none'; 
-        }
+        // Share
+        function shareFB() { window.open(`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`, '_blank'); }
+        function shareWA() { window.open(`https://wa.me/?text=${encodeURIComponent('Check this out: ' + window.location.href)}`, '_blank'); }
+        function copyLink() { navigator.clipboard.writeText(window.location.href); alert('✅ Link Copied!'); }
 
-        // RENDER ALL CONTENT
+        // Render
         function renderAll() {
-            // Flights
-            document.getElementById('flights-grid').innerHTML = allData.flights.map(f => `
-                <div class="card">
-                    ${f.discount ? `<div class="discount-badge">-${f.discount}% OFF</div>` : ''}
-                    <img src="${f.image || 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800'}" alt="${f.name?.en}">
-                    <div class="card-body">
-                        <h3 class="card-title" style="color: var(--flight);">✈️ ${f.name?.en}</h3>
-                        <p style="color:#666;">🏢 ${f.airline || ''}</p>
-                        <div style="font-size: 1.2rem; font-weight: bold; color: var(--secondary); margin: 10px 0;">
-                            ${f.discount ? `<span style="text-decoration:line-through; color:#999; font-size:0.9rem;">$${f.originalPriceUSD}</span> ` : ''}
-                            From $${f.priceUSD}
-                        </div>
-                        <a href="${f.affiliateLink || '#'}" target="_blank" class="btn btn-agoda">Book on Agoda</a>
-                        <a href="${getWaLink(f, 'Flight')}" target="_blank" class="btn btn-whatsapp">WhatsApp Inquiry</a>
-                    </div>
-                </div>
-            `).join('') || '<p style="text-align:center; grid-column:1/-1;">No flights found.</p>';
+            document.getElementById('flights-grid').innerHTML = allData.flights.map(f => `<div class="card">${f.discount?`<div class="discount-badge">-${f.discount}%</div>`:''}<img src="${f.image}"><div class="card-body"><h3 class="card-title">✈️ ${f.name?.en}</h3><p>🏢 ${f.airline}</p><div style="font-size:1.2rem; font-weight:bold; color:var(--secondary); margin:10px 0;">From $${f.priceUSD}</div><a href="${f.affiliateLink}" target="_blank" class="btn btn-agoda">Book on Agoda</a><a href="https://wa.me/${MY_WA}?text=${encodeURIComponent('Flight: '+f.name?.en)}" target="_blank" class="btn btn-whatsapp">WhatsApp</a></div></div>`).join('') || '<p>No flights</p>';
+            
+            document.getElementById('destinations-grid').innerHTML = allData.destinations.map(d => `<div class="card"><img src="${d.image}"><div class="card-body"><h3 class="card-title">${d.name?.en}</h3><p>📍 ${d.location}</p><p>${d.description?.en}</p><a href="${d.klookLink}" target="_blank" class="btn btn-view">Book Tour</a></div></div>`).join('') || '<p>No destinations</p>';
 
-            // Destinations
-            document.getElementById('destinations-grid').innerHTML = allData.destinations.map(d => `
-                <div class="card">
-                    <img src="${d.image || 'https://via.placeholder.com/300'}" alt="${d.name?.en}">
-                    <div class="card-body">
-                        <h3 class="card-title">${d.name?.en}</h3>
-                        <p style="color:#666;">📍 ${d.location || ''}</p>
-                        <p style="margin:10px 0;">${d.description?.en || ''}</p>
-                        <a href="${d.klookLink || '#'}" target="_blank" class="btn btn-klook">Book Tour</a>
-                        <a href="${getWaLink(d, 'Destination')}" target="_blank" class="btn btn-whatsapp">WhatsApp Inquiry</a>
-                    </div>
-                </div>
-            `).join('') || '<p style="text-align:center; grid-column:1/-1;">No destinations found.</p>';
+            document.getElementById('local-places-grid').innerHTML = allData.localPlaces.map(p => `<div class="card"><span class="category-badge">${p.category}</span><img src="${p.image}"><div class="card-body"><h3 class="card-title">${p.name?.en}</h3><p>📍 ${p.location}, ${p.province}</p><p>${p.description?.en?.substring(0,80)}...</p>${p.entryFee?`<p style="color:var(--primary); font-weight:bold;">🎫 ${p.entryFee}</p>`:''}<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;"><button onclick="alert('${p.name?.en}\\n${p.description?.en}\\n🕐 ${p.openingHours||'N/A'}\\n📍 ${p.location}')" class="btn btn-view">Details</button>${p.googleMapsLink?`<a href="${p.googleMapsLink}" target="_blank" class="btn btn-agoda">Map</a>`:''}</div></div></div>`).join('') || '<p>No local places</p>';
 
-            // Local Places
-            document.getElementById('local-places-grid').innerHTML = allData.localPlaces.map(p => `
-                <div class="card">
-                    <span class="category-badge">${p.category || 'Place'}</span>
-                    <img src="${p.image || 'https://via.placeholder.com/300'}" alt="${p.name?.en}">
-                    <div class="card-body">
-                        <h3 class="card-title">${p.name?.en}</h3>
-                        <p style="color:#666; font-size:0.9rem;">📍 ${p.location}, ${p.province || ''}</p>
-                        <p style="margin:10px 0; font-size:0.9rem;">${p.description?.en ? p.description.en.substring(0, 100) + '...' : ''}</p>
-                        ${p.entryFee ? `<p style="color:var(--primary); font-weight:bold; margin:10px 0;"> ${p.entryFee}</p>` : ''}
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:15px;">
-                            <button onclick="viewLocalPlaceDetails('${p.id}')" class="btn btn-view">View Details</button>
-                            ${p.googleMapsLink ? `<a href="${p.googleMapsLink}" target="_blank" class="btn btn-agoda">🗺️ Map</a>` : ''}
-                        </div>
-                    </div>
-                </div>
-            `).join('') || '<p style="text-align:center; grid-column:1/-1;">No local places added yet.</p>';
-
-            // Hotels
-            document.getElementById('hotels-grid').innerHTML = allData.hotels.map(h => `
-                <div class="card">
-                    ${h.discount ? `<div class="discount-badge">-${h.discount}% OFF</div>` : ''}
-                    <img src="${h.image || 'https://via.placeholder.com/300'}" alt="${h.name?.en}">
-                    <div class="card-body">
-                        <h3 class="card-title">${h.name?.en}</h3>
-                        <p style="color:#666;">📍 ${h.location?.en || ''} | ⭐ ${h.rating || 4.5}</p>
-                        <div style="font-size: 1.2rem; font-weight: bold; color: var(--secondary); margin: 10px 0;">
-                            From $${h.priceUSD} <span style="font-size:0.8rem; color:#666;">/ night</span>
-                        </div>
-                        <button onclick='openHotelModal(${JSON.stringify(h).replace(/'/g, "\\'")})' class="btn btn-view">View Details & Rooms</button>
-                    </div>
-                </div>
-            `).join('') || '<p style="text-align:center; grid-column:1/-1;">No hotels found.</p>';
+            document.getElementById('hotels-grid').innerHTML = allData.hotels.map(h => `<div class="card">${h.discount?`<div class="discount-badge">-${h.discount}%</div>`:''}<img src="${h.image}"><div class="card-body"><h3 class="card-title">${h.name?.en}</h3><p>📍 ${h.location?.en} | ⭐ ${h.ratingScore||4.5}</p><div style="font-size:1.2rem; font-weight:bold; color:var(--secondary); margin:10px 0;">$${h.priceUSD} <span style="font-size:0.8rem; color:#666;">(LKR ${(h.priceUSD*exchangeRate).toFixed(0)})</span>/night</div><button onclick='openHotelModal(${JSON.stringify(h).replace(/'/g, "\\'")})' class="btn btn-view">View Details & Pay</button></div></div>`).join('') || '<p>No hotels</p>';
         }
 
-        function viewLocalPlaceDetails(id) {
-            const place = allData.localPlaces.find(p => p.id === id);
-            if(place) {
-                alert(`${place.name?.en}\n\n${place.description?.en}\n\n📍 ${place.location}, ${place.province}\n🕐 ${place.openingHours || 'Not specified'}\n🎫 ${place.entryFee || 'Free'}\n\n⭐ Best time: ${place.bestTimeToVisit || 'Anytime'}`);
-            }
-        }
-
-        // LOAD DATA FROM FIREBASE
         async function loadData() {
             try {
-                allData.slides = (await db.collection('slides').orderBy('order').get()).docs.map(d => ({id: d.id, ...d.data()}));
-                allData.flights = (await db.collection('flights').get()).docs.map(d => ({id: d.id, ...d.data()}));
-                allData.destinations = (await db.collection('destinations').get()).docs.map(d => ({id: d.id, ...d.data()}));
-                allData.hotels = (await db.collection('hotels').get()).docs.map(d => ({id: d.id, ...d.data()}));
-                allData.localPlaces = (await db.collection('localPlaces').get()).docs.map(d => ({id: d.id, ...d.data()}));
-                renderSlider();
-                renderAll();
-            } catch (e) { console.error(e); }
+                allData.slides = (await db.collection('slides').orderBy('order').get()).docs.map(d => ({id:d.id, ...d.data()}));
+                allData.flights = (await db.collection('flights').get()).docs.map(d => ({id:d.id, ...d.data()}));
+                allData.destinations = (await db.collection('destinations').get()).docs.map(d => ({id:d.id, ...d.data()}));
+                allData.hotels = (await db.collection('hotels').get()).docs.map(d => ({id:d.id, ...d.data()}));
+                allData.localPlaces = (await db.collection('localPlaces').get()).docs.map(d => ({id:d.id, ...d.data()}));
+                renderSlider(); renderAll();
+            } catch(e) { console.error(e); }
         }
         loadData();
     </script>
