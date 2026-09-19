@@ -5,317 +5,224 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Silva's Express</title>
     
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #f4f6f9; color: #333; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
+        /* Login Screen */
+        #loginScreen {
+            display: flex; justify-content: center; align-items: center; height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-
-        .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        .login-box {
+            background: white; padding: 2.5rem; border-radius: 15px; width: 100%; max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
-
-        .login-container h2 {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: #667eea;
+        .login-box h2 { text-align: center; margin-bottom: 1.5rem; color: #667eea; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; font-size: 0.9rem; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 0.8rem; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem;
         }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-
         .btn {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
+            width: 100%; padding: 1rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: 0.3s;
         }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-primary:hover { opacity: 0.9; }
+        .btn-danger { background: #f44336; color: white; width: auto; padding: 0.5rem 1rem; font-size: 0.9rem; }
+        .btn-edit { background: #4CAF50; color: white; width: auto; padding: 0.5rem 1rem; font-size: 0.9rem; margin-right: 0.5rem;}
 
-        .admin-panel {
-            display: none;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
+        /* Dashboard */
+        #dashboard { display: none; max-width: 1200px; margin: 0 auto; padding: 2rem; }
         .header {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;
+            background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-
-        .tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
+        .header h1 { color: #667eea; }
+        
+        .tabs { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
         .tab {
-            padding: 1rem 2rem;
-            background: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
+            padding: 1rem 2rem; background: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.3s;
         }
+        .tab.active { background: #667eea; color: white; }
 
-        .tab.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
 
-        .content-section {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        .panel {
+            background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 2rem;
         }
+        .panel h3 { margin-bottom: 1.5rem; color: #333; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem; }
 
-        .destination-list {
-            display: grid;
-            gap: 1rem;
+        .item-list { display: grid; gap: 1rem; }
+        .item-card {
+            display: flex; align-items: center; background: #f9f9f9; padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;
         }
+        .item-card img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 1rem; }
+        .item-info { flex: 1; }
+        .item-info h4 { margin-bottom: 0.3rem; }
+        .item-info p { font-size: 0.9rem; color: #666; }
+        .item-actions { display: flex; gap: 0.5rem; }
 
-        .destination-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            background: #f9f9f9;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
-        }
-
-        .destination-item img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .destination-info {
-            flex: 1;
-            margin-left: 1rem;
-        }
-
-        .actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .btn-small {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .btn-edit {
-            background: #4CAF50;
-            color: white;
-        }
-
-        .btn-delete {
-            background: #f44336;
-            color: white;
-        }
-
-        .btn-add {
-            background: #667eea;
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-bottom: 1rem;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .close-modal {
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #999;
-        }
-
-        .error {
-            color: red;
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        .success {
-            color: green;
-            text-align: center;
-            margin-top: 1rem;
-        }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        @media(max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+        
+        .error { color: red; text-align: center; margin-top: 1rem; font-size: 0.9rem; }
+        .success { color: green; text-align: center; margin-top: 1rem; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
-    <!-- Login Form -->
-    <div class="login-container" id="loginContainer">
-        <h2>🔐 Admin Login</h2>
-        <div class="form-group">
-            <label>Email</label>
-            <input type="email" id="adminEmail" placeholder="admin@silvasexpress.com">
+    <!-- Login Screen -->
+    <div id="loginScreen">
+        <div class="login-box">
+            <h2>🔐 Admin Login</h2>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="loginEmail" placeholder="admin@silvasexpress.com">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter password">
+            </div>
+            <button class="btn btn-primary" onclick="login()">Login</button>
+            <div class="error" id="loginError"></div>
         </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" id="adminPassword" placeholder="Enter password">
-        </div>
-        <button class="btn" onclick="login()">Login</button>
-        <div class="error" id="loginError"></div>
     </div>
 
-    <!-- Admin Panel -->
-    <div class="admin-panel" id="adminPanel">
+    <!-- Dashboard -->
+    <div id="dashboard">
         <div class="header">
-            <h1>️ Admin Dashboard</h1>
-            <button class="btn" onclick="logout()" style="width: auto; padding: 0.5rem 1rem;">Logout</button>
+            <h1>🛠️ Admin Dashboard</h1>
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
         </div>
 
         <div class="tabs">
-            <button class="tab active" onclick="showTab('destinations')">Destinations</button>
-            <button class="tab" onclick="showTab('bookings')">Bookings</button>
-            <button class="tab" onclick="showTab('settings')">Settings</button>
+            <button class="tab active" onclick="switchTab('hotels')">🏨 Hotels</button>
+            <button class="tab" onclick="switchTab('restaurants')">🍽️ Restaurants</button>
+            <button class="tab" onclick="switchTab('tours')">🗺️ Tours</button>
+            <button class="tab" onclick="switchTab('sim')"> SIM Packages</button>
+            <button class="tab" onclick="switchTab('bookings')"> Bookings</button>
         </div>
 
-        <!-- Destinations Tab -->
-        <div id="destinationsTab" class="content-section">
-            <h2>Manage Destinations</h2>
-            <button class="btn-add" onclick="openModal()">+ Add New Destination</button>
-            <div class="destination-list" id="destinationList"></div>
-        </div>
-
-        <!-- Bookings Tab -->
-        <div id="bookingsTab" class="content-section" style="display: none;">
-            <h2>Recent Bookings</h2>
-            <div id="bookingsList"></div>
-        </div>
-
-        <!-- Settings Tab -->
-        <div id="settingsTab" class="content-section" style="display: none;">
-            <h2>Website Settings</h2>
-            <div class="form-group">
-                <label>Contact Phone</label>
-                <input type="text" id="contactPhone" value="+94 77 XXX XXXX">
+        <!-- Hotels Section -->
+        <div id="hotels" class="content-section active">
+            <div class="panel">
+                <h3 id="hotelFormTitle">Add New Hotel</h3>
+                <input type="hidden" id="hotelId">
+                <div class="grid-2">
+                    <div class="form-group"><label>Hotel Name</label><input type="text" id="hotelName"></div>
+                    <div class="form-group"><label>Location</label><input type="text" id="hotelLocation"></div>
+                    <div class="form-group"><label>Price (e.g., LKR 15,000/night)</label><input type="text" id="hotelPrice"></div>
+                    <div class="form-group"><label>Rating (e.g., 4.5)</label><input type="text" id="hotelRating"></div>
+                    <div class="form-group"><label>Image URL</label><input type="url" id="hotelImage"></div>
+                    <div class="form-group"><label>Features (comma separated: WiFi, Pool, AC)</label><input type="text" id="hotelFeatures"></div>
+                    <div class="form-group"><label>Latitude (for Map)</label><input type="number" step="any" id="hotelLat"></div>
+                    <div class="form-group"><label>Longitude (for Map)</label><input type="number" step="any" id="hotelLng"></div>
+                </div>
+                <div class="form-group"><label>Description</label><textarea id="hotelDesc" rows="3"></textarea></div>
+                <button class="btn btn-primary" onclick="saveItem('hotels')">Save Hotel</button>
+                <button class="btn" style="background:#ccc; margin-top:10px;" onclick="clearForm('hotels')">Clear Form</button>
+                <div id="hotelMsg"></div>
             </div>
-            <div class="form-group">
-                <label>Contact Email</label>
-                <input type="email" id="contactEmail" value="silvasexpress@gmail.com">
+            <div class="panel">
+                <h3>Existing Hotels</h3>
+                <div class="item-list" id="hotelList"></div>
             </div>
-            <button class="btn" onclick="updateSettings()">Save Settings</button>
-            <div id="settingsMessage"></div>
         </div>
-    </div>
 
-    <!-- Add/Edit Destination Modal -->
-    <div class="modal" id="destinationModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modalTitle">Add Destination</h2>
-                <span class="close-modal" onclick="closeModal()">&times;</span>
+        <!-- Restaurants Section -->
+        <div id="restaurants" class="content-section">
+            <div class="panel">
+                <h3 id="restFormTitle">Add New Restaurant</h3>
+                <input type="hidden" id="restId">
+                <div class="grid-2">
+                    <div class="form-group"><label>Restaurant Name</label><input type="text" id="restName"></div>
+                    <div class="form-group"><label>Location</label><input type="text" id="restLocation"></div>
+                    <div class="form-group"><label>Cuisine Type</label><input type="text" id="restCuisine"></div>
+                    <div class="form-group"><label>Price Range</label><input type="text" id="restPrice"></div>
+                    <div class="form-group"><label>Rating</label><input type="text" id="restRating"></div>
+                    <div class="form-group"><label>Image URL</label><input type="url" id="restImage"></div>
+                    <div class="form-group"><label>Latitude</label><input type="number" step="any" id="restLat"></div>
+                    <div class="form-group"><label>Longitude</label><input type="number" step="any" id="restLng"></div>
+                </div>
+                <button class="btn btn-primary" onclick="saveItem('restaurants')">Save Restaurant</button>
+                <button class="btn" style="background:#ccc; margin-top:10px;" onclick="clearForm('restaurants')">Clear Form</button>
+                <div id="restMsg"></div>
             </div>
-            <form id="destinationForm" onsubmit="saveDestination(event)">
-                <input type="hidden" id="destId">
-                <div class="form-group">
-                    <label>Destination Name</label>
-                    <input type="text" id="destName" required placeholder="e.g., Dubai, UAE">
+            <div class="panel">
+                <h3>Existing Restaurants</h3>
+                <div class="item-list" id="restList"></div>
+            </div>
+        </div>
+
+        <!-- Tours Section -->
+        <div id="tours" class="content-section">
+            <div class="panel">
+                <h3 id="tourFormTitle">Add New Tour</h3>
+                <input type="hidden" id="tourId">
+                <div class="grid-2">
+                    <div class="form-group"><label>Tour Name</label><input type="text" id="tourName"></div>
+                    <div class="form-group"><label>Destination</label><input type="text" id="tourLocation"></div>
+                    <div class="form-group"><label>Tour Type (Cultural, Adventure, Beach)</label><input type="text" id="tourType"></div>
+                    <div class="form-group"><label>Price</label><input type="text" id="tourPrice"></div>
+                    <div class="form-group"><label>Duration (e.g., 3 Days)</label><input type="text" id="tourDuration"></div>
+                    <div class="form-group"><label>Image URL</label><input type="url" id="tourImage"></div>
+                    <div class="form-group"><label>Features (comma separated)</label><input type="text" id="tourFeatures"></div>
+                    <div class="form-group"><label>Latitude</label><input type="number" step="any" id="tourLat"></div>
+                    <div class="form-group"><label>Longitude</label><input type="number" step="any" id="tourLng"></div>
                 </div>
-                <div class="form-group">
-                    <label>Emoji</label>
-                    <input type="text" id="destEmoji" required placeholder="e.g., 🏙️">
+                <div class="form-group"><label>Description</label><textarea id="tourDesc" rows="3"></textarea></div>
+                <button class="btn btn-primary" onclick="saveItem('tours')">Save Tour</button>
+                <button class="btn" style="background:#ccc; margin-top:10px;" onclick="clearForm('tours')">Clear Form</button>
+                <div id="tourMsg"></div>
+            </div>
+            <div class="panel">
+                <h3>Existing Tours</h3>
+                <div class="item-list" id="tourList"></div>
+            </div>
+        </div>
+
+        <!-- SIM Section -->
+        <div id="sim" class="content-section">
+            <div class="panel">
+                <h3 id="simFormTitle">Add SIM Package</h3>
+                <input type="hidden" id="simId">
+                <div class="grid-2">
+                    <div class="form-group"><label>Package Name (e.g., 7 Days)</label><input type="text" id="simName"></div>
+                    <div class="form-group"><label>Data Limit (e.g., 5GB)</label><input type="text" id="simData"></div>
+                    <div class="form-group"><label>Price</label><input type="text" id="simPrice"></div>
+                    <div class="form-group"><label>Type</label>
+                        <select id="simType"><option value="Physical">Physical SIM</option><option value="eSIM">eSIM</option></select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>From</label>
-                    <input type="text" id="destFrom" required placeholder="e.g., From Colombo">
-                </div>
-                <div class="form-group">
-                    <label>Price</label>
-                    <input type="text" id="destPrice" required placeholder="e.g., LKR 45,000">
-                </div>
-                <div class="form-group">
-                    <label>Image URL</label>
-                    <input type="url" id="destImage" required placeholder="https://...">
-                </div>
-                <button type="submit" class="btn">Save Destination</button>
-            </form>
+                <button class="btn btn-primary" onclick="saveItem('sim_packages')">Save Package</button>
+                <button class="btn" style="background:#ccc; margin-top:10px;" onclick="clearForm('sim_packages')">Clear Form</button>
+                <div id="simMsg"></div>
+            </div>
+            <div class="panel">
+                <h3>Existing Packages</h3>
+                <div class="item-list" id="simList"></div>
+            </div>
+        </div>
+
+        <!-- Bookings Section -->
+        <div id="bookings" class="content-section">
+            <div class="panel">
+                <h3>Recent Bookings</h3>
+                <div class="item-list" id="bookingList"></div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Firebase Configuration
+        // ️ මෙතනට ඔයාගේ Firebase Config එක දාන්න (index.html එකේ තියෙන එකම)
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
             authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
@@ -329,167 +236,234 @@
         const db = firebase.firestore();
         const auth = firebase.auth();
 
-        // Check if user is logged in
-        auth.onAuthStateChanged((user) => {
+        // Auth State
+        auth.onAuthStateChanged(user => {
             if (user) {
-                document.getElementById('loginContainer').style.display = 'none';
-                document.getElementById('adminPanel').style.display = 'block';
-                loadDestinations();
-                loadBookings();
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                loadAllData();
             } else {
-                document.getElementById('loginContainer').style.display = 'block';
-                document.getElementById('adminPanel').style.display = 'none';
+                document.getElementById('loginScreen').style.display = 'flex';
+                document.getElementById('dashboard').style.display = 'none';
             }
         });
 
-        // Login
         function login() {
-            const email = document.getElementById('adminEmail').value;
-            const password = document.getElementById('adminPassword').value;
-            
-            auth.signInWithEmailAndPassword(email, password)
-                .catch((error) => {
-                    document.getElementById('loginError').textContent = error.message;
-                });
-        }
-
-        // Logout
-        function logout() {
-            auth.signOut();
-        }
-
-        // Load Destinations
-        function loadDestinations() {
-            db.collection('destinations').onSnapshot((snapshot) => {
-                const list = document.getElementById('destinationList');
-                list.innerHTML = '';
-                
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    const item = `
-                        <div class="destination-item">
-                            <img src="${data.image}" alt="${data.name}">
-                            <div class="destination-info">
-                                <h3>${data.emoji} ${data.name}</h3>
-                                <p>${data.from} - <strong>${data.price}</strong></p>
-                            </div>
-                            <div class="actions">
-                                <button class="btn-small btn-edit" onclick="editDestination('${doc.id}')">Edit</button>
-                                <button class="btn-small btn-delete" onclick="deleteDestination('${doc.id}')">Delete</button>
-                            </div>
-                        </div>
-                    `;
-                    list.innerHTML += item;
-                });
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPassword').value;
+            auth.signInWithEmailAndPassword(email, pass).catch(err => {
+                document.getElementById('loginError').textContent = err.message;
             });
         }
 
-        // Add/Edit Destination
-        function openModal() {
-            document.getElementById('modalTitle').textContent = 'Add Destination';
-            document.getElementById('destinationForm').reset();
-            document.getElementById('destId').value = '';
-            document.getElementById('destinationModal').style.display = 'flex';
-        }
+        function logout() { auth.signOut(); }
 
-        function closeModal() {
-            document.getElementById('destinationModal').style.display = 'none';
-        }
-
-        function saveDestination(e) {
-            e.preventDefault();
-            
-            const id = document.getElementById('destId').value;
-            const data = {
-                name: document.getElementById('destName').value,
-                emoji: document.getElementById('destEmoji').value,
-                from: document.getElementById('destFrom').value,
-                price: document.getElementById('destPrice').value,
-                image: document.getElementById('destImage').value
-            };
-
-            if (id) {
-                db.collection('destinations').doc(id).update(data);
-            } else {
-                db.collection('destinations').add(data);
-            }
-
-            closeModal();
-        }
-
-        function editDestination(id) {
-            db.collection('destinations').doc(id).get().then((doc) => {
-                const data = doc.data();
-                document.getElementById('destId').value = id;
-                document.getElementById('destName').value = data.name;
-                document.getElementById('destEmoji').value = data.emoji;
-                document.getElementById('destFrom').value = data.from;
-                document.getElementById('destPrice').value = data.price;
-                document.getElementById('destImage').value = data.image;
-                document.getElementById('modalTitle').textContent = 'Edit Destination';
-                document.getElementById('destinationModal').style.display = 'flex';
-            });
-        }
-
-        function deleteDestination(id) {
-            if (confirm('Are you sure you want to delete this destination?')) {
-                db.collection('destinations').doc(id).delete();
-            }
-        }
-
-        // Load Bookings
-        function loadBookings() {
-            db.collection('bookings').orderBy('createdAt', 'desc').onSnapshot((snapshot) => {
-                const list = document.getElementById('bookingsList');
-                list.innerHTML = '';
-                
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    const item = `
-                        <div class="destination-item">
-                            <div class="destination-info">
-                                <h3>${data.name}</h3>
-                                <p>Destination: ${data.destination}</p>
-                                <p>Date: ${data.date} | Guests: ${data.guests}</p>
-                                <p>Email: ${data.email} | Phone: ${data.phone}</p>
-                            </div>
-                        </div>
-                    `;
-                    list.innerHTML += item;
-                });
-            });
-        }
-
-        // Update Settings
-        function updateSettings() {
-            const phone = document.getElementById('contactPhone').value;
-            const email = document.getElementById('contactEmail').value;
-            
-            db.collection('settings').doc('contact').set({
-                phone: phone,
-                email: email
-            }).then(() => {
-                document.getElementById('settingsMessage').innerHTML = '<div class="success">Settings saved successfully!</div>';
-            });
-        }
-
-        // Tab Navigation
-        function showTab(tabName) {
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.content-section').forEach(section => section.style.display = 'none');
-            
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
             event.target.classList.add('active');
-            document.getElementById(tabName + 'Tab').style.display = 'block';
+            document.getElementById(tabId).classList.add('active');
         }
 
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('destinationModal');
-            if (event.target == modal) {
-                closeModal();
+        // Save Item (Add or Update)
+        function saveItem(collection) {
+            let data = {};
+            let idField = '';
+            let msgId = '';
+
+            if (collection === 'hotels') {
+                data = {
+                    name: document.getElementById('hotelName').value,
+                    location: document.getElementById('hotelLocation').value,
+                    price: document.getElementById('hotelPrice').value,
+                    rating: document.getElementById('hotelRating').value,
+                    image: document.getElementById('hotelImage').value,
+                    features: document.getElementById('hotelFeatures').value.split(',').map(s => s.trim()),
+                    lat: parseFloat(document.getElementById('hotelLat').value) || 0,
+                    lng: parseFloat(document.getElementById('hotelLng').value) || 0,
+                    description: document.getElementById('hotelDesc').value
+                };
+                idField = document.getElementById('hotelId').value;
+                msgId = 'hotelMsg';
+            } else if (collection === 'restaurants') {
+                data = {
+                    name: document.getElementById('restName').value,
+                    location: document.getElementById('restLocation').value,
+                    cuisine: document.getElementById('restCuisine').value,
+                    price: document.getElementById('restPrice').value,
+                    rating: document.getElementById('restRating').value,
+                    image: document.getElementById('restImage').value,
+                    lat: parseFloat(document.getElementById('restLat').value) || 0,
+                    lng: parseFloat(document.getElementById('restLng').value) || 0
+                };
+                idField = document.getElementById('restId').value;
+                msgId = 'restMsg';
+            } else if (collection === 'tours') {
+                data = {
+                    name: document.getElementById('tourName').value,
+                    location: document.getElementById('tourLocation').value,
+                    type: document.getElementById('tourType').value,
+                    price: document.getElementById('tourPrice').value,
+                    duration: document.getElementById('tourDuration').value,
+                    image: document.getElementById('tourImage').value,
+                    features: document.getElementById('tourFeatures').value.split(',').map(s => s.trim()),
+                    lat: parseFloat(document.getElementById('tourLat').value) || 0,
+                    lng: parseFloat(document.getElementById('tourLng').value) || 0,
+                    description: document.getElementById('tourDesc').value
+                };
+                idField = document.getElementById('tourId').value;
+                msgId = 'tourMsg';
+            } else if (collection === 'sim_packages') {
+                data = {
+                    name: document.getElementById('simName').value,
+                    data: document.getElementById('simData').value,
+                    price: document.getElementById('simPrice').value,
+                    type: document.getElementById('simType').value
+                };
+                idField = document.getElementById('simId').value;
+                msgId = 'simMsg';
             }
+
+            if (idField) {
+                db.collection(collection).doc(idField).update(data).then(() => {
+                    document.getElementById(msgId).innerHTML = '<div class="success">Updated successfully!</div>';
+                    clearForm(collection);
+                });
+            } else {
+                db.collection(collection).add(data).then(() => {
+                    document.getElementById(msgId).innerHTML = '<div class="success">Added successfully!</div>';
+                    clearForm(collection);
+                });
+            }
+        }
+
+        function clearForm(collection) {
+            if (collection === 'hotels') {
+                ['hotelId','hotelName','hotelLocation','hotelPrice','hotelRating','hotelImage','hotelFeatures','hotelLat','hotelLng','hotelDesc'].forEach(id => document.getElementById(id).value = '');
+            } else if (collection === 'restaurants') {
+                ['restId','restName','restLocation','restCuisine','restPrice','restRating','restImage','restLat','restLng'].forEach(id => document.getElementById(id).value = '');
+            } else if (collection === 'tours') {
+                ['tourId','tourName','tourLocation','tourType','tourPrice','tourDuration','tourImage','tourFeatures','tourLat','tourLng','tourDesc'].forEach(id => document.getElementById(id).value = '');
+            } else if (collection === 'sim_packages') {
+                ['simId','simName','simData','simPrice'].forEach(id => document.getElementById(id).value = '');
+            }
+        }
+
+        function deleteItem(collection, id) {
+            if(confirm('Are you sure you want to delete this?')) {
+                db.collection(collection).doc(id).delete();
+            }
+        }
+
+        function editItem(collection, id, data) {
+            if (collection === 'hotels') {
+                document.getElementById('hotelId').value = id;
+                document.getElementById('hotelName').value = data.name || '';
+                document.getElementById('hotelLocation').value = data.location || '';
+                document.getElementById('hotelPrice').value = data.price || '';
+                document.getElementById('hotelRating').value = data.rating || '';
+                document.getElementById('hotelImage').value = data.image || '';
+                document.getElementById('hotelFeatures').value = (data.features || []).join(', ');
+                document.getElementById('hotelLat').value = data.lat || '';
+                document.getElementById('hotelLng').value = data.lng || '';
+                document.getElementById('hotelDesc').value = data.description || '';
+                document.getElementById('hotelFormTitle').textContent = 'Edit Hotel';
+                window.scrollTo(0,0);
+            } else if (collection === 'restaurants') {
+                document.getElementById('restId').value = id;
+                document.getElementById('restName').value = data.name || '';
+                document.getElementById('restLocation').value = data.location || '';
+                document.getElementById('restCuisine').value = data.cuisine || '';
+                document.getElementById('restPrice').value = data.price || '';
+                document.getElementById('restRating').value = data.rating || '';
+                document.getElementById('restImage').value = data.image || '';
+                document.getElementById('restLat').value = data.lat || '';
+                document.getElementById('restLng').value = data.lng || '';
+                document.getElementById('restFormTitle').textContent = 'Edit Restaurant';
+                window.scrollTo(0,0);
+            } else if (collection === 'tours') {
+                document.getElementById('tourId').value = id;
+                document.getElementById('tourName').value = data.name || '';
+                document.getElementById('tourLocation').value = data.location || '';
+                document.getElementById('tourType').value = data.type || '';
+                document.getElementById('tourPrice').value = data.price || '';
+                document.getElementById('tourDuration').value = data.duration || '';
+                document.getElementById('tourImage').value = data.image || '';
+                document.getElementById('tourFeatures').value = (data.features || []).join(', ');
+                document.getElementById('tourLat').value = data.lat || '';
+                document.getElementById('tourLng').value = data.lng || '';
+                document.getElementById('tourDesc').value = data.description || '';
+                document.getElementById('tourFormTitle').textContent = 'Edit Tour';
+                window.scrollTo(0,0);
+            } else if (collection === 'sim_packages') {
+                document.getElementById('simId').value = id;
+                document.getElementById('simName').value = data.name || '';
+                document.getElementById('simData').value = data.data || '';
+                document.getElementById('simPrice').value = data.price || '';
+                document.getElementById('simType').value = data.type || 'Physical';
+                document.getElementById('simFormTitle').textContent = 'Edit Package';
+                window.scrollTo(0,0);
+            }
+        }
+
+        // Load Data
+        function loadAllData() {
+            loadCollection('hotels', 'hotelList', 'hotels');
+            loadCollection('restaurants', 'restList', 'restaurants');
+            loadCollection('tours', 'tourList', 'tours');
+            loadCollection('sim_packages', 'simList', 'sim_packages');
+            loadBookings();
+        }
+
+        function loadCollection(collection, listId, formCollection) {
+            db.collection(collection).onSnapshot(snapshot => {
+                const list = document.getElementById(listId);
+                list.innerHTML = '';
+                if (snapshot.empty) {
+                    list.innerHTML = '<p style="color:#666; text-align:center;">No items yet. Add one above!</p>';
+                    return;
+                }
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    list.innerHTML += `
+                        <div class="item-card">
+                            ${data.image ? `<img src="${data.image}" alt="${data.name}">` : '<div style="width:60px;height:60px;background:#ddd;border-radius:8px;margin-right:1rem;"></div>'}
+                            <div class="item-info">
+                                <h4>${data.name}</h4>
+                                <p>${data.location || data.type || ''} | ${data.price || ''}</p>
+                            </div>
+                            <div class="item-actions">
+                                <button class="btn btn-edit" onclick='editItem("${formCollection}", "${doc.id}", ${JSON.stringify(data)})'>Edit</button>
+                                <button class="btn btn-danger" onclick="deleteItem('${formCollection}', '${doc.id}')">Delete</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        function loadBookings() {
+            db.collection('bookings').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+                const list = document.getElementById('bookingList');
+                list.innerHTML = '';
+                if (snapshot.empty) {
+                    list.innerHTML = '<p style="color:#666; text-align:center;">No bookings yet.</p>';
+                    return;
+                }
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    list.innerHTML += `
+                        <div class="item-card">
+                            <div class="item-info">
+                                <h4>${data.name} - ${data.service}</h4>
+                                <p>📞 ${data.phone} |  ${data.email}</p>
+                                <p>📅 Date: ${data.date}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
         }
     </script>
-
 </body>
 </html>
