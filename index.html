@@ -7,7 +7,6 @@
     
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="//www.travelpayouts.com/widgets/5c2330e2b4a88.js" async></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -38,8 +37,9 @@
         .search-tab { padding: 0.6rem 1.2rem; border: none; background: #f0f0f0; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
         .search-tab.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
         
-        /* Travelpayouts Widget Container */
-        .tp-widget-container { margin-top: 1rem; }
+        /* Travelpayouts Widget Styles */
+        .tp-widget { width: 100%; min-height: 400px; }
+        .tp-widget iframe { width: 100%; border: none; border-radius: 10px; }
         
         .quick-actions { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
         .quick-action { background: white; padding: 1.5rem 1rem; border-radius: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.3s; }
@@ -140,8 +140,20 @@
             </div>
             
             <!-- Travelpayouts Flight Search Widget -->
-            <div class="tp-widget-container" id="flightsSearch">
-                <div id="tp-widget-flights"></div>
+            <div id="flightsSearch" class="tp-widget">
+                <script src="//www.travelpayouts.com/widgets/5c2330e2b4a88.js" async></script>
+                <div data-travelpayouts-widget="search_form"
+                     data-type="flights"
+                     data-locale="en"
+                     data-currency="usd"
+                     data-origin="CMB"
+                     data-destination=""
+                     data-depart_date=""
+                     data-return_date=""
+                     data-one_way="false"
+                     data-show_submissions="true"
+                     data-marker="134949"
+                     style="width: 100%;"></div>
             </div>
         </div>
     </section>
@@ -296,7 +308,6 @@
         function switchSearch(type) {
             document.querySelectorAll('.search-tab').forEach(tab => tab.classList.remove('active'));
             event.target.classList.add('active');
-            // Travelpayouts widget will handle the search
         }
 
         // Load Data Functions
@@ -449,17 +460,8 @@
             if (e.target === this) closeModal();
         });
 
-        // Initialize Travelpayouts Widget
+        // Load all data
         document.addEventListener('DOMContentLoaded', () => {
-            // Load Travelpayouts Flight Search Widget
-            if (window.TravelPayouts) {
-                window.TravelPayouts.init({
-                    marker: '134949', // ඔයාගේ Travelpayouts Marker ID එක මෙතන දාන්න
-                    locale: 'en',
-                    currency: 'usd'
-                });
-            }
-            
             loadHotels();
             loadRestaurants();
             loadTours();
