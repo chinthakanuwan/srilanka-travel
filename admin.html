@@ -4,255 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Travel Express</title>
-    
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: #f4f6f9;
-            color: #333;
-        }
-
-        #loginScreen {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .login-box {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 15px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        .login-box h2 {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            color: #667eea;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 1rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            opacity: 0.9;
-        }
-
-        .btn-danger {
-            background: #f44336;
-            color: white;
-            width: auto;
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-        }
-
-        .btn-edit {
-            background: #4CAF50;
-            color: white;
-            width: auto;
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-            margin-right: 0.5rem;
-        }
-
-        .btn-delete {
-            background: #f44336;
-            color: white;
-            width: auto;
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-        }
-
-        #dashboard {
-            display: none;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .header h1 {
-            color: #667eea;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .tab {
-            padding: 1rem 2rem;
-            background: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: 0.3s;
-        }
-
-        .tab.active {
-            background: #667eea;
-            color: white;
-        }
-
-        .content-section {
-            display: none;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        .panel {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 2rem;
-        }
-
-        .panel h3 {
-            margin-bottom: 1.5rem;
-            color: #333;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 0.5rem;
-        }
-
-        .item-list {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .item-card {
-            display: flex;
-            align-items: center;
-            background: #f9f9f9;
-            padding: 1rem;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
-        }
-
-        .item-card img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-right: 1rem;
-        }
-
-        .item-info {
-            flex: 1;
-        }
-
-        .item-info h4 {
-            margin-bottom: 0.3rem;
-        }
-
-        .item-info p {
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .item-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .error {
-            color: red;
-            text-align: center;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .success {
-            color: green;
-            text-align: center;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-        }
-
-        @media(max-width: 768px) {
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #f4f6f9; color: #333; }
+        #loginScreen { display: flex; justify-content: center; align-items: center; height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .login-box { background: white; padding: 2.5rem; border-radius: 15px; width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .login-box h2 { text-align: center; margin-bottom: 1.5rem; color: #667eea; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+        .form-group input, .form-group textarea { width: 100%; padding: 0.8rem; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; }
+        .btn { width: 100%; padding: 1rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-danger { background: #f44336; color: white; width: auto; padding: 0.5rem 1rem; }
+        .btn-edit { background: #4CAF50; color: white; width: auto; padding: 0.5rem 1rem; margin-right: 0.5rem; }
+        .btn-delete { background: #f44336; color: white; width: auto; padding: 0.5rem 1rem; }
+        #dashboard { display: none; max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; background: white; padding: 1.5rem; border-radius: 10px; }
+        .header h1 { color: #667eea; }
+        .tabs { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .tab { padding: 1rem 2rem; background: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .tab.active { background: #667eea; color: white; }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        .panel { background: white; padding: 2rem; border-radius: 10px; margin-bottom: 2rem; }
+        .panel h3 { margin-bottom: 1.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem; }
+        .item-list { display: grid; gap: 1rem; }
+        .item-card { display: flex; align-items: center; background: #f9f9f9; padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea; }
+        .item-card img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 1rem; }
+        .item-info { flex: 1; }
+        .item-info h4 { margin-bottom: 0.3rem; }
+        .item-info p { font-size: 0.9rem; color: #666; }
+        .item-actions { display: flex; gap: 0.5rem; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .error { color: red; text-align: center; margin-top: 1rem; }
+        .success { color: green; text-align: center; margin-top: 1rem; }
+        @media(max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-    <!-- Login Screen -->
     <div id="loginScreen">
         <div class="login-box">
             <h2>🔐 Travel Express Admin</h2>
             <div class="form-group">
                 <label>Email</label>
-                <input type="email" id="loginEmail" placeholder="admin@travelexpress.com">
+                <input type="email" id="loginEmail" placeholder="chinthaka36@gmail.com">
             </div>
             <div class="form-group">
                 <label>Password</label>
@@ -260,13 +59,9 @@
             </div>
             <button class="btn btn-primary" onclick="login()">Login</button>
             <div class="error" id="loginError"></div>
-            <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: #666;">
-                Default: admin@travelexpress.com / admin@123
-            </p>
         </div>
     </div>
 
-    <!-- Dashboard -->
     <div id="dashboard">
         <div class="header">
             <h1>🛠️ Travel Express Dashboard</h1>
@@ -280,41 +75,19 @@
             <button class="tab" onclick="switchTab('bookings')">📋 Bookings</button>
         </div>
 
-        <!-- Hotels Section -->
         <div id="hotels" class="content-section active">
             <div class="panel">
                 <h3 id="hotelFormTitle">Add New Hotel</h3>
                 <input type="hidden" id="hotelId">
                 <div class="grid-2">
-                    <div class="form-group">
-                        <label>Hotel Name</label>
-                        <input type="text" id="hotelName" placeholder="e.g., Cinnamon Grand">
-                    </div>
-                    <div class="form-group">
-                        <label>Location</label>
-                        <input type="text" id="hotelLocation" placeholder="e.g., Colombo">
-                    </div>
-                    <div class="form-group">
-                        <label>Price</label>
-                        <input type="text" id="hotelPrice" placeholder="e.g., LKR 15,000/night">
-                    </div>
-                    <div class="form-group">
-                        <label>Rating</label>
-                        <input type="text" id="hotelRating" placeholder="e.g., 4.5">
-                    </div>
-                    <div class="form-group">
-                        <label>Image URL</label>
-                        <input type="url" id="hotelImage" placeholder="https://...">
-                    </div>
-                    <div class="form-group">
-                        <label>Features (comma separated)</label>
-                        <input type="text" id="hotelFeatures" placeholder="WiFi, Pool, AC">
-                    </div>
+                    <div class="form-group"><label>Hotel Name</label><input type="text" id="hotelName"></div>
+                    <div class="form-group"><label>Location</label><input type="text" id="hotelLocation"></div>
+                    <div class="form-group"><label>Price</label><input type="text" id="hotelPrice"></div>
+                    <div class="form-group"><label>Rating</label><input type="text" id="hotelRating"></div>
+                    <div class="form-group"><label>Image URL</label><input type="url" id="hotelImage"></div>
+                    <div class="form-group"><label>Features (comma separated)</label><input type="text" id="hotelFeatures"></div>
                 </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea id="hotelDesc" rows="3" placeholder="Hotel description..."></textarea>
-                </div>
+                <div class="form-group"><label>Description</label><textarea id="hotelDesc" rows="3"></textarea></div>
                 <button class="btn btn-primary" onclick="saveItem('hotels')">Save Hotel</button>
                 <div id="hotelMsg"></div>
             </div>
@@ -324,36 +97,17 @@
             </div>
         </div>
 
-        <!-- Restaurants Section -->
         <div id="restaurants" class="content-section">
             <div class="panel">
                 <h3 id="restFormTitle">Add New Restaurant</h3>
                 <input type="hidden" id="restId">
                 <div class="grid-2">
-                    <div class="form-group">
-                        <label>Restaurant Name</label>
-                        <input type="text" id="restName">
-                    </div>
-                    <div class="form-group">
-                        <label>Location</label>
-                        <input type="text" id="restLocation">
-                    </div>
-                    <div class="form-group">
-                        <label>Cuisine Type</label>
-                        <input type="text" id="restCuisine">
-                    </div>
-                    <div class="form-group">
-                        <label>Price Range</label>
-                        <input type="text" id="restPrice">
-                    </div>
-                    <div class="form-group">
-                        <label>Rating</label>
-                        <input type="text" id="restRating">
-                    </div>
-                    <div class="form-group">
-                        <label>Image URL</label>
-                        <input type="url" id="restImage">
-                    </div>
+                    <div class="form-group"><label>Restaurant Name</label><input type="text" id="restName"></div>
+                    <div class="form-group"><label>Location</label><input type="text" id="restLocation"></div>
+                    <div class="form-group"><label>Cuisine Type</label><input type="text" id="restCuisine"></div>
+                    <div class="form-group"><label>Price Range</label><input type="text" id="restPrice"></div>
+                    <div class="form-group"><label>Rating</label><input type="text" id="restRating"></div>
+                    <div class="form-group"><label>Image URL</label><input type="url" id="restImage"></div>
                 </div>
                 <button class="btn btn-primary" onclick="saveItem('restaurants')">Save Restaurant</button>
                 <div id="restMsg"></div>
@@ -364,41 +118,19 @@
             </div>
         </div>
 
-        <!-- Tours Section -->
         <div id="tours" class="content-section">
             <div class="panel">
                 <h3 id="tourFormTitle">Add New Tour</h3>
                 <input type="hidden" id="tourId">
                 <div class="grid-2">
-                    <div class="form-group">
-                        <label>Tour Name</label>
-                        <input type="text" id="tourName">
-                    </div>
-                    <div class="form-group">
-                        <label>Destination</label>
-                        <input type="text" id="tourLocation">
-                    </div>
-                    <div class="form-group">
-                        <label>Tour Type</label>
-                        <input type="text" id="tourType">
-                    </div>
-                    <div class="form-group">
-                        <label>Price</label>
-                        <input type="text" id="tourPrice">
-                    </div>
-                    <div class="form-group">
-                        <label>Duration</label>
-                        <input type="text" id="tourDuration">
-                    </div>
-                    <div class="form-group">
-                        <label>Image URL</label>
-                        <input type="url" id="tourImage">
-                    </div>
+                    <div class="form-group"><label>Tour Name</label><input type="text" id="tourName"></div>
+                    <div class="form-group"><label>Destination</label><input type="text" id="tourLocation"></div>
+                    <div class="form-group"><label>Tour Type</label><input type="text" id="tourType"></div>
+                    <div class="form-group"><label>Price</label><input type="text" id="tourPrice"></div>
+                    <div class="form-group"><label>Duration</label><input type="text" id="tourDuration"></div>
+                    <div class="form-group"><label>Image URL</label><input type="url" id="tourImage"></div>
                 </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea id="tourDesc" rows="3"></textarea>
-                </div>
+                <div class="form-group"><label>Description</label><textarea id="tourDesc" rows="3"></textarea></div>
                 <button class="btn btn-primary" onclick="saveItem('tours')">Save Tour</button>
                 <div id="tourMsg"></div>
             </div>
@@ -408,7 +140,6 @@
             </div>
         </div>
 
-        <!-- Bookings Section -->
         <div id="bookings" class="content-section">
             <div class="panel">
                 <h3>Recent Bookings</h3>
@@ -418,21 +149,22 @@
     </div>
 
     <script>
-        // ⚠️ මෙතනට ඔයාගේ Firebase Config එක දාන්න
+        // ✅ ඔයාගේ සම්පූර්ණ සහ නිවැරදි Firebase Config එක මෙතනයි!
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY_HERE",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyBQhTvJO0MafUNFHlP9LXPb-XBDic3X4pc",
+            authDomain: "srilanka-travel-ddcc3.firebaseapp.com",
+            databaseURL: "https://srilanka-travel-ddcc3-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "srilanka-travel-ddcc3",
+            storageBucket: "srilanka-travel-ddcc3.firebasestorage.app",
+            messagingSenderId: "964910006559",
+            appId: "1:964910006559:web:d3d2d3d678a0b02a73702a",
+            measurementId: "G-FQP5RV0H14"
         };
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         const auth = firebase.auth();
 
-        // Auth State
         auth.onAuthStateChanged(user => {
             if (user) {
                 document.getElementById('loginScreen').style.display = 'none';
@@ -448,13 +180,11 @@
             const email = document.getElementById('loginEmail').value;
             const pass = document.getElementById('loginPassword').value;
             auth.signInWithEmailAndPassword(email, pass).catch(err => {
-                document.getElementById('loginError').textContent = "Login Error: " + err.message;
+                document.getElementById('loginError').textContent = "Error: " + err.message;
             });
         }
 
-        function logout() {
-            auth.signOut();
-        }
+        function logout() { auth.signOut(); }
 
         function switchTab(tabId) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -464,74 +194,39 @@
         }
 
         function saveItem(collection) {
-            let data = {};
-            let idField = '';
-            let msgId = '';
-
+            let data = {}, idField = '', msgId = '';
             if (collection === 'hotels') {
-                data = {
-                    name: document.getElementById('hotelName').value,
-                    location: document.getElementById('hotelLocation').value,
-                    price: document.getElementById('hotelPrice').value,
-                    rating: document.getElementById('hotelRating').value,
-                    image: document.getElementById('hotelImage').value,
-                    features: document.getElementById('hotelFeatures').value.split(',').map(s => s.trim()),
-                    description: document.getElementById('hotelDesc').value
-                };
-                idField = document.getElementById('hotelId').value;
-                msgId = 'hotelMsg';
+                data = { name: document.getElementById('hotelName').value, location: document.getElementById('hotelLocation').value, price: document.getElementById('hotelPrice').value, rating: document.getElementById('hotelRating').value, image: document.getElementById('hotelImage').value, features: document.getElementById('hotelFeatures').value.split(',').map(s => s.trim()), description: document.getElementById('hotelDesc').value };
+                idField = document.getElementById('hotelId').value; msgId = 'hotelMsg';
             } else if (collection === 'restaurants') {
-                data = {
-                    name: document.getElementById('restName').value,
-                    location: document.getElementById('restLocation').value,
-                    cuisine: document.getElementById('restCuisine').value,
-                    price: document.getElementById('restPrice').value,
-                    rating: document.getElementById('restRating').value,
-                    image: document.getElementById('restImage').value
-                };
-                idField = document.getElementById('restId').value;
-                msgId = 'restMsg';
+                data = { name: document.getElementById('restName').value, location: document.getElementById('restLocation').value, cuisine: document.getElementById('restCuisine').value, price: document.getElementById('restPrice').value, rating: document.getElementById('restRating').value, image: document.getElementById('restImage').value };
+                idField = document.getElementById('restId').value; msgId = 'restMsg';
             } else if (collection === 'tours') {
-                data = {
-                    name: document.getElementById('tourName').value,
-                    location: document.getElementById('tourLocation').value,
-                    type: document.getElementById('tourType').value,
-                    price: document.getElementById('tourPrice').value,
-                    duration: document.getElementById('tourDuration').value,
-                    image: document.getElementById('tourImage').value,
-                    description: document.getElementById('tourDesc').value
-                };
-                idField = document.getElementById('tourId').value;
-                msgId = 'tourMsg';
+                data = { name: document.getElementById('tourName').value, location: document.getElementById('tourLocation').value, type: document.getElementById('tourType').value, price: document.getElementById('tourPrice').value, duration: document.getElementById('tourDuration').value, image: document.getElementById('tourImage').value, description: document.getElementById('tourDesc').value };
+                idField = document.getElementById('tourId').value; msgId = 'tourMsg';
             }
 
             if (idField) {
                 db.collection(collection).doc(idField).update(data).then(() => {
-                    document.getElementById(msgId).innerHTML = '<div class="success">Updated successfully!</div>';
+                    document.getElementById(msgId).innerHTML = '<div class="success">Updated!</div>';
                     clearForm(collection);
                 });
             } else {
                 db.collection(collection).add(data).then(() => {
-                    document.getElementById(msgId).innerHTML = '<div class="success">Added successfully!</div>';
+                    document.getElementById(msgId).innerHTML = '<div class="success">Added!</div>';
                     clearForm(collection);
                 });
             }
         }
 
         function clearForm(collection) {
-            if (collection === 'hotels') {
-                ['hotelId','hotelName','hotelLocation','hotelPrice','hotelRating','hotelImage','hotelFeatures','hotelDesc'].forEach(id => document.getElementById(id).value = '');
-            } else if (collection === 'restaurants') {
-                ['restId','restName','restLocation','restCuisine','restPrice','restRating','restImage'].forEach(id => document.getElementById(id).value = '');
-            } else if (collection === 'tours') {
-                ['tourId','tourName','tourLocation','tourType','tourPrice','tourDuration','tourImage','tourDesc'].forEach(id => document.getElementById(id).value = '');
-            }
+            if (collection === 'hotels') ['hotelId','hotelName','hotelLocation','hotelPrice','hotelRating','hotelImage','hotelFeatures','hotelDesc'].forEach(id => document.getElementById(id).value = '');
+            else if (collection === 'restaurants') ['restId','restName','restLocation','restCuisine','restPrice','restRating','restImage'].forEach(id => document.getElementById(id).value = '');
+            else if (collection === 'tours') ['tourId','tourName','tourLocation','tourType','tourPrice','tourDuration','tourImage','tourDesc'].forEach(id => document.getElementById(id).value = '');
         }
 
         function deleteItem(collection, id) {
-            if(confirm('Are you sure you want to delete this?')) {
-                db.collection(collection).doc(id).delete();
-            }
+            if(confirm('Delete this item?')) db.collection(collection).doc(id).delete();
         }
 
         function editItem(collection, id, data) {
@@ -575,19 +270,13 @@
             db.collection(collection).onSnapshot(snapshot => {
                 const list = document.getElementById(listId);
                 list.innerHTML = '';
-                if (snapshot.empty) {
-                    list.innerHTML = '<p style="color:#666; text-align:center;">No items yet. Add one above!</p>';
-                    return;
-                }
+                if (snapshot.empty) { list.innerHTML = '<p style="text-align:center;color:#666;">No items yet. Add one above!</p>'; return; }
                 snapshot.forEach(doc => {
                     const data = doc.data();
                     list.innerHTML += `
                         <div class="item-card">
-                            ${data.image ? `<img src="${data.image}" alt="${data.name}">` : '<div style="width:60px;height:60px;background:#ddd;border-radius:8px;margin-right:1rem;"></div>'}
-                            <div class="item-info">
-                                <h4>${data.name}</h4>
-                                <p>${data.location || data.type || ''} | ${data.price || ''}</p>
-                            </div>
+                            ${data.image ? `<img src="${data.image}">` : '<div style="width:60px;height:60px;background:#ddd;border-radius:8px;margin-right:1rem;"></div>'}
+                            <div class="item-info"><h4>${data.name}</h4><p>${data.location || data.type || ''} | ${data.price || ''}</p></div>
                             <div class="item-actions">
                                 <button class="btn btn-edit" onclick='editItem("${formCollection}", "${doc.id}", ${JSON.stringify(data)})'>Edit</button>
                                 <button class="btn btn-delete" onclick="deleteItem('${formCollection}', '${doc.id}')">Delete</button>
@@ -602,21 +291,10 @@
             db.collection('bookings').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
                 const list = document.getElementById('bookingList');
                 list.innerHTML = '';
-                if (snapshot.empty) {
-                    list.innerHTML = '<p style="color:#666; text-align:center;">No bookings yet.</p>';
-                    return;
-                }
+                if (snapshot.empty) { list.innerHTML = '<p style="text-align:center;color:#666;">No bookings yet.</p>'; return; }
                 snapshot.forEach(doc => {
                     const data = doc.data();
-                    list.innerHTML += `
-                        <div class="item-card">
-                            <div class="item-info">
-                                <h4>${data.name} - ${data.service || 'Booking'}</h4>
-                                <p>📞 ${data.phone} | ✉️ ${data.email}</p>
-                                <p>📅 Date: ${data.date}</p>
-                            </div>
-                        </div>
-                    `;
+                    list.innerHTML += `<div class="item-card"><div class="item-info"><h4>${data.name || 'Booking'}</h4><p>${data.phone || ''} | ${data.email || ''}</p></div></div>`;
                 });
             });
         }
