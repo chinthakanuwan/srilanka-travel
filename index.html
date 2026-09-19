@@ -7,8 +7,6 @@
     
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="//widget.travelpayouts.com/widget.js" async></script>
     
     <style>
@@ -27,22 +25,22 @@
         .footer { background: rgba(0,0,0,0.8); color: white; text-align: center; padding: 2rem; margin-top: 4rem; }
         .content-section { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
         .section-title { font-size: 2rem; margin: 2rem 0; color: #333; text-align: center; }
+        .section-divider { height: 3px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 3rem auto; max-width: 200px; border-radius: 2px; }
         .grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
         .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s; }
         .card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
         .card-image { width: 100%; height: 200px; object-fit: cover; }
         .card-content { padding: 1.5rem; }
         .card-title { font-size: 1.3rem; margin-bottom: 0.5rem; color: #333; }
-        .card-location { color: #666; margin-bottom: 1rem; }
+        .card-location { color: #666; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.3rem; }
+        .card-rating { color: #ffa500; margin-bottom: 0.5rem; font-weight: bold; }
         .card-price { font-size: 1.5rem; color: #667eea; font-weight: bold; margin-bottom: 1rem; }
-        .card-rating { color: #ffa500; margin-bottom: 0.5rem; }
         .card-features { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
         .feature-tag { background: #f0f0f0; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.85rem; }
         .btn { padding: 0.8rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
         .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; width: 100%; }
         .btn-primary:hover { opacity: 0.9; transform: scale(1.02); }
         .loading { text-align: center; padding: 3rem; font-size: 1.2rem; color: #667eea; }
-        .section-divider { height: 3px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 3rem auto; max-width: 200px; border-radius: 2px; }
         @media (max-width: 768px) { .hero h1 { font-size: 2rem; } .nav-links { display: none; } .grid-view { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -90,7 +88,7 @@
 
     <!-- Tours Section -->
     <div class="content-section" id="tours">
-        <h2 class="section-title">️ Amazing Tours & Places</h2>
+        <h2 class="section-title">🗺️ Amazing Tours & Places</h2>
         <div class="section-divider"></div>
         <div class="grid-view" id="toursGrid">
             <div class="loading">Loading tours...</div>
@@ -99,16 +97,18 @@
 
     <footer class="footer">
         <p>&copy; 2024 Travel Express. All rights reserved.</p>
-        <p> Contact: 0766488689 | 📧 chinthaka36@gmail.com</p>
+        <p>📞 Contact: 0766488689 | 📧 chinthaka36@gmail.com</p>
         <p>📍 Your Trusted Travel Partner</p>
     </footer>
 
     <script>
+        // ✅ Firebase Config
         const firebaseConfig = {
-            apiKey: "AIzaSyBQH...",
+            apiKey: "AIzaSyBQhTvJO0MafUNFHlP9LXPb-XBDic3X4pc",
             authDomain: "srilanka-travel-ddcc3.firebaseapp.com",
+            databaseURL: "https://srilanka-travel-ddcc3-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "srilanka-travel-ddcc3",
-            storageBucket: "srilanka-travel-ddcc3.appspot.com",
+            storageBucket: "srilanka-travel-ddcc3.firebasestorage.app",
             messagingSenderId: "964910006559",
             appId: "1:964910006559:web:d3d2d3d678a0b02a73702a",
             measurementId: "G-FQP5RV0H14"
@@ -156,7 +156,7 @@
                 description: "Beachfront resort with stunning ocean views"
             },
             {
-                name: "Uga Escapes - Uga Bay",
+                name: "Uga Bay",
                 location: "Pasikuda, Sri Lanka",
                 price: "LKR 32,000/night",
                 rating: "4.5",
@@ -211,24 +211,6 @@
                 rating: "4.5",
                 image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400",
                 description: "Authentic Sri Lankan cuisine since 1981"
-            },
-            {
-                name: "Cafe Kumbuk",
-                location: "Colombo, Sri Lanka",
-                cuisine: "Cafe & Western",
-                price: "LKR 2,000 per person",
-                rating: "4.7",
-                image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400",
-                description: "Trendy cafe with great coffee and food"
-            },
-            {
-                name: "Pedlar's Inn Cafe",
-                location: "Galle Fort, Sri Lanka",
-                cuisine: "Cafe & Bakery",
-                price: "LKR 1,500 per person",
-                rating: "4.6",
-                image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400",
-                description: "Charming cafe in historic Galle Fort"
             }
         ];
 
@@ -282,16 +264,6 @@
                 image: "https://images.unsplash.com/photo-1586348943529-beaae6c28db9?w=400",
                 features: ["Train Ride", "Hiking", "Waterfall", "Tea"],
                 description: "Scenic train journey and beautiful mountain views"
-            },
-            {
-                name: "Galle Fort & Southern Beaches",
-                location: "Galle, Sri Lanka",
-                type: "Heritage & Beach",
-                price: "LKR 9,000 per person",
-                duration: "1 Day",
-                image: "https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?w=400",
-                features: ["UNESCO Fort", "Beach", "Shopping", "Lunch"],
-                description: "Explore historic fort and relax on beautiful beaches"
             }
         ];
 
@@ -301,7 +273,6 @@
             db.collection('hotels').onSnapshot((snapshot) => {
                 grid.innerHTML = '';
                 if (snapshot.empty) {
-                    // Show sample data if database is empty
                     sampleHotels.forEach(hotel => {
                         grid.innerHTML += createHotelCard(hotel);
                     });
@@ -355,7 +326,7 @@
                     <img src="${hotel.image || 'https://via.placeholder.com/300x200'}" alt="${hotel.name}" class="card-image">
                     <div class="card-content">
                         <h3 class="card-title">${hotel.name}</h3>
-                        <div class="card-location"> ${hotel.location || 'Location not specified'}</div>
+                        <div class="card-location">📍 ${hotel.location || 'Location not specified'}</div>
                         <div class="card-rating">⭐ ${hotel.rating || '4.5'} / 5.0</div>
                         ${hotel.price ? `<div class="card-price">${hotel.price}</div>` : ''}
                         <div class="card-features">${features}</div>
@@ -371,7 +342,7 @@
                     <img src="${rest.image || 'https://via.placeholder.com/300x200'}" alt="${rest.name}" class="card-image">
                     <div class="card-content">
                         <h3 class="card-title">${rest.name}</h3>
-                        <div class="card-location">📍 ${rest.location || 'Location not specified'}</div>
+                        <div class="card-location"> ${rest.location || 'Location not specified'}</div>
                         <div class="card-rating">⭐ ${rest.rating || '4.5'} / 5.0</div>
                         <div style="color: #666; margin-bottom: 0.5rem;">🍽️ ${rest.cuisine || 'Various'}</div>
                         ${rest.price ? `<div class="card-price">${rest.price}</div>` : ''}
@@ -390,7 +361,7 @@
                         <h3 class="card-title">${tour.name}</h3>
                         <div class="card-location">📍 ${tour.location || 'Location not specified'}</div>
                         <div class="card-rating">⭐ ${tour.rating || '4.7'} / 5.0</div>
-                        <div style="color: #666; margin-bottom: 0.5rem;">️ ${tour.duration || '1 Day'} | ${tour.type || 'Tour'}</div>
+                        <div style="color: #666; margin-bottom: 0.5rem;">🕐 ${tour.duration || '1 Day'} | ${tour.type || 'Tour'}</div>
                         ${tour.price ? `<div class="card-price">${tour.price}</div>` : ''}
                         <div class="card-features">${features}</div>
                         <button class="btn btn-primary" onclick="bookNow('${tour.name}', 'Tour')">Book Tour</button>
