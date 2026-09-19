@@ -5,312 +5,417 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Express - Complete Travel Solutions</title>
     
-    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    
-    <!-- Leaflet Map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    
-    <!-- Travelpayouts -->
     <script src="//widget.travelpayouts.com/widget.js" async></script>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: white;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            list-style: none;
-            flex-wrap: wrap;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: white;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            transition: background 0.3s;
-        }
-
-        .nav-links a:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                        url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920');
-            background-size: cover;
-            background-position: center;
-            padding: 4rem 2rem;
-            text-align: center;
-            color: white;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
-
-        .search-box {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            max-width: 900px;
-            margin: 0 auto;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-
-        .footer {
-            background: rgba(0,0,0,0.8);
-            color: white;
-            text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
-        }
-
-        .content-section {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            margin: 2rem 0;
-            color: #333;
-            text-align: center;
-        }
-
-        .grid-view {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        .card-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .card-content {
-            padding: 1.5rem;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            color: #333;
-        }
-
-        .card-location {
-            color: #666;
-            margin-bottom: 1rem;
-        }
-
-        .card-price {
-            font-size: 1.5rem;
-            color: #667eea;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-
-        .btn {
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            width: 100%;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 3rem;
-            font-size: 1.2rem;
-            color: #667eea;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .grid-view {
-                grid-template-columns: 1fr;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1rem 2rem; position: sticky; top: 0; z-index: 1000; }
+        .nav { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .logo { font-size: 1.8rem; font-weight: bold; color: white; }
+        .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: white; font-weight: 500; padding: 0.5rem 1rem; border-radius: 20px; cursor: pointer; }
+        .nav-links a:hover { background: rgba(255,255,255,0.2); }
+        .hero { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920'); background-size: cover; padding: 4rem 2rem; text-align: center; color: white; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; }
+        .search-box { background: white; border-radius: 15px; padding: 2rem; max-width: 900px; margin: 0 auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .footer { background: rgba(0,0,0,0.8); color: white; text-align: center; padding: 2rem; margin-top: 4rem; }
+        .content-section { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
+        .section-title { font-size: 2rem; margin: 2rem 0; color: #333; text-align: center; }
+        .grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        .card-image { width: 100%; height: 200px; object-fit: cover; }
+        .card-content { padding: 1.5rem; }
+        .card-title { font-size: 1.3rem; margin-bottom: 0.5rem; color: #333; }
+        .card-location { color: #666; margin-bottom: 1rem; }
+        .card-price { font-size: 1.5rem; color: #667eea; font-weight: bold; margin-bottom: 1rem; }
+        .card-rating { color: #ffa500; margin-bottom: 0.5rem; }
+        .card-features { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+        .feature-tag { background: #f0f0f0; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.85rem; }
+        .btn { padding: 0.8rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; width: 100%; }
+        .btn-primary:hover { opacity: 0.9; transform: scale(1.02); }
+        .loading { text-align: center; padding: 3rem; font-size: 1.2rem; color: #667eea; }
+        .section-divider { height: 3px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 3rem auto; max-width: 200px; border-radius: 2px; }
+        @media (max-width: 768px) { .hero h1 { font-size: 2rem; } .nav-links { display: none; } .grid-view { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
     <header class="header">
         <nav class="nav">
             <div class="logo">✈️ Travel Express</div>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#flights">Flights</a></li>
-                <li><a href="#hotels">Hotels</a></li>
-                <li><a href="#tours">Tours</a></li>
+                <li><a onclick="scrollToSection('home')">Home</a></li>
+                <li><a onclick="scrollToSection('flights')">Flights</a></li>
+                <li><a onclick="scrollToSection('hotels')">Hotels</a></li>
+                <li><a onclick="scrollToSection('restaurants')">Restaurants</a></li>
+                <li><a onclick="scrollToSection('tours')">Tours</a></li>
                 <li><a href="admin.html">Admin</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero" id="home">
         <h1>Explore the World with Travel Express</h1>
         <p>Your Complete Travel Solution - Flights • Hotels • Tours • SIM Cards</p>
-        
         <div class="search-box">
-            <div data-travelpayouts-widget="search_form"
-                 data-type="flights"
-                 data-locale="en"
-                 data-currency="usd"
-                 data-origin="auto"
-                 data-one_way="false"
-                 data-marker="134949">
-            </div>
+            <div data-travelpayouts-widget="search_form" data-type="flights" data-locale="en" data-currency="usd" data-origin="auto" data-one_way="false" data-marker="134949"></div>
         </div>
     </section>
 
-    <!-- Content Section -->
-    <div class="content-section">
+    <!-- Hotels Section -->
+    <div class="content-section" id="hotels">
         <h2 class="section-title">🏨 Popular Hotels & Destinations</h2>
-        <div class="grid-view" id="contentGrid">
-            <div class="loading">Loading...</div>
+        <div class="section-divider"></div>
+        <div class="grid-view" id="hotelsGrid">
+            <div class="loading">Loading hotels...</div>
         </div>
     </div>
 
-    <!-- Footer -->
+    <!-- Restaurants Section -->
+    <div class="content-section" id="restaurants">
+        <h2 class="section-title">🍽️ Top Restaurants</h2>
+        <div class="section-divider"></div>
+        <div class="grid-view" id="restaurantsGrid">
+            <div class="loading">Loading restaurants...</div>
+        </div>
+    </div>
+
+    <!-- Tours Section -->
+    <div class="content-section" id="tours">
+        <h2 class="section-title">️ Amazing Tours & Places</h2>
+        <div class="section-divider"></div>
+        <div class="grid-view" id="toursGrid">
+            <div class="loading">Loading tours...</div>
+        </div>
+    </div>
+
     <footer class="footer">
         <p>&copy; 2024 Travel Express. All rights reserved.</p>
-        <p>📞 Contact: 0766488689 | 📧 chinthaka36@gmail.com</p>
+        <p> Contact: 0766488689 | 📧 chinthaka36@gmail.com</p>
         <p>📍 Your Trusted Travel Partner</p>
     </footer>
 
     <script>
-        // ⚠️ මෙතනට ඔයාගේ Firebase Config එක දාන්න
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY_HERE",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyBQH...",
+            authDomain: "srilanka-travel-ddcc3.firebaseapp.com",
+            projectId: "srilanka-travel-ddcc3",
+            storageBucket: "srilanka-travel-ddcc3.appspot.com",
+            messagingSenderId: "964910006559",
+            appId: "1:964910006559:web:d3d2d3d678a0b02a73702a",
+            measurementId: "G-FQP5RV0H14"
         };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // Load content from Firebase
-        function loadContent() {
-            const grid = document.getElementById('contentGrid');
-            
-            // Load hotels
+        // ===== SAMPLE DATA =====
+        const sampleHotels = [
+            {
+                name: "Cinnamon Grand Colombo",
+                location: "Colombo, Sri Lanka",
+                price: "LKR 25,000/night",
+                rating: "4.8",
+                image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400",
+                features: ["WiFi", "Pool", "Spa", "Restaurant"],
+                description: "Luxury 5-star hotel in the heart of Colombo"
+            },
+            {
+                name: "Jetwing Vil Uyana",
+                location: "Sigiriya, Sri Lanka",
+                price: "LKR 45,000/night",
+                rating: "4.9",
+                image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400",
+                features: ["Eco Resort", "Pool", "Nature", "Luxury"],
+                description: "Award-winning eco resort near Sigiriya Rock"
+            },
+            {
+                name: "Heritance Tea Factory",
+                location: "Kandy, Sri Lanka",
+                price: "LKR 35,000/night",
+                rating: "4.7",
+                image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=400",
+                features: ["Tea Plantation", "Spa", "Heritage", "Mountain View"],
+                description: "Historic tea factory converted to luxury hotel"
+            },
+            {
+                name: "Anantara Kalutara Resort",
+                location: "Kalutara, Sri Lanka",
+                price: "LKR 28,000/night",
+                rating: "4.6",
+                image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400",
+                features: ["Beach", "Pool", "Spa", "All Inclusive"],
+                description: "Beachfront resort with stunning ocean views"
+            },
+            {
+                name: "Uga Escapes - Uga Bay",
+                location: "Pasikuda, Sri Lanka",
+                price: "LKR 32,000/night",
+                rating: "4.5",
+                image: "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400",
+                features: ["Beach", "Pool", "Water Sports", "Family"],
+                description: "Beautiful beach resort in Pasikuda Bay"
+            },
+            {
+                name: "Amangalla",
+                location: "Galle Fort, Sri Lanka",
+                price: "LKR 55,000/night",
+                rating: "4.9",
+                image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=400",
+                features: ["Heritage", "Luxury", "Historic", "Boutique"],
+                description: "Historic colonial hotel inside Galle Fort"
+            }
+        ];
+
+        const sampleRestaurants = [
+            {
+                name: "Ministry of Crab",
+                location: "Colombo, Sri Lanka",
+                cuisine: "Seafood",
+                price: "LKR 8,000 per person",
+                rating: "4.8",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400",
+                description: "World-famous crab restaurant in Colombo"
+            },
+            {
+                name: "Nuga Gama",
+                location: "Bentota, Sri Lanka",
+                cuisine: "Sri Lankan Traditional",
+                price: "LKR 3,500 per person",
+                rating: "4.7",
+                image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400",
+                description: "Traditional Sri Lankan village dining experience"
+            },
+            {
+                name: "The Lagoon",
+                location: "Mount Lavinia, Sri Lanka",
+                cuisine: "International",
+                price: "LKR 5,000 per person",
+                rating: "4.6",
+                image: "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400",
+                description: "Beachside dining with ocean views"
+            },
+            {
+                name: "Upali's by Nawaloka",
+                location: "Colombo, Sri Lanka",
+                cuisine: "Sri Lankan",
+                price: "LKR 2,500 per person",
+                rating: "4.5",
+                image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400",
+                description: "Authentic Sri Lankan cuisine since 1981"
+            },
+            {
+                name: "Cafe Kumbuk",
+                location: "Colombo, Sri Lanka",
+                cuisine: "Cafe & Western",
+                price: "LKR 2,000 per person",
+                rating: "4.7",
+                image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400",
+                description: "Trendy cafe with great coffee and food"
+            },
+            {
+                name: "Pedlar's Inn Cafe",
+                location: "Galle Fort, Sri Lanka",
+                cuisine: "Cafe & Bakery",
+                price: "LKR 1,500 per person",
+                rating: "4.6",
+                image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400",
+                description: "Charming cafe in historic Galle Fort"
+            }
+        ];
+
+        const sampleTours = [
+            {
+                name: "Sigiriya Rock & Dambulla Cave Temple",
+                location: "Cultural Triangle, Sri Lanka",
+                type: "Cultural & Historical",
+                price: "LKR 12,000 per person",
+                duration: "1 Day",
+                image: "https://images.unsplash.com/photo-1587974928442-77dc3e0cafdb?w=400",
+                features: ["UNESCO Site", "Guide", "Transport", "Lunch"],
+                description: "Explore the ancient rock fortress and cave temple"
+            },
+            {
+                name: "Kandy & Tea Plantation Tour",
+                location: "Kandy, Sri Lanka",
+                type: "Cultural & Nature",
+                price: "LKR 8,500 per person",
+                duration: "1 Day",
+                image: "https://images.unsplash.com/photo-1562602727-02e6362682c7?w=400",
+                features: ["Temple of Tooth", "Tea Factory", "Scenic Train", "Guide"],
+                description: "Visit the sacred temple and beautiful tea estates"
+            },
+            {
+                name: "Yala Safari - Leopard & Wildlife",
+                location: "Yala National Park",
+                type: "Wildlife Safari",
+                price: "LKR 15,000 per person",
+                duration: "1 Day",
+                image: "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=400",
+                features: ["Jeep Safari", "Leopard", "Elephants", "Breakfast"],
+                description: "Spot leopards, elephants and exotic birds"
+            },
+            {
+                name: "Whale Watching in Mirissa",
+                location: "Mirissa, Sri Lanka",
+                type: "Marine Adventure",
+                price: "LKR 6,500 per person",
+                duration: "Half Day",
+                image: "https://images.unsplash.com/photo-1568430462989-44163eb1752f?w=400",
+                features: ["Blue Whale", "Dolphins", "Boat Trip", "Snacks"],
+                description: "See blue whales and dolphins in the Indian Ocean"
+            },
+            {
+                name: "Ella & Nine Arches Bridge",
+                location: "Ella, Sri Lanka",
+                type: "Nature & Adventure",
+                price: "LKR 10,000 per person",
+                duration: "2 Days",
+                image: "https://images.unsplash.com/photo-1586348943529-beaae6c28db9?w=400",
+                features: ["Train Ride", "Hiking", "Waterfall", "Tea"],
+                description: "Scenic train journey and beautiful mountain views"
+            },
+            {
+                name: "Galle Fort & Southern Beaches",
+                location: "Galle, Sri Lanka",
+                type: "Heritage & Beach",
+                price: "LKR 9,000 per person",
+                duration: "1 Day",
+                image: "https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?w=400",
+                features: ["UNESCO Fort", "Beach", "Shopping", "Lunch"],
+                description: "Explore historic fort and relax on beautiful beaches"
+            }
+        ];
+
+        // ===== LOAD DATA FUNCTIONS =====
+        function loadHotels() {
+            const grid = document.getElementById('hotelsGrid');
             db.collection('hotels').onSnapshot((snapshot) => {
                 grid.innerHTML = '';
-                
                 if (snapshot.empty) {
-                    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #666;">No hotels added yet. Login to admin panel to add!</div>';
+                    // Show sample data if database is empty
+                    sampleHotels.forEach(hotel => {
+                        grid.innerHTML += createHotelCard(hotel);
+                    });
                     return;
                 }
-                
                 snapshot.forEach((doc) => {
                     const data = doc.data();
-                    const card = `
-                        <div class="card">
-                            <img src="${data.image || 'https://via.placeholder.com/300x200'}" alt="${data.name}" class="card-image">
-                            <div class="card-content">
-                                <h3 class="card-title">${data.name}</h3>
-                                <div class="card-location">📍 ${data.location || 'Location not specified'}</div>
-                                ${data.price ? `<div class="card-price">${data.price}</div>` : ''}
-                                <div style="margin-top: 1rem;">
-                                    <button class="btn btn-primary" onclick="bookNow('${data.name}')">Book Now</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    grid.innerHTML += card;
+                    grid.innerHTML += createHotelCard(data);
                 });
-            }, (error) => {
-                console.error("Error loading content:", error);
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: red;">Error loading content. Please check Firebase configuration.</div>';
             });
         }
 
-        function bookNow(itemName) {
-            alert(`Booking: ${itemName}\n\nPlease contact us:\n📞 0766488689\n📧 chinthaka36@gmail.com`);
+        function loadRestaurants() {
+            const grid = document.getElementById('restaurantsGrid');
+            db.collection('restaurants').onSnapshot((snapshot) => {
+                grid.innerHTML = '';
+                if (snapshot.empty) {
+                    sampleRestaurants.forEach(rest => {
+                        grid.innerHTML += createRestaurantCard(rest);
+                    });
+                    return;
+                }
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    grid.innerHTML += createRestaurantCard(data);
+                });
+            });
         }
 
-        // Load content on page load
-        document.addEventListener('DOMContentLoaded', loadContent);
+        function loadTours() {
+            const grid = document.getElementById('toursGrid');
+            db.collection('tours').onSnapshot((snapshot) => {
+                grid.innerHTML = '';
+                if (snapshot.empty) {
+                    sampleTours.forEach(tour => {
+                        grid.innerHTML += createTourCard(tour);
+                    });
+                    return;
+                }
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    grid.innerHTML += createTourCard(data);
+                });
+            });
+        }
+
+        function createHotelCard(hotel) {
+            const features = hotel.features ? hotel.features.map(f => `<span class="feature-tag">${f}</span>`).join('') : '';
+            return `
+                <div class="card">
+                    <img src="${hotel.image || 'https://via.placeholder.com/300x200'}" alt="${hotel.name}" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">${hotel.name}</h3>
+                        <div class="card-location"> ${hotel.location || 'Location not specified'}</div>
+                        <div class="card-rating">⭐ ${hotel.rating || '4.5'} / 5.0</div>
+                        ${hotel.price ? `<div class="card-price">${hotel.price}</div>` : ''}
+                        <div class="card-features">${features}</div>
+                        <button class="btn btn-primary" onclick="bookNow('${hotel.name}', 'Hotel')">Book Now</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createRestaurantCard(rest) {
+            return `
+                <div class="card">
+                    <img src="${rest.image || 'https://via.placeholder.com/300x200'}" alt="${rest.name}" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">${rest.name}</h3>
+                        <div class="card-location">📍 ${rest.location || 'Location not specified'}</div>
+                        <div class="card-rating">⭐ ${rest.rating || '4.5'} / 5.0</div>
+                        <div style="color: #666; margin-bottom: 0.5rem;">🍽️ ${rest.cuisine || 'Various'}</div>
+                        ${rest.price ? `<div class="card-price">${rest.price}</div>` : ''}
+                        <button class="btn btn-primary" onclick="bookNow('${rest.name}', 'Restaurant')">Reserve Table</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createTourCard(tour) {
+            const features = tour.features ? tour.features.map(f => `<span class="feature-tag">${f}</span>`).join('') : '';
+            return `
+                <div class="card">
+                    <img src="${tour.image || 'https://via.placeholder.com/300x200'}" alt="${tour.name}" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">${tour.name}</h3>
+                        <div class="card-location">📍 ${tour.location || 'Location not specified'}</div>
+                        <div class="card-rating">⭐ ${tour.rating || '4.7'} / 5.0</div>
+                        <div style="color: #666; margin-bottom: 0.5rem;">️ ${tour.duration || '1 Day'} | ${tour.type || 'Tour'}</div>
+                        ${tour.price ? `<div class="card-price">${tour.price}</div>` : ''}
+                        <div class="card-features">${features}</div>
+                        <button class="btn btn-primary" onclick="bookNow('${tour.name}', 'Tour')">Book Tour</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function bookNow(itemName, itemType) {
+            alert(`Booking: ${itemName} (${itemType})\n\nPlease contact us:\n📞 0766488689\n chinthaka36@gmail.com\n\nWe will get back to you shortly!`);
+        }
+
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Load all sections
+        document.addEventListener('DOMContentLoaded', () => {
+            loadHotels();
+            loadRestaurants();
+            loadTours();
+        });
     </script>
 
 </body>
