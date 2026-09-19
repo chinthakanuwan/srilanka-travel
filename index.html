@@ -34,7 +34,7 @@
             padding: 4rem 2rem; 
             text-align: center; 
             color: white; 
-            min-height: 600px; 
+            min-height: 700px; 
         }
         
         .hero h1 { font-size: 3rem; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
@@ -44,7 +44,7 @@
             background: white; 
             border-radius: 20px; 
             padding: 2rem; 
-            max-width: 1000px; 
+            max-width: 1200px; 
             margin: 0 auto; 
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
@@ -64,125 +64,10 @@
             color: white;
         }
         
-        /* ✅ Flight Search Form */
-        .flight-search-form {
+        /* Aviasales Widget Container */
+        .aviasales-widget-container {
             width: 100%;
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 2rem;
-        }
-        
-        .search-form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .search-input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        
-        .search-input-group label {
-            font-weight: 600;
-            color: #333;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .search-input-group input,
-        .search-input-group select {
-            padding: 1rem;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 1rem;
-        }
-        
-        .search-input-group input:focus,
-        .search-input-group select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        
-        .search-submit-btn {
-            width: 100%;
-            padding: 1.2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .search-submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-        }
-        
-        /* ✅ Flight Results Section - Hidden by default */
-        .flight-results-section {
-            display: none;
-            max-width: 1400px;
-            margin: 3rem auto;
-            padding: 0 2rem;
-        }
-        
-        .flight-results-section.active {
-            display: block;
-        }
-        
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        
-        .results-title {
-            font-size: 2rem;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-        
-        .back-to-search {
-            padding: 0.8rem 1.5rem;
-            background: #f0f0f0;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .back-to-search:hover {
-            background: #667eea;
-            color: white;
-        }
-        
-        /* ✅ Flight Results Iframe Container */
-        .flight-results-container {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-            min-height: 800px;
-        }
-        
-        .flight-results-iframe {
-            width: 100%;
-            height: 900px;
-            border: none;
+            min-height: 200px;
         }
         
         .quick-actions { 
@@ -375,7 +260,6 @@
             .section-title { font-size: 1.6rem; }
             .grid-view { grid-template-columns: 1fr; }
             .quick-actions { grid-template-columns: 1fr; padding: 0 1rem; }
-            .flight-results-iframe { height: 700px; }
             .modal-content { margin: 0; width: 100%; height: 100%; border-radius: 0; }
             .modal-image { height: 200px; }
             .contact-buttons { grid-template-columns: 1fr; }
@@ -390,7 +274,7 @@
             <button class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
             <ul class="nav-links" id="navLinks">
                 <li><a onclick="scrollToSection('home')"><i class="fas fa-home"></i> Home</a></li>
-                <li><a onclick="showFlightSearch()"><i class="fas fa-plane"></i> Flights</a></li>
+                <li><a onclick="scrollToSection('flights')"><i class="fas fa-plane"></i> Flights</a></li>
                 <li><a onclick="scrollToSection('hotels')"><i class="fas fa-hotel"></i> Hotels</a></li>
                 <li><a onclick="scrollToSection('restaurants')"><i class="fas fa-utensils"></i> Restaurants</a></li>
                 <li><a onclick="scrollToSection('tours')"><i class="fas fa-map-marked-alt"></i> Tours</a></li>
@@ -416,67 +300,10 @@
                 </button>
             </div>
             
-            <!-- Flight Search Form -->
-            <div id="flightsSearch" class="flight-search-form">
-                <form class="search-form-grid" onsubmit="searchFlights(event)">
-                    <div class="search-input-group">
-                        <label><i class="fas fa-plane-departure"></i> From</label>
-                        <input type="text" id="flightFrom" value="Colombo (CMB)" required>
-                    </div>
-                    <div class="search-input-group">
-                        <label><i class="fas fa-plane-arrival"></i> To</label>
-                        <input type="text" id="flightTo" placeholder="Destination" required>
-                    </div>
-                    <div class="search-input-group">
-                        <label><i class="fas fa-calendar"></i> Departure</label>
-                        <input type="date" id="flightDepart" required>
-                    </div>
-                    <div class="search-input-group">
-                        <label><i class="fas fa-calendar-return"></i> Return</label>
-                        <input type="date" id="flightReturn">
-                    </div>
-                    <div class="search-input-group">
-                        <label><i class="fas fa-users"></i> Passengers</label>
-                        <select id="flightPassengers">
-                            <option>1 Adult</option>
-                            <option>2 Adults</option>
-                            <option>2 Adults, 1 Child</option>
-                            <option>Family (4+)</option>
-                        </select>
-                    </div>
-                    <div class="search-input-group">
-                        <label><i class="fas fa-ticket-alt"></i> Class</label>
-                        <select id="flightClass">
-                            <option>Economy</option>
-                            <option>Business</option>
-                            <option>First Class</option>
-                        </select>
-                    </div>
-                </form>
-                <button class="search-submit-btn" onclick="searchFlights(event)">
-                    <i class="fas fa-search"></i> Search Flights
-                </button>
+            <!-- ✅ AVIASALES FLIGHT SEARCH WIDGET -->
+            <div class="aviasales-widget-container" id="flightsSearch">
+                <script async src="https://tpwidg.com/content?currency=usd&trs=575704&shmarker=779501&show_hotels=true&powered_by=true&locale=en&searchUrl=www.aviasales.com%2Fsearch&primary_override=%23667eea&color_button=%23667eea&color_icons=%23764ba2&dark=%23262626&light=%23FFFFFF&secondary=%23FFFFFF&special=%23C4C4C4&color_focused=%2332a8dd&border_radius=0&plain=false&promo_id=7879&campaign_id=100" charset="utf-8"></script>
             </div>
-        </div>
-    </section>
-
-    <!-- ✅ Flight Results Section (Hidden by default) -->
-    <section class="flight-results-section" id="flightResults">
-        <div class="results-header">
-            <h2 class="results-title"><i class="fas fa-plane"></i> Flight Results</h2>
-            <button class="back-to-search" onclick="backToSearch()">
-                <i class="fas fa-arrow-left"></i> Back to Search
-            </button>
-        </div>
-        
-        <div class="flight-results-container">
-            <!-- ✅ Travelpayouts White Label Iframe -->
-            <iframe 
-                id="flightResultsIframe"
-                class="flight-results-iframe"
-                src=""
-                title="Flight Search Results"
-            ></iframe>
         </div>
     </section>
 
@@ -579,7 +406,6 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // Sample Data
         const sampleHotels = [
             { name: "Cinnamon Grand Colombo", location: "Colombo", price: "LKR 25,000/night", rating: "4.8", image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400", features: ["WiFi", "Pool", "Spa"], description: "Luxury hotel" }
         ];
@@ -592,42 +418,6 @@
             { name: "Sigiriya Rock", location: "Cultural Triangle", type: "Cultural", price: "LKR 12,000", duration: "1 Day", rating: "4.9", image: "https://images.unsplash.com/photo-1587974928442-77dc3e0cafdb?w=400", features: ["UNESCO", "Guide"], description: "Ancient fortress" }
         ];
 
-        // ✅ Flight Search Function - Shows results on same page
-        function searchFlights(event) {
-            if (event) event.preventDefault();
-            
-            const from = document.getElementById('flightFrom').value;
-            const to = document.getElementById('flightTo').value;
-            const depart = document.getElementById('flightDepart').value;
-            const returnDate = document.getElementById('flightReturn').value;
-            
-            if (!to) {
-                alert('Please enter a destination!');
-                return;
-            }
-            
-            // ✅ Travelpayouts White Label URL
-            // යාගේ White Label subdomain එක මෙතන දාන්න
-            const whiteLabelUrl = `https://travel-express.awl.aviasales.com/?origin=${encodeURIComponent(from)}&destination=${encodeURIComponent(to)}&departure_date=${depart}&return_date=${returnDate || ''}&marker=134949`;
-            
-            // Show results section
-            document.getElementById('flightResultsIframe').src = whiteLabelUrl;
-            document.getElementById('flightResults').classList.add('active');
-            
-            // Scroll to results
-            document.getElementById('flightResults').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // ✅ Back to Search
-        function backToSearch() {
-            document.getElementById('flightResults').classList.remove('active');
-            document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function showFlightSearch() {
-            document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
-        }
-
         function toggleMenu() {
             document.getElementById('navLinks').classList.toggle('active');
         }
@@ -635,6 +425,7 @@
         function switchSearch(type) {
             document.querySelectorAll('.search-tab').forEach(tab => tab.classList.remove('active'));
             event.target.classList.add('active');
+            scrollToSection('home');
         }
 
         function loadHotels() {
@@ -743,10 +534,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            document.getElementById('flightDepart').value = tomorrow.toISOString().split('T')[0];
-            
             loadHotels();
             loadRestaurants();
             loadTours();
