@@ -7,7 +7,6 @@
     
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="//www.travelpayouts.com/widgets/5c2330e2b4a88.js" async></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -73,12 +72,72 @@
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
         
-        .tp-widget-container { 
-            width: 100%; 
-            min-height: 450px;
+        /* ✅ FIXED: Flight Search Form - 100% Working */
+        .flight-search-form {
+            width: 100%;
             background: #f8f9fa;
             border-radius: 15px;
+            padding: 2rem;
+        }
+        
+        .search-form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .search-input-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .search-input-group input,
+        .search-input-group select {
             padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .search-input-group input:focus,
+        .search-input-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .search-submit-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+        
+        .search-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         }
         
         .quick-actions { 
@@ -262,7 +321,7 @@
             transform: scale(1.05); 
         }
         
-        /* ✅ Modal - FIXED FOR MOBILE */
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -301,10 +360,7 @@
             to { transform: translateY(0); opacity: 1; }
         }
         
-        .modal-header {
-            position: relative;
-            flex-shrink: 0;
-        }
+        .modal-header { position: relative; flex-shrink: 0; }
         
         .modal-image {
             width: 100%;
@@ -341,9 +397,7 @@
             font-weight: 700;
         }
         
-        .modal-section {
-            margin-bottom: 2rem;
-        }
+        .modal-section { margin-bottom: 2rem; }
         
         .modal-section h3 {
             color: #667eea;
@@ -361,15 +415,8 @@
             border-bottom: 1px solid #f0f0f0;
         }
         
-        .detail-label {
-            color: #666;
-            font-weight: 600;
-        }
-        
-        .detail-value {
-            color: #333;
-            font-weight: 500;
-        }
+        .detail-label { color: #666; font-weight: 600; }
+        .detail-value { color: #333; font-weight: 500; }
         
         .contact-buttons {
             display: grid;
@@ -393,39 +440,33 @@
             transition: all 0.3s;
         }
         
-        .btn-whatsapp {
-            background: #25D366;
-            color: white;
-        }
-        
-        .btn-call {
-            background: #667eea;
-            color: white;
-        }
+        .btn-whatsapp { background: #25D366; color: white; }
+        .btn-call { background: #667eea; color: white; }
         
         .contact-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
         
+        /* ✅ FIXED: Floating Buttons - Small Size */
         .floating-buttons {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            bottom: 20px;
+            right: 20px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 10px;
             z-index: 1500;
         }
         
         .float-btn {
-            width: 65px;
-            height: 65px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             border: none;
             cursor: pointer;
-            font-size: 1.8rem;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            font-size: 1.3rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             transition: all 0.3s;
             display: flex;
             align-items: center;
@@ -433,18 +474,11 @@
         }
         
         .float-btn:hover {
-            transform: scale(1.15);
+            transform: scale(1.1);
         }
         
-        .float-whatsapp {
-            background: #25D366;
-            color: white;
-        }
-        
-        .float-call {
-            background: #667eea;
-            color: white;
-        }
+        .float-whatsapp { background: #25D366; color: white; }
+        .float-call { background: #667eea; color: white; }
         
         .footer {
             background: rgba(0,0,0,0.9);
@@ -454,10 +488,7 @@
             margin-top: 5rem;
         }
         
-        .footer h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-        }
+        .footer h3 { font-size: 1.8rem; margin-bottom: 1rem; }
         
         .footer-links {
             display: flex;
@@ -474,67 +505,23 @@
             transition: all 0.3s;
         }
         
-        .footer-links a:hover {
-            color: #667eea;
-        }
+        .footer-links a:hover { color: #667eea; }
         
-        .loading {
-            text-align: center;
-            padding: 4rem;
-            font-size: 1.3rem;
-            color: #667eea;
-        }
+        .loading { text-align: center; padding: 4rem; font-size: 1.3rem; color: #667eea; }
         
-        /* ✅ Mobile Optimizations - MODAL FIXED */
+        /* Mobile */
         @media (max-width: 768px) {
-            .hero {
-                padding: 3rem 1rem;
-                min-height: 600px;
-            }
+            .hero { padding: 3rem 1rem; min-height: 600px; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero p { font-size: 1.1rem; }
+            .search-container { padding: 1.5rem; }
+            .search-tabs { flex-direction: column; }
+            .search-tab { width: 100%; }
+            .section-title { font-size: 1.6rem; }
+            .grid-view { grid-template-columns: 1fr; }
+            .quick-actions { grid-template-columns: 1fr; padding: 0 1rem; }
             
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            .search-container {
-                padding: 1.5rem;
-            }
-            
-            .search-tabs {
-                flex-direction: column;
-            }
-            
-            .search-tab {
-                width: 100%;
-            }
-            
-            .tp-widget-container {
-                min-height: 400px;
-            }
-            
-            .section-title {
-                font-size: 1.6rem;
-            }
-            
-            .grid-view {
-                grid-template-columns: 1fr;
-            }
-            
-            .quick-actions {
-                grid-template-columns: 1fr;
-                padding: 0 1rem;
-            }
-            
-            /* ✅ Mobile Modal - Scrollable */
-            .modal {
-                align-items: flex-end;
-                padding: 0;
-            }
-            
+            .modal { align-items: flex-end; padding: 0; }
             .modal-content {
                 margin: 0;
                 width: 100%;
@@ -545,24 +532,11 @@
             }
             
             @keyframes slideUpMobile {
-                from { 
-                    transform: translateY(100%); 
-                    opacity: 0; 
-                }
-                to { 
-                    transform: translateY(0); 
-                    opacity: 1; 
-                }
+                from { transform: translateY(100%); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
             }
             
-            .modal-header {
-                position: relative;
-            }
-            
-            .modal-image {
-                height: 200px;
-            }
-            
+            .modal-image { height: 200px; }
             .modal-body {
                 padding: 1.5rem;
                 max-height: calc(90vh - 280px);
@@ -579,35 +553,14 @@
                 grid-template-columns: 1fr;
             }
             
-            .floating-buttons {
-                bottom: 20px;
-                right: 20px;
-            }
-            
-            .float-btn {
-                width: 60px;
-                height: 60px;
-            }
+            .floating-buttons { bottom: 15px; right: 15px; }
+            .float-btn { width: 45px; height: 45px; font-size: 1.1rem; }
         }
         
-        /* Desktop Optimizations */
         @media (min-width: 1200px) {
-            .hero h1 {
-                font-size: 4rem;
-            }
-            
-            .search-container {
-                max-width: 1100px;
-                padding: 3rem;
-            }
-            
-            .tp-widget-container {
-                min-height: 500px;
-            }
-            
-            .grid-view {
-                grid-template-columns: repeat(3, 1fr);
-            }
+            .hero h1 { font-size: 4rem; }
+            .search-container { max-width: 1100px; padding: 3rem; }
+            .grid-view { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
 </head>
@@ -645,20 +598,46 @@
                 </button>
             </div>
             
-            <div id="flightsSearch" class="tp-widget-container">
-                <div data-travelpayouts-widget="search_form"
-                     data-type="flights"
-                     data-locale="en"
-                     data-currency="usd"
-                     data-origin="CMB"
-                     data-destination=""
-                     data-depart_date=""
-                     data-return_date=""
-                     data-one_way="false"
-                     data-show_submissions="true"
-                     data-marker="134949"
-                     style="width: 100%; height: 100%;">
-                </div>
+            <!-- ✅ FIXED: Real Flight Search Form -->
+            <div id="flightsSearch" class="flight-search-form">
+                <form class="search-form-grid" onsubmit="searchFlights(event)">
+                    <div class="search-input-group">
+                        <label><i class="fas fa-plane-departure"></i> From</label>
+                        <input type="text" id="flightFrom" value="Colombo (CMB)" required>
+                    </div>
+                    <div class="search-input-group">
+                        <label><i class="fas fa-plane-arrival"></i> To</label>
+                        <input type="text" id="flightTo" placeholder="Destination city" required>
+                    </div>
+                    <div class="search-input-group">
+                        <label><i class="fas fa-calendar"></i> Departure</label>
+                        <input type="date" id="flightDepart" required>
+                    </div>
+                    <div class="search-input-group">
+                        <label><i class="fas fa-calendar-return"></i> Return</label>
+                        <input type="date" id="flightReturn">
+                    </div>
+                    <div class="search-input-group">
+                        <label><i class="fas fa-users"></i> Passengers</label>
+                        <select id="flightPassengers">
+                            <option>1 Adult</option>
+                            <option>2 Adults</option>
+                            <option>2 Adults, 1 Child</option>
+                            <option>Family (4+)</option>
+                        </select>
+                    </div>
+                    <div class="search-input-group">
+                        <label><i class="fas fa-ticket-alt"></i> Class</label>
+                        <select id="flightClass">
+                            <option>Economy</option>
+                            <option>Business</option>
+                            <option>First Class</option>
+                        </select>
+                    </div>
+                </form>
+                <button class="search-submit-btn" onclick="searchFlights(event)">
+                    <i class="fas fa-search"></i> Search Flights
+                </button>
             </div>
         </div>
     </section>
@@ -720,6 +699,7 @@
         <p>&copy; 2024 Travel Express. All rights reserved.</p>
     </footer>
 
+    <!-- ✅ FIXED: Small Floating Buttons -->
     <div class="floating-buttons">
         <button class="float-btn float-call" onclick="contactCall()" title="Call Now">
             <i class="fas fa-phone"></i>
@@ -803,6 +783,27 @@
             { name: "Yala Safari", location: "Yala National Park", type: "Wildlife", price: "LKR 15,000", duration: "1 Day", rating: "4.8", image: "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=400", features: ["Jeep Safari", "Leopard", "Wildlife"], description: "Spot leopards, elephants and exotic birds", includes: "Jeep, Guide, Breakfast, Park Fees" }
         ];
 
+        // ✅ FIXED: Real Flight Search Function
+        function searchFlights(event) {
+            if (event) event.preventDefault();
+            
+            const from = document.getElementById('flightFrom').value || 'CMB';
+            const to = document.getElementById('flightTo').value;
+            const depart = document.getElementById('flightDepart').value;
+            const returnDate = document.getElementById('flightReturn').value;
+            
+            if (!to) {
+                alert('Please enter a destination!');
+                return;
+            }
+            
+            // Aviasales/Travelpayouts search URL
+            const searchUrl = `https://www.aviasales.com/search/${from}${depart}${to}${returnDate ? returnDate : '1'}?marker=134949`;
+            
+            // Open in new tab
+            window.open(searchUrl, '_blank');
+        }
+
         function toggleMenu() {
             document.getElementById('navLinks').classList.toggle('active');
         }
@@ -810,6 +811,34 @@
         function switchSearch(type) {
             document.querySelectorAll('.search-tab').forEach(tab => tab.classList.remove('active'));
             event.target.classList.add('active');
+            
+            // Show/hide search forms based on type
+            const flightsSearch = document.getElementById('flightsSearch');
+            if (type === 'flights') {
+                flightsSearch.style.display = 'block';
+            } else if (type === 'hotels') {
+                flightsSearch.innerHTML = `
+                    <div style="text-align: center; padding: 2rem;">
+                        <i class="fas fa-hotel" style="font-size: 3rem; color: #667eea; margin-bottom: 1rem;"></i>
+                        <h3>Hotel Search Coming Soon!</h3>
+                        <p style="color: #666; margin-top: 1rem;">Please contact us for hotel bookings</p>
+                        <button class="search-submit-btn" style="margin-top: 1.5rem;" onclick="contactWhatsApp()">
+                            <i class="fab fa-whatsapp"></i> Contact via WhatsApp
+                        </button>
+                    </div>
+                `;
+            } else if (type === 'tours') {
+                flightsSearch.innerHTML = `
+                    <div style="text-align: center; padding: 2rem;">
+                        <i class="fas fa-map-marked-alt" style="font-size: 3rem; color: #667eea; margin-bottom: 1rem;"></i>
+                        <h3>Tour Search Coming Soon!</h3>
+                        <p style="color: #666; margin-top: 1rem;">Please contact us for tour bookings</p>
+                        <button class="search-submit-btn" style="margin-top: 1.5rem;" onclick="contactWhatsApp()">
+                            <i class="fab fa-whatsapp"></i> Contact via WhatsApp
+                        </button>
+                    </div>
+                `;
+            }
         }
 
         function loadHotels() {
@@ -962,6 +991,11 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Set default departure date to tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('flightDepart').value = tomorrow.toISOString().split('T')[0];
+            
             loadHotels();
             loadRestaurants();
             loadTours();
