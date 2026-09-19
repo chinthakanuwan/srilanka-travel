@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Silva's Express - Complete Travel Solutions</title>
+    <title>Travel Express - Complete Travel Solutions</title>
     
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -28,7 +28,6 @@
             background: #f5f5f5;
         }
 
-        /* Header */
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 1rem 2rem;
@@ -73,7 +72,6 @@
             background: rgba(255,255,255,0.2);
         }
 
-        /* Hero Section */
         .hero {
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
                         url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920');
@@ -89,132 +87,39 @@
             margin-bottom: 1rem;
         }
 
-        /* Service Tabs */
-        .service-tabs {
-            max-width: 1200px;
-            margin: -50px auto 2rem;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 100;
-        }
-
-        .tabs-container {
-            background: white;
-            border-radius: 15px;
-            padding: 1rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .service-tab {
-            padding: 1rem 2rem;
-            border: none;
-            background: #f5f5f5;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .service-tab:hover {
-            background: #e0e0e0;
-        }
-
-        .service-tab.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        /* Search Sections */
-        .search-section {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-            display: none;
-        }
-
-        .search-section.active {
-            display: block;
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
         }
 
         .search-box {
             background: white;
             border-radius: 15px;
             padding: 2rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 900px;
+            margin: 0 auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
 
-        .search-form {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .form-group input, .form-group select {
-            padding: 0.8rem;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-
-        .search-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .footer {
+            background: rgba(0,0,0,0.8);
             color: white;
-            border: none;
-            padding: 1rem 3rem;
-            border-radius: 25px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
         }
 
-        /* View Toggle */
-        .view-toggle {
-            display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-            margin-bottom: 1rem;
+        .content-section {
+            max-width: 1200px;
+            margin: 2rem auto;
             padding: 0 2rem;
         }
 
-        .view-btn {
-            padding: 0.5rem 1rem;
-            border: 2px solid #667eea;
-            background: white;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .view-btn.active {
-            background: #667eea;
-            color: white;
-        }
-
-        /* Content Grid */
-        .content-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem 4rem;
+        .section-title {
+            font-size: 2rem;
+            margin: 2rem 0;
+            color: #333;
+            text-align: center;
         }
 
         .grid-view {
@@ -223,18 +128,6 @@
             gap: 2rem;
         }
 
-        .map-view {
-            display: none;
-            height: 600px;
-            border-radius: 15px;
-            overflow: hidden;
-        }
-
-        .map-view.active {
-            display: block;
-        }
-
-        /* Cards */
         .card {
             background: white;
             border-radius: 15px;
@@ -267,9 +160,6 @@
         .card-location {
             color: #666;
             margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
         }
 
         .card-price {
@@ -279,28 +169,8 @@
             margin-bottom: 1rem;
         }
 
-        .card-features {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .feature {
-            background: #f5f5f5;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.9rem;
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-
         .btn {
-            flex: 1;
-            padding: 0.8rem;
+            padding: 0.8rem 1.5rem;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -311,202 +181,16 @@
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            width: 100%;
         }
 
-        .btn-secondary {
-            background: #f5f5f5;
-            color: #333;
-        }
-
-        /* Exchange Rates */
-        .exchange-rates {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem auto;
-            max-width: 1200px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .rates-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .rate-card {
-            background: #f9f9f9;
-            padding: 1rem;
-            border-radius: 8px;
+        .loading {
             text-align: center;
-            border-left: 4px solid #667eea;
-        }
-
-        .rate-currency {
+            padding: 3rem;
             font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-
-        .rate-value {
             color: #667eea;
-            font-size: 1.1rem;
         }
 
-        /* SIM/eSIM Section */
-        .sim-section {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem auto;
-            max-width: 1200px;
-        }
-
-        .sim-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 1rem;
-        }
-
-        .sim-card {
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            padding: 1.5rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .sim-card:hover {
-            border-color: #667eea;
-            transform: translateY(-3px);
-        }
-
-        .sim-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Gallery */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            aspect-ratio: 1;
-            cursor: pointer;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
-
-        /* Map Container */
-        #map {
-            height: 100%;
-            width: 100%;
-        }
-
-        /* Filters */
-        .filters {
-            background: white;
-            padding: 1rem 2rem;
-            margin-bottom: 2rem;
-            border-radius: 10px;
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-        }
-
-        .filter-group label {
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-
-        .filter-group select, .filter-group input {
-            padding: 0.5rem;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 15px;
-            max-width: 800px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .modal-header {
-            padding: 1.5rem;
-            border-bottom: 2px solid #f5f5f5;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .close-modal {
-            font-size: 2rem;
-            cursor: pointer;
-            color: #999;
-        }
-
-        .modal-body {
-            padding: 2rem;
-        }
-
-        .modal-image {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2rem;
@@ -520,22 +204,6 @@
                 grid-template-columns: 1fr;
             }
         }
-
-        /* Loading */
-        .loading {
-            text-align: center;
-            padding: 3rem;
-            font-size: 1.2rem;
-            color: #667eea;
-        }
-
-        /* Section Title */
-        .section-title {
-            font-size: 2rem;
-            margin: 2rem 0;
-            color: #333;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
@@ -543,51 +211,22 @@
     <!-- Header -->
     <header class="header">
         <nav class="nav">
-            <div class="logo">✈️ Silva's Express</div>
+            <div class="logo">✈️ Travel Express</div>
             <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
                 <li><a href="#flights">Flights</a></li>
                 <li><a href="#hotels">Hotels</a></li>
-                <li><a href="#restaurants">Restaurants</a></li>
                 <li><a href="#tours">Tours</a></li>
-                <li><a href="#exchange">Exchange</a></li>
-                <li><a href="#sim">SIM/eSIM</a></li>
                 <li><a href="admin.html">Admin</a></li>
             </ul>
         </nav>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <h1> Explore the World with Us</h1>
-        <p>Flights • Hotels • Restaurants • Tours • SIM Cards</p>
-    </section>
-
-    <!-- Service Tabs -->
-    <div class="service-tabs">
-        <div class="tabs-container">
-            <button class="service-tab active" onclick="showService('flights')">
-                <span>✈️</span> Flights
-            </button>
-            <button class="service-tab" onclick="showService('hotels')">
-                <span>🏨</span> Hotels
-            </button>
-            <button class="service-tab" onclick="showService('restaurants')">
-                <span>🍽️</span> Restaurants
-            </button>
-            <button class="service-tab" onclick="showService('tours')">
-                <span>🗺️</span> Tours & Places
-            </button>
-            <button class="service-tab" onclick="showService('exchange')">
-                <span>💱</span> Exchange Rates
-            </button>
-            <button class="service-tab" onclick="showService('sim')">
-                <span>📱</span> SIM/eSIM
-            </button>
-        </div>
-    </div>
-
-    <!-- Flight Search -->
-    <div id="flights" class="search-section active">
+    <section class="hero" id="home">
+        <h1>Explore the World with Travel Express</h1>
+        <p>Your Complete Travel Solution - Flights • Hotels • Tours • SIM Cards</p>
+        
         <div class="search-box">
             <div data-travelpayouts-widget="search_form"
                  data-type="flights"
@@ -598,252 +237,27 @@
                  data-marker="134949">
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Hotel Search -->
-    <div id="hotels" class="search-section">
-        <div class="search-box">
-            <h2 style="margin-bottom: 1rem;"> Search Hotels</h2>
-            <div class="search-form">
-                <div class="form-group">
-                    <label>Destination</label>
-                    <input type="text" id="hotelDestination" placeholder="Where to?">
-                </div>
-                <div class="form-group">
-                    <label>Check-in</label>
-                    <input type="date" id="hotelCheckin">
-                </div>
-                <div class="form-group">
-                    <label>Check-out</label>
-                    <input type="date" id="hotelCheckout">
-                </div>
-                <div class="form-group">
-                    <label>Guests</label>
-                    <select id="hotelGuests">
-                        <option>1 Guest</option>
-                        <option>2 Guests</option>
-                        <option>3 Guests</option>
-                        <option>4+ Guests</option>
-                    </select>
-                </div>
-            </div>
-            <button class="search-btn" onclick="searchHotels()">Search Hotels</button>
-        </div>
-    </div>
-
-    <!-- Restaurant Search -->
-    <div id="restaurants" class="search-section">
-        <div class="search-box">
-            <h2 style="margin-bottom: 1rem;">️ Find Restaurants</h2>
-            <div class="search-form">
-                <div class="form-group">
-                    <label>Location</label>
-                    <input type="text" id="restLocation" placeholder="City or area">
-                </div>
-                <div class="form-group">
-                    <label>Cuisine Type</label>
-                    <select id="restCuisine">
-                        <option value="">Any</option>
-                        <option value="sri-lankan">Sri Lankan</option>
-                        <option value="indian">Indian</option>
-                        <option value="chinese">Chinese</option>
-                        <option value="italian">Italian</option>
-                        <option value="fast-food">Fast Food</option>
-                    </select>
-                </div>
-            </div>
-            <button class="search-btn" onclick="searchRestaurants()">Search Restaurants</button>
-        </div>
-    </div>
-
-    <!-- Tours Search -->
-    <div id="tours" class="search-section">
-        <div class="search-box">
-            <h2 style="margin-bottom: 1rem;">️ Discover Places & Tours</h2>
-            <div class="search-form">
-                <div class="form-group">
-                    <label>Destination</label>
-                    <input type="text" id="tourDestination" placeholder="Where to visit?">
-                </div>
-                <div class="form-group">
-                    <label>Tour Type</label>
-                    <select id="tourType">
-                        <option value="">Any</option>
-                        <option value="cultural">Cultural</option>
-                        <option value="adventure">Adventure</option>
-                        <option value="beach">Beach</option>
-                        <option value="wildlife">Wildlife</option>
-                    </select>
-                </div>
-            </div>
-            <button class="search-btn" onclick="searchTours()">Search Tours</button>
-        </div>
-    </div>
-
-    <!-- Exchange Rates -->
-    <div id="exchange" class="search-section">
-        <div class="exchange-rates">
-            <h2 style="margin-bottom: 1rem;">💱 Live Exchange Rates</h2>
-            <div class="rates-grid" id="exchangeRates">
-                <div class="rate-card">
-                    <div class="rate-currency">🇺🇸 USD</div>
-                    <div class="rate-value">LKR 325.50</div>
-                </div>
-                <div class="rate-card">
-                    <div class="rate-currency">🇪🇺 EUR</div>
-                    <div class="rate-value">LKR 352.80</div>
-                </div>
-                <div class="rate-card">
-                    <div class="rate-currency">🇬🇧 GBP</div>
-                    <div class="rate-value">LKR 410.25</div>
-                </div>
-                <div class="rate-card">
-                    <div class="rate-currency">🇮🇳 INR</div>
-                    <div class="rate-value">LKR 3.92</div>
-                </div>
-                <div class="rate-card">
-                    <div class="rate-currency">🇦🇪 AED</div>
-                    <div class="rate-value">LKR 88.60</div>
-                </div>
-                <div class="rate-card">
-                    <div class="rate-currency">🇸🇬 SGD</div>
-                    <div class="rate-value">LKR 242.15</div>
-                </div>
-            </div>
-            <p style="margin-top: 1rem; color: #666; font-size: 0.9rem;">
-                * Rates updated: <span id="rateUpdateTime"></span>
-            </p>
-        </div>
-    </div>
-
-    <!-- SIM/eSIM Section -->
-    <div id="sim" class="search-section">
-        <div class="sim-section">
-            <h2 style="margin-bottom: 1rem;">📱 SIM & eSIM Activation</h2>
-            <p style="margin-bottom: 2rem;">Stay connected while traveling with our affordable SIM and eSIM packages</p>
-            
-            <div class="sim-grid">
-                <div class="sim-card" onclick="selectSIM('physical')">
-                    <div class="sim-icon">📲</div>
-                    <h3>Physical SIM Card</h3>
-                    <p>Get a local SIM card on arrival</p>
-                    <p style="color: #667eea; font-weight: bold; margin-top: 1rem;">From LKR 500</p>
-                </div>
-                
-                <div class="sim-card" onclick="selectSIM('esim')">
-                    <div class="sim-icon"></div>
-                    <h3>eSIM (Digital)</h3>
-                    <p>Activate before you travel</p>
-                    <p style="color: #667eea; font-weight: bold; margin-top: 1rem;">From LKR 800</p>
-                </div>
-            </div>
-
-            <div id="simPackages" style="margin-top: 2rem; display: none;">
-                <h3 style="margin-bottom: 1rem;">Select Package</h3>
-                <div class="sim-grid">
-                    <div class="sim-card">
-                        <h4>7 Days</h4>
-                        <p>5GB Data</p>
-                        <p style="color: #667eea; font-weight: bold;">LKR 500</p>
-                        <button class="btn btn-primary" style="margin-top: 1rem;">Book Now</button>
-                    </div>
-                    <div class="sim-card">
-                        <h4>15 Days</h4>
-                        <p>10GB Data</p>
-                        <p style="color: #667eea; font-weight: bold;">LKR 900</p>
-                        <button class="btn btn-primary" style="margin-top: 1rem;">Book Now</button>
-                    </div>
-                    <div class="sim-card">
-                        <h4>30 Days</h4>
-                        <p>20GB Data</p>
-                        <p style="color: #667eea; font-weight: bold;">LKR 1,500</p>
-                        <button class="btn btn-primary" style="margin-top: 1rem;">Book Now</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- View Toggle -->
-    <div class="view-toggle">
-        <button class="view-btn active" onclick="switchView('grid')">⊞ Grid View</button>
-        <button class="view-btn" onclick="switchView('map')">📍 Map View</button>
-    </div>
-
-    <!-- Filters -->
-    <div class="filters">
-        <div class="filter-group">
-            <label>Sort By</label>
-            <select id="sortBy" onchange="applyFilters()">
-                <option value="recommended">Recommended</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="rating">Rating</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label>Price Range</label>
-            <select id="priceRange" onchange="applyFilters()">
-                <option value="all">All Prices</option>
-                <option value="budget">Budget (Under LKR 5,000)</option>
-                <option value="mid">Mid-Range (LKR 5,000 - 15,000)</option>
-                <option value="luxury">Luxury (Above LKR 15,000)</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label>Rating</label>
-            <select id="ratingFilter" onchange="applyFilters()">
-                <option value="all">All Ratings</option>
-                <option value="4">4★ & Above</option>
-                <option value="3">3★ & Above</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label>Search</label>
-            <input type="text" id="searchText" placeholder="Search..." onkeyup="applyFilters()">
-        </div>
-    </div>
-
-    <!-- Content Container -->
-    <div class="content-container">
-        <h2 class="section-title" id="sectionTitle"> Popular Hotels</h2>
-        
-        <!-- Grid View -->
-        <div id="gridView" class="grid-view">
+    <!-- Content Section -->
+    <div class="content-section">
+        <h2 class="section-title">🏨 Popular Hotels & Destinations</h2>
+        <div class="grid-view" id="contentGrid">
             <div class="loading">Loading...</div>
         </div>
-
-        <!-- Map View -->
-        <div id="mapView" class="map-view">
-            <div id="map"></div>
-        </div>
     </div>
 
-    <!-- Gallery Section -->
-    <div class="content-container">
-        <h2 class="section-title"> Travel Gallery</h2>
-        <div class="gallery" id="gallery">
-            <!-- Gallery items will be loaded here -->
-        </div>
-    </div>
-
-    <!-- Booking Modal -->
-    <div class="modal" id="bookingModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modalTitle">Book Now</h2>
-                <span class="close-modal" onclick="closeModal()">&times;</span>
-            </div>
-            <div class="modal-body" id="modalBody">
-                <!-- Content will be loaded here -->
-            </div>
-        </div>
-    </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Travel Express. All rights reserved.</p>
+        <p>📞 Contact: 0766488689 | 📧 chinthaka36@gmail.com</p>
+        <p>📍 Your Trusted Travel Partner</p>
+    </footer>
 
     <script>
-        // Firebase Configuration
+        // ⚠️ මෙතනට ඔයාගේ Firebase Config එක දාන්න
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
+            apiKey: "YOUR_API_KEY_HERE",
             authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
             projectId: "YOUR_PROJECT_ID",
             storageBucket: "YOUR_PROJECT_ID.appspot.com",
@@ -851,302 +265,52 @@
             appId: "YOUR_APP_ID"
         };
 
+        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // Global Variables
-        let currentService = 'hotels';
-        let map = null;
-        let markers = [];
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            loadData();
-            updateExchangeRates();
-            loadGallery();
-        });
-
-        // Show Service
-        function showService(service) {
-            // Update tabs
-            document.querySelectorAll('.service-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.closest('.service-tab').classList.add('active');
-
-            // Show search section
-            document.querySelectorAll('.search-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.getElementById(service).classList.add('active');
-
-            // Load data based on service
-            currentService = service;
-            loadData();
-
-            // Update title
-            const titles = {
-                'flights': '✈️ Search Flights',
-                'hotels': ' Hotels & Rooms',
-                'restaurants': '️ Restaurants',
-                'tours': '🗺️ Tours & Places',
-                'exchange': '💱 Exchange Rates',
-                'sim': '📱 SIM & eSIM'
-            };
-            document.getElementById('sectionTitle').textContent = titles[service];
-        }
-
-        // Load Data from Firebase
-        function loadData() {
-            const grid = document.getElementById('gridView');
-            grid.innerHTML = '<div class="loading">Loading...</div>';
-
-            db.collection(currentService).onSnapshot((snapshot) => {
+        // Load content from Firebase
+        function loadContent() {
+            const grid = document.getElementById('contentGrid');
+            
+            // Load hotels
+            db.collection('hotels').onSnapshot((snapshot) => {
+                grid.innerHTML = '';
+                
                 if (snapshot.empty) {
-                    grid.innerHTML = '<p style="text-align: center; padding: 3rem; color: #666;">No items found. Add some from admin panel!</p>';
+                    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #666;">No hotels added yet. Login to admin panel to add!</div>';
                     return;
                 }
-
-                grid.innerHTML = '';
+                
                 snapshot.forEach((doc) => {
                     const data = doc.data();
-                    const card = createCard(data, doc.id);
+                    const card = `
+                        <div class="card">
+                            <img src="${data.image || 'https://via.placeholder.com/300x200'}" alt="${data.name}" class="card-image">
+                            <div class="card-content">
+                                <h3 class="card-title">${data.name}</h3>
+                                <div class="card-location">📍 ${data.location || 'Location not specified'}</div>
+                                ${data.price ? `<div class="card-price">${data.price}</div>` : ''}
+                                <div style="margin-top: 1rem;">
+                                    <button class="btn btn-primary" onclick="bookNow('${data.name}')">Book Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
                     grid.innerHTML += card;
                 });
-
-                // Update map if in map view
-                if (document.getElementById('mapView').classList.contains('active')) {
-                    updateMap(snapshot);
-                }
+            }, (error) => {
+                console.error("Error loading content:", error);
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: red;">Error loading content. Please check Firebase configuration.</div>';
             });
         }
 
-        // Create Card
-        function createCard(data, id) {
-            return `
-                <div class="card" data-lat="${data.lat || 0}" data-lng="${data.lng || 0}">
-                    <img src="${data.image || 'https://via.placeholder.com/300x200'}" alt="${data.name}" class="card-image">
-                    <div class="card-content">
-                        <h3 class="card-title">${data.name}</h3>
-                        <div class="card-location"> ${data.location || 'Location not specified'}</div>
-                        ${data.price ? `<div class="card-price">${data.price}</div>` : ''}
-                        <div class="card-features">
-                            ${data.features ? data.features.map(f => `<span class="feature">${f}</span>`).join('') : ''}
-                            ${data.rating ? `<span class="feature">⭐ ${data.rating}</span>` : ''}
-                        </div>
-                        <div class="card-actions">
-                            <button class="btn btn-primary" onclick="openBooking('${id}')">Book Now</button>
-                            <button class="btn btn-secondary" onclick="viewDetails('${id}')">Details</button>
-                        </div>
-                    </div>
-                </div>
-            `;
+        function bookNow(itemName) {
+            alert(`Booking: ${itemName}\n\nPlease contact us:\n📞 0766488689\n📧 chinthaka36@gmail.com`);
         }
 
-        // Search Functions
-        function searchHotels() {
-            const destination = document.getElementById('hotelDestination').value;
-            const checkin = document.getElementById('hotelCheckin').value;
-            const checkout = document.getElementById('hotelCheckout').value;
-            
-            // Here you would typically search your database
-            alert(`Searching hotels in ${destination}\nCheck-in: ${checkin}\nCheck-out: ${checkout}`);
-        }
-
-        function searchRestaurants() {
-            const location = document.getElementById('restLocation').value;
-            const cuisine = document.getElementById('restCuisine').value;
-            
-            alert(`Searching restaurants in ${location}\nCuisine: ${cuisine}`);
-        }
-
-        function searchTours() {
-            const destination = document.getElementById('tourDestination').value;
-            const type = document.getElementById('tourType').value;
-            
-            alert(`Searching tours in ${destination}\nType: ${type}`);
-        }
-
-        // Switch View
-        function switchView(view) {
-            document.querySelectorAll('.view-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            if (view === 'map') {
-                document.getElementById('gridView').style.display = 'none';
-                document.getElementById('mapView').classList.add('active');
-                initMap();
-            } else {
-                document.getElementById('gridView').style.display = 'grid';
-                document.getElementById('mapView').classList.remove('active');
-            }
-        }
-
-        // Initialize Map
-        function initMap() {
-            if (!map) {
-                map = L.map('map').setView([7.8731, 80.7718], 8); // Sri Lanka center
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '© OpenStreetMap contributors'
-                }).addTo(map);
-            }
-        }
-
-        // Update Map with Markers
-        function updateMap(snapshot) {
-            if (!map) return;
-
-            // Clear existing markers
-            markers.forEach(marker => map.removeLayer(marker));
-            markers = [];
-
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                if (data.lat && data.lng) {
-                    const marker = L.marker([data.lat, data.lng])
-                        .addTo(map)
-                        .bindPopup(`<b>${data.name}</b><br>${data.price || ''}`);
-                    markers.push(marker);
-                }
-            });
-
-            // Fit bounds if markers exist
-            if (markers.length > 0) {
-                const group = new L.featureGroup(markers);
-                map.fitBounds(group.getBounds().pad(0.1));
-            }
-        }
-
-        // Apply Filters
-        function applyFilters() {
-            const sortBy = document.getElementById('sortBy').value;
-            const priceRange = document.getElementById('priceRange').value;
-            const rating = document.getElementById('ratingFilter').value;
-            const searchText = document.getElementById('searchText').value.toLowerCase();
-
-            // This would filter the displayed items based on criteria
-            console.log('Filters:', { sortBy, priceRange, rating, searchText });
-        }
-
-        // Exchange Rates
-        function updateExchangeRates() {
-            const now = new Date();
-            document.getElementById('rateUpdateTime').textContent = now.toLocaleString();
-            
-            // In real implementation, fetch from API
-            // For now, using static rates
-        }
-
-        // SIM Selection
-        function selectSIM(type) {
-            document.getElementById('simPackages').style.display = 'block';
-            alert(`${type === 'physical' ? 'Physical' : 'e'}SIM selected. Choose a package below.`);
-        }
-
-        // Load Gallery
-        function loadGallery() {
-            const gallery = document.getElementById('gallery');
-            const images = [
-                'https://images.unsplash.com/photo-1506929562872-bb421503ef21',
-                'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb',
-                'https://images.unsplash.com/photo-1551884831-bbf3ddd72a6e',
-                'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1',
-                'https://images.unsplash.com/photo-1501785888041-af3ef285b470',
-                'https://images.unsplash.com/photo-1523906834658-6e24ef2386f9'
-            ];
-
-            images.forEach(img => {
-                gallery.innerHTML += `
-                    <div class="gallery-item">
-                        <img src="${img}?w=400" alt="Travel" onclick="openLightbox('${img}')">
-                    </div>
-                `;
-            });
-        }
-
-        // Booking Modal
-        function openBooking(id) {
-            const modal = document.getElementById('bookingModal');
-            const modalBody = document.getElementById('modalBody');
-            
-            db.collection(currentService).doc(id).get().then((doc) => {
-                const data = doc.data();
-                modalBody.innerHTML = `
-                    <img src="${data.image}" alt="${data.name}" class="modal-image">
-                    <h2>${data.name}</h2>
-                    <p><strong>Location:</strong> ${data.location}</p>
-                    <p><strong>Price:</strong> ${data.price}</p>
-                    <p><strong>Description:</strong> ${data.description || 'No description available'}</p>
-                    
-                    <form style="margin-top: 2rem;" onsubmit="submitBooking(event)">
-                        <div class="form-group">
-                            <label>Your Name</label>
-                            <input type="text" required id="bookName">
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" required id="bookEmail">
-                        </div>
-                        <div class="form-group">
-                            <label>Phone</label>
-                            <input type="tel" required id="bookPhone">
-                        </div>
-                        <div class="form-group">
-                            <label>Date</label>
-                            <input type="date" required id="bookDate">
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
-                            Confirm Booking
-                        </button>
-                    </form>
-                `;
-                modal.classList.add('active');
-            });
-        }
-
-        function submitBooking(e) {
-            e.preventDefault();
-            
-            const booking = {
-                service: currentService,
-                name: document.getElementById('bookName').value,
-                email: document.getElementById('bookEmail').value,
-                phone: document.getElementById('bookPhone').value,
-                date: document.getElementById('bookDate').value,
-                createdAt: new Date()
-            };
-
-            db.collection('bookings').add(booking).then(() => {
-                alert('Booking submitted successfully! We will contact you soon.');
-                closeModal();
-            }).catch((error) => {
-                alert('Error: ' + error.message);
-            });
-        }
-
-        function viewDetails(id) {
-            // Open booking modal for now
-            openBooking(id);
-        }
-
-        function closeModal() {
-            document.getElementById('bookingModal').classList.remove('active');
-        }
-
-        function openLightbox(imageUrl) {
-            // Simple alert for now, can be enhanced to full lightbox
-            window.open(imageUrl + '?w=1200', '_blank');
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('bookingModal');
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
+        // Load content on page load
+        document.addEventListener('DOMContentLoaded', loadContent);
     </script>
 
 </body>
