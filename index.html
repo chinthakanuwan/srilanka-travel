@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Express - Sri Lanka's #1 Travel Agency</title>
     
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8f9fa; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8f9fa; }
         
         .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1rem 2rem; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .nav { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
@@ -23,9 +23,8 @@
         
         @media (max-width: 768px) {
             .menu-toggle { display: block; }
-            .nav-links { position: fixed; top: 70px; left: 0; right: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); flex-direction: column; padding: 1rem; gap: 0.5rem; display: none; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+            .nav-links { position: fixed; top: 70px; left: 0; right: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); flex-direction: column; padding: 1rem; gap: 0.5rem; display: none; }
             .nav-links.active { display: flex; }
-            .nav-links a { padding: 1rem; border-radius: 10px; }
         }
         
         .hero { 
@@ -35,24 +34,19 @@
             padding: 4rem 2rem; 
             text-align: center; 
             color: white; 
-            min-height: 700px; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center;
-            align-items: center;
+            min-height: 600px; 
         }
         
-        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); font-weight: 700; }
-        .hero p { font-size: 1.3rem; margin-bottom: 3rem; font-weight: 300; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; }
         
         .search-container { 
             background: white; 
             border-radius: 20px; 
-            padding: 2.5rem; 
+            padding: 2rem; 
             max-width: 1000px; 
             margin: 0 auto; 
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            width: 100%;
         }
         
         .search-tabs { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; justify-content: center; }
@@ -64,15 +58,13 @@
             cursor: pointer; 
             font-weight: 600; 
             transition: all 0.3s;
-            font-size: 1rem;
         }
         .search-tab.active { 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
             color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
         
-        /* ✅ FIXED: Flight Search Form - 100% Working */
+        /* ✅ Flight Search Form */
         .flight-search-form {
             width: 100%;
             background: #f8f9fa;
@@ -108,14 +100,12 @@
             border: 2px solid #ddd;
             border-radius: 10px;
             font-size: 1rem;
-            transition: all 0.3s;
         }
         
         .search-input-group input:focus,
         .search-input-group select:focus {
             outline: none;
             border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
         
         .search-submit-btn {
@@ -129,15 +119,70 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.8rem;
         }
         
         .search-submit-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* ✅ Flight Results Section - Hidden by default */
+        .flight-results-section {
+            display: none;
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        
+        .flight-results-section.active {
+            display: block;
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .results-title {
+            font-size: 2rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .back-to-search {
+            padding: 0.8rem 1.5rem;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .back-to-search:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        /* ✅ Flight Results Iframe Container */
+        .flight-results-container {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            min-height: 800px;
+        }
+        
+        .flight-results-iframe {
+            width: 100%;
+            height: 900px;
+            border: none;
         }
         
         .quick-actions { 
@@ -170,11 +215,7 @@
             margin-bottom: 1rem; 
         }
         
-        .quick-action h3 { 
-            font-size: 1.1rem; 
-            color: #333; 
-            font-weight: 600;
-        }
+        .quick-action h3 { font-size: 1.1rem; color: #333; font-weight: 600; }
         
         .content-section { 
             max-width: 1400px; 
@@ -188,7 +229,6 @@
             align-items: center; 
             margin-bottom: 2rem; 
             flex-wrap: wrap; 
-            gap: 1rem; 
         }
         
         .section-title { 
@@ -197,7 +237,6 @@
             display: flex; 
             align-items: center; 
             gap: 0.8rem;
-            font-weight: 700;
         }
         
         .grid-view { 
@@ -220,13 +259,7 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.2); 
         }
         
-        .card-image { 
-            width: 100%; 
-            height: 250px; 
-            object-fit: cover; 
-            position: relative; 
-        }
-        
+        .card-image { width: 100%; height: 250px; object-fit: cover; position: relative; }
         .card-badge { 
             position: absolute; 
             top: 15px; 
@@ -235,196 +268,60 @@
             color: white; 
             padding: 0.5rem 1rem; 
             border-radius: 25px; 
-            font-size: 0.9rem; 
             font-weight: bold; 
         }
+        .card-content { padding: 1.5rem; }
+        .card-title { font-size: 1.4rem; margin-bottom: 0.8rem; color: #333; font-weight: 700; }
+        .card-location { color: #666; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
+        .card-rating { color: #ffa500; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; font-weight: 600; }
+        .card-price { font-size: 1.6rem; color: #667eea; font-weight: bold; margin-bottom: 1rem; }
+        .card-features { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+        .feature-tag { background: #f0f0f0; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; }
+        .card-actions { display: flex; gap: 0.8rem; }
+        .btn { flex: 1; padding: 1rem; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-secondary { background: #f0f0f0; color: #333; }
         
-        .card-content { 
-            padding: 1.5rem; 
-        }
-        
-        .card-title { 
-            font-size: 1.4rem; 
-            margin-bottom: 0.8rem; 
-            color: #333; 
-            font-weight: 700; 
-        }
-        
-        .card-location { 
-            color: #666; 
-            margin-bottom: 0.8rem; 
-            display: flex; 
-            align-items: center; 
-            gap: 0.5rem; 
-            font-size: 1rem; 
-        }
-        
-        .card-rating { 
-            color: #ffa500; 
-            margin-bottom: 0.8rem; 
-            display: flex; 
-            align-items: center; 
-            gap: 0.5rem;
-            font-weight: 600;
-        }
-        
-        .card-price { 
-            font-size: 1.6rem; 
-            color: #667eea; 
-            font-weight: bold; 
-            margin-bottom: 1rem; 
-        }
-        
-        .card-features { 
-            display: flex; 
-            flex-wrap: wrap; 
-            gap: 0.5rem; 
-            margin-bottom: 1.5rem; 
-        }
-        
-        .feature-tag { 
-            background: #f0f0f0; 
-            padding: 0.4rem 1rem; 
-            border-radius: 20px; 
-            font-size: 0.85rem; 
-        }
-        
-        .card-actions { 
-            display: flex; 
-            gap: 0.8rem; 
-        }
-        
-        .btn { 
-            flex: 1; 
-            padding: 1rem; 
-            border: none; 
-            border-radius: 12px; 
-            cursor: pointer; 
-            font-weight: 600; 
-            transition: all 0.3s; 
-            text-align: center; 
-            font-size: 1rem;
-        }
-        
-        .btn-primary { 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-            color: white; 
-        }
-        
-        .btn-secondary { 
-            background: #f0f0f0; 
-            color: #333; 
-        }
-        
-        .btn:hover { 
-            opacity: 0.9; 
-            transform: scale(1.05); 
-        }
-        
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.8);
             z-index: 2000;
             overflow-y: auto;
-            overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
         }
-        
-        .modal.active {
-            display: flex;
-        }
-        
+        .modal.active { display: flex; }
         .modal-content {
             background: white;
+            margin: 2rem auto;
             max-width: 900px;
-            width: 100%;
+            width: 95%;
             border-radius: 25px;
             overflow: hidden;
             animation: slideUp 0.3s;
-            max-height: 95vh;
-            display: flex;
-            flex-direction: column;
         }
-        
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        .modal-header { position: relative; flex-shrink: 0; }
-        
-        .modal-image {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-        }
-        
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-header { position: relative; }
+        .modal-image { width: 100%; height: 400px; object-fit: cover; }
         .modal-close {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 20px; right: 20px;
             background: white;
             border: none;
-            width: 50px;
-            height: 50px;
+            width: 50px; height: 50px;
             border-radius: 50%;
             cursor: pointer;
             font-size: 1.5rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            z-index: 10;
         }
-        
-        .modal-body {
-            padding: 2rem;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            flex: 1;
-        }
-        
-        .modal-title {
-            font-size: 2.2rem;
-            margin-bottom: 1.5rem;
-            color: #333;
-            font-weight: 700;
-        }
-        
+        .modal-body { padding: 2rem; }
+        .modal-title { font-size: 2.2rem; margin-bottom: 1.5rem; color: #333; }
         .modal-section { margin-bottom: 2rem; }
-        
-        .modal-section h3 {
-            color: #667eea;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-size: 1.4rem;
-        }
-        
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 1rem 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
+        .modal-section h3 { color: #667eea; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.8rem; }
+        .detail-row { display: flex; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid #f0f0f0; }
         .detail-label { color: #666; font-weight: 600; }
-        .detail-value { color: #333; font-weight: 500; }
-        
-        .contact-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-top: 2.5rem;
-        }
-        
+        .detail-value { color: #333; }
+        .contact-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem; }
         .contact-btn {
             padding: 1.2rem;
             border: none;
@@ -437,46 +334,26 @@
             justify-content: center;
             gap: 0.8rem;
             text-decoration: none;
-            transition: all 0.3s;
         }
-        
         .btn-whatsapp { background: #25D366; color: white; }
         .btn-call { background: #667eea; color: white; }
         
-        .contact-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-        }
-        
-        /* ✅ FIXED: Floating Buttons - Small Size */
         .floating-buttons {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 20px; right: 20px;
             display: flex;
             flex-direction: column;
             gap: 10px;
             z-index: 1500;
         }
-        
         .float-btn {
-            width: 50px;
-            height: 50px;
+            width: 50px; height: 50px;
             border-radius: 50%;
             border: none;
             cursor: pointer;
             font-size: 1.3rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
-        
-        .float-btn:hover {
-            transform: scale(1.1);
-        }
-        
         .float-whatsapp { background: #25D366; color: white; }
         .float-call { background: #667eea; color: white; }
         
@@ -487,80 +364,21 @@
             padding: 3rem 2rem;
             margin-top: 5rem;
         }
-        
         .footer h3 { font-size: 1.8rem; margin-bottom: 1rem; }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 1.5rem 0;
-            flex-wrap: wrap;
-        }
-        
-        .footer-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-        }
-        
-        .footer-links a:hover { color: #667eea; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin: 1.5rem 0; flex-wrap: wrap; }
+        .footer-links a { color: white; text-decoration: none; }
         
         .loading { text-align: center; padding: 4rem; font-size: 1.3rem; color: #667eea; }
         
-        /* Mobile */
         @media (max-width: 768px) {
-            .hero { padding: 3rem 1rem; min-height: 600px; }
-            .hero h1 { font-size: 2.2rem; }
-            .hero p { font-size: 1.1rem; }
-            .search-container { padding: 1.5rem; }
-            .search-tabs { flex-direction: column; }
-            .search-tab { width: 100%; }
+            .hero h1 { font-size: 2rem; }
             .section-title { font-size: 1.6rem; }
             .grid-view { grid-template-columns: 1fr; }
             .quick-actions { grid-template-columns: 1fr; padding: 0 1rem; }
-            
-            .modal { align-items: flex-end; padding: 0; }
-            .modal-content {
-                margin: 0;
-                width: 100%;
-                height: auto;
-                max-height: 90vh;
-                border-radius: 20px 20px 0 0;
-                animation: slideUpMobile 0.3s;
-            }
-            
-            @keyframes slideUpMobile {
-                from { transform: translateY(100%); opacity: 0; }
-                to { transform: translateY(0); opacity: 1; }
-            }
-            
+            .flight-results-iframe { height: 700px; }
+            .modal-content { margin: 0; width: 100%; height: 100%; border-radius: 0; }
             .modal-image { height: 200px; }
-            .modal-body {
-                padding: 1.5rem;
-                max-height: calc(90vh - 280px);
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            .contact-buttons {
-                position: sticky;
-                bottom: 0;
-                background: white;
-                padding: 1rem;
-                box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
-                grid-template-columns: 1fr;
-            }
-            
-            .floating-buttons { bottom: 15px; right: 15px; }
-            .float-btn { width: 45px; height: 45px; font-size: 1.1rem; }
-        }
-        
-        @media (min-width: 1200px) {
-            .hero h1 { font-size: 4rem; }
-            .search-container { max-width: 1100px; padding: 3rem; }
-            .grid-view { grid-template-columns: repeat(3, 1fr); }
+            .contact-buttons { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -572,7 +390,7 @@
             <button class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
             <ul class="nav-links" id="navLinks">
                 <li><a onclick="scrollToSection('home')"><i class="fas fa-home"></i> Home</a></li>
-                <li><a onclick="scrollToSection('flights')"><i class="fas fa-plane"></i> Flights</a></li>
+                <li><a onclick="showFlightSearch()"><i class="fas fa-plane"></i> Flights</a></li>
                 <li><a onclick="scrollToSection('hotels')"><i class="fas fa-hotel"></i> Hotels</a></li>
                 <li><a onclick="scrollToSection('restaurants')"><i class="fas fa-utensils"></i> Restaurants</a></li>
                 <li><a onclick="scrollToSection('tours')"><i class="fas fa-map-marked-alt"></i> Tours</a></li>
@@ -598,7 +416,7 @@
                 </button>
             </div>
             
-            <!-- ✅ FIXED: Real Flight Search Form -->
+            <!-- Flight Search Form -->
             <div id="flightsSearch" class="flight-search-form">
                 <form class="search-form-grid" onsubmit="searchFlights(event)">
                     <div class="search-input-group">
@@ -607,7 +425,7 @@
                     </div>
                     <div class="search-input-group">
                         <label><i class="fas fa-plane-arrival"></i> To</label>
-                        <input type="text" id="flightTo" placeholder="Destination city" required>
+                        <input type="text" id="flightTo" placeholder="Destination" required>
                     </div>
                     <div class="search-input-group">
                         <label><i class="fas fa-calendar"></i> Departure</label>
@@ -642,6 +460,26 @@
         </div>
     </section>
 
+    <!-- ✅ Flight Results Section (Hidden by default) -->
+    <section class="flight-results-section" id="flightResults">
+        <div class="results-header">
+            <h2 class="results-title"><i class="fas fa-plane"></i> Flight Results</h2>
+            <button class="back-to-search" onclick="backToSearch()">
+                <i class="fas fa-arrow-left"></i> Back to Search
+            </button>
+        </div>
+        
+        <div class="flight-results-container">
+            <!-- ✅ Travelpayouts White Label Iframe -->
+            <iframe 
+                id="flightResultsIframe"
+                class="flight-results-iframe"
+                src=""
+                title="Flight Search Results"
+            ></iframe>
+        </div>
+    </section>
+
     <div class="quick-actions">
         <div class="quick-action" onclick="scrollToSection('hotels')">
             <i class="fas fa-hotel"></i>
@@ -666,7 +504,7 @@
             <h2 class="section-title"><i class="fas fa-hotel"></i> Popular Hotels</h2>
         </div>
         <div class="grid-view" id="hotelsGrid">
-            <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading hotels...</div>
+            <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
         </div>
     </div>
 
@@ -690,7 +528,7 @@
 
     <footer class="footer">
         <h3>Travel Express</h3>
-        <p>Your Trusted Travel Partner in Sri Lanka</p>
+        <p>Your Trusted Travel Partner</p>
         <div class="footer-links">
             <a href="tel:0766488689"><i class="fas fa-phone"></i> 0766488689</a>
             <a href="https://wa.me/94766488689"><i class="fab fa-whatsapp"></i> WhatsApp</a>
@@ -699,14 +537,9 @@
         <p>&copy; 2024 Travel Express. All rights reserved.</p>
     </footer>
 
-    <!-- ✅ FIXED: Small Floating Buttons -->
     <div class="floating-buttons">
-        <button class="float-btn float-call" onclick="contactCall()" title="Call Now">
-            <i class="fas fa-phone"></i>
-        </button>
-        <button class="float-btn float-whatsapp" onclick="contactWhatsApp()" title="WhatsApp">
-            <i class="fab fa-whatsapp"></i>
-        </button>
+        <button class="float-btn float-call" onclick="contactCall()"><i class="fas fa-phone"></i></button>
+        <button class="float-btn float-whatsapp" onclick="contactWhatsApp()"><i class="fab fa-whatsapp"></i></button>
     </div>
 
     <div class="modal" id="detailsModal">
@@ -714,34 +547,15 @@
             <div class="modal-header">
                 <img src="" alt="" class="modal-image" id="modalImage">
                 <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
-                <span class="card-badge" id="modalBadge" style="position: absolute; top: 15px; left: 15px;"></span>
             </div>
             <div class="modal-body">
                 <h2 class="modal-title" id="modalTitle"></h2>
-                
                 <div class="modal-section">
                     <h3><i class="fas fa-info-circle"></i> Details</h3>
                     <div id="modalDetails"></div>
                 </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-star"></i> Rating</h3>
-                    <div class="detail-row">
-                        <span class="detail-label">Overall Rating</span>
-                        <span class="detail-value" id="modalRating"></span>
-                    </div>
-                </div>
-                
-                <div class="modal-section">
-                    <h3><i class="fas fa-tags"></i> Price</h3>
-                    <div class="detail-row">
-                        <span class="detail-label">Starting From</span>
-                        <span class="detail-value" id="modalPrice" style="color: #667eea; font-weight: bold; font-size: 1.2rem;"></span>
-                    </div>
-                </div>
-                
                 <div class="contact-buttons">
-                    <a href="https://wa.me/94766488689?text=I'm interested in booking" class="contact-btn btn-whatsapp">
+                    <a href="https://wa.me/94766488689" class="contact-btn btn-whatsapp">
                         <i class="fab fa-whatsapp"></i> WhatsApp
                     </a>
                     <a href="tel:0766488689" class="contact-btn btn-call">
@@ -756,38 +570,33 @@
         const firebaseConfig = {
             apiKey: "AIzaSyBQhTvJO0MafUNFHlP9LXPb-XBDic3X4pc",
             authDomain: "srilanka-travel-ddcc3.firebaseapp.com",
-            databaseURL: "https://srilanka-travel-ddcc3-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "srilanka-travel-ddcc3",
             storageBucket: "srilanka-travel-ddcc3.firebasestorage.app",
             messagingSenderId: "964910006559",
-            appId: "1:964910006559:web:d3d2d3d678a0b02a73702a",
-            measurementId: "G-FQP5RV0H14"
+            appId: "1:964910006559:web:d3d2d3d678a0b02a73702a"
         };
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        // Sample Data
         const sampleHotels = [
-            { name: "Cinnamon Grand Colombo", location: "Colombo", price: "LKR 25,000/night", rating: "4.8", image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400", features: ["WiFi", "Pool", "Spa", "Restaurant"], description: "Luxury 5-star hotel in the heart of Colombo with world-class amenities.", rooms: "200+ Rooms", amenities: "Pool, Spa, Gym, Restaurant, WiFi" },
-            { name: "Jetwing Vil Uyana", location: "Sigiriya", price: "LKR 45,000/night", rating: "4.9", image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400", features: ["Eco Resort", "Pool", "Nature"], description: "Award-winning eco resort near Sigiriya Rock with stunning views.", rooms: "35 Rooms", amenities: "Pool, Nature Walks, Restaurant, Spa" },
-            { name: "Heritance Tea Factory", location: "Kandy", price: "LKR 35,000/night", rating: "4.7", image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=400", features: ["Tea Plantation", "Spa", "Heritage"], description: "Historic tea factory converted to luxury hotel", rooms: "85 Rooms", amenities: "Spa, Restaurant, Mountain View" }
+            { name: "Cinnamon Grand Colombo", location: "Colombo", price: "LKR 25,000/night", rating: "4.8", image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400", features: ["WiFi", "Pool", "Spa"], description: "Luxury hotel" }
         ];
 
         const sampleRestaurants = [
-            { name: "Ministry of Crab", location: "Colombo", cuisine: "Seafood", price: "LKR 8,000", rating: "4.8", image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400", description: "World-famous crab restaurant in Colombo", specialty: "Jumbo Crab, Lobster", hours: "12:00 PM - 10:00 PM" },
-            { name: "Nuga Gama", location: "Bentota", cuisine: "Sri Lankan", price: "LKR 3,500", rating: "4.7", image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400", description: "Traditional Sri Lankan village dining", specialty: "Traditional Rice & Curry", hours: "7:00 AM - 10:00 PM" }
+            { name: "Ministry of Crab", location: "Colombo", cuisine: "Seafood", price: "LKR 8,000", rating: "4.8", image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400", description: "Famous crab restaurant" }
         ];
 
         const sampleTours = [
-            { name: "Sigiriya Rock & Dambulla", location: "Cultural Triangle", type: "Cultural", price: "LKR 12,000", duration: "1 Day", rating: "4.9", image: "https://images.unsplash.com/photo-1587974928442-77dc3e0cafdb?w=400", features: ["UNESCO", "Guide", "Transport"], description: "Explore ancient rock fortress and cave temple", includes: "Transport, Guide, Entrance Fees, Lunch" },
-            { name: "Yala Safari", location: "Yala National Park", type: "Wildlife", price: "LKR 15,000", duration: "1 Day", rating: "4.8", image: "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=400", features: ["Jeep Safari", "Leopard", "Wildlife"], description: "Spot leopards, elephants and exotic birds", includes: "Jeep, Guide, Breakfast, Park Fees" }
+            { name: "Sigiriya Rock", location: "Cultural Triangle", type: "Cultural", price: "LKR 12,000", duration: "1 Day", rating: "4.9", image: "https://images.unsplash.com/photo-1587974928442-77dc3e0cafdb?w=400", features: ["UNESCO", "Guide"], description: "Ancient fortress" }
         ];
 
-        // ✅ FIXED: Real Flight Search Function
+        // ✅ Flight Search Function - Shows results on same page
         function searchFlights(event) {
             if (event) event.preventDefault();
             
-            const from = document.getElementById('flightFrom').value || 'CMB';
+            const from = document.getElementById('flightFrom').value;
             const to = document.getElementById('flightTo').value;
             const depart = document.getElementById('flightDepart').value;
             const returnDate = document.getElementById('flightReturn').value;
@@ -797,11 +606,26 @@
                 return;
             }
             
-            // Aviasales/Travelpayouts search URL
-            const searchUrl = `https://www.aviasales.com/search/${from}${depart}${to}${returnDate ? returnDate : '1'}?marker=134949`;
+            // ✅ Travelpayouts White Label URL
+            // යාගේ White Label subdomain එක මෙතන දාන්න
+            const whiteLabelUrl = `https://travel-express.awl.aviasales.com/?origin=${encodeURIComponent(from)}&destination=${encodeURIComponent(to)}&departure_date=${depart}&return_date=${returnDate || ''}&marker=134949`;
             
-            // Open in new tab
-            window.open(searchUrl, '_blank');
+            // Show results section
+            document.getElementById('flightResultsIframe').src = whiteLabelUrl;
+            document.getElementById('flightResults').classList.add('active');
+            
+            // Scroll to results
+            document.getElementById('flightResults').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ✅ Back to Search
+        function backToSearch() {
+            document.getElementById('flightResults').classList.remove('active');
+            document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showFlightSearch() {
+            document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
         }
 
         function toggleMenu() {
@@ -811,34 +635,6 @@
         function switchSearch(type) {
             document.querySelectorAll('.search-tab').forEach(tab => tab.classList.remove('active'));
             event.target.classList.add('active');
-            
-            // Show/hide search forms based on type
-            const flightsSearch = document.getElementById('flightsSearch');
-            if (type === 'flights') {
-                flightsSearch.style.display = 'block';
-            } else if (type === 'hotels') {
-                flightsSearch.innerHTML = `
-                    <div style="text-align: center; padding: 2rem;">
-                        <i class="fas fa-hotel" style="font-size: 3rem; color: #667eea; margin-bottom: 1rem;"></i>
-                        <h3>Hotel Search Coming Soon!</h3>
-                        <p style="color: #666; margin-top: 1rem;">Please contact us for hotel bookings</p>
-                        <button class="search-submit-btn" style="margin-top: 1.5rem;" onclick="contactWhatsApp()">
-                            <i class="fab fa-whatsapp"></i> Contact via WhatsApp
-                        </button>
-                    </div>
-                `;
-            } else if (type === 'tours') {
-                flightsSearch.innerHTML = `
-                    <div style="text-align: center; padding: 2rem;">
-                        <i class="fas fa-map-marked-alt" style="font-size: 3rem; color: #667eea; margin-bottom: 1rem;"></i>
-                        <h3>Tour Search Coming Soon!</h3>
-                        <p style="color: #666; margin-top: 1rem;">Please contact us for tour bookings</p>
-                        <button class="search-submit-btn" style="margin-top: 1.5rem;" onclick="contactWhatsApp()">
-                            <i class="fab fa-whatsapp"></i> Contact via WhatsApp
-                        </button>
-                    </div>
-                `;
-            }
         }
 
         function loadHotels() {
@@ -872,16 +668,15 @@
             return `
                 <div class="card" onclick="showDetails('hotel', ${JSON.stringify(hotel).replace(/"/g, '&quot;')})">
                     <div style="position: relative;">
-                        <img src="${hotel.image}" alt="${hotel.name}" class="card-image">
+                        <img src="${hotel.image}" class="card-image">
                         <span class="card-badge">⭐ ${hotel.rating}</span>
                     </div>
                     <div class="card-content">
                         <h3 class="card-title">${hotel.name}</h3>
                         <div class="card-location"><i class="fas fa-map-marker-alt"></i> ${hotel.location}</div>
-                        <div class="card-features">${hotel.features.map(f => `<span class="feature-tag">${f}</span>`).join('')}</div>
                         <div class="card-price">${hotel.price}</div>
                         <div class="card-actions">
-                            <button class="btn btn-primary" onclick="event.stopPropagation(); bookNow('${hotel.name}')">Book Now</button>
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); contactWhatsApp()">Book Now</button>
                             <button class="btn btn-secondary" onclick="event.stopPropagation(); showDetails('hotel', ${JSON.stringify(hotel).replace(/"/g, '&quot;')})">Details</button>
                         </div>
                     </div>
@@ -892,13 +687,12 @@
         function createRestaurantCard(rest) {
             return `
                 <div class="card" onclick="showDetails('restaurant', ${JSON.stringify(rest).replace(/"/g, '&quot;')})">
-                    <img src="${rest.image}" alt="${rest.name}" class="card-image">
+                    <img src="${rest.image}" class="card-image">
                     <div class="card-content">
                         <h3 class="card-title">${rest.name}</h3>
                         <div class="card-location"><i class="fas fa-map-marker-alt"></i> ${rest.location}</div>
-                        <div class="card-rating"><i class="fas fa-star"></i> ${rest.rating}/5.0</div>
                         <div class="card-price">${rest.price}</div>
-                        <button class="btn btn-primary" onclick="event.stopPropagation(); bookNow('${rest.name}')">Reserve Table</button>
+                        <button class="btn btn-primary" onclick="event.stopPropagation(); contactWhatsApp()">Reserve</button>
                     </div>
                 </div>
             `;
@@ -907,13 +701,12 @@
         function createTourCard(tour) {
             return `
                 <div class="card" onclick="showDetails('tour', ${JSON.stringify(tour).replace(/"/g, '&quot;')})">
-                    <img src="${tour.image}" alt="${tour.name}" class="card-image">
+                    <img src="${tour.image}" class="card-image">
                     <div class="card-content">
                         <h3 class="card-title">${tour.name}</h3>
                         <div class="card-location"><i class="fas fa-map-marker-alt"></i> ${tour.location}</div>
-                        <div class="card-rating"><i class="fas fa-star"></i> ${tour.rating}/5.0</div>
                         <div class="card-price">${tour.price} | ${tour.duration}</div>
-                        <button class="btn btn-primary" onclick="event.stopPropagation(); bookNow('${tour.name}')">Book Tour</button>
+                        <button class="btn btn-primary" onclick="event.stopPropagation(); contactWhatsApp()">Book Tour</button>
                     </div>
                 </div>
             `;
@@ -925,57 +718,20 @@
             
             document.getElementById('modalImage').src = item.image;
             document.getElementById('modalTitle').textContent = item.name;
-            document.getElementById('modalRating').innerHTML = `<i class="fas fa-star" style="color: #ffa500;"></i> ${item.rating}/5.0 (${Math.floor(Math.random() * 200) + 50} reviews)`;
-            document.getElementById('modalPrice').textContent = item.price;
-            
-            let detailsHTML = '';
-            if (type === 'hotel') {
-                detailsHTML = `
-                    <div class="detail-row"><span class="detail-label">Location</span><span class="detail-value">${item.location}</span></div>
-                    <div class="detail-row"><span class="detail-label">Rooms</span><span class="detail-value">${item.rooms || 'Available'}</span></div>
-                    <div class="detail-row"><span class="detail-label">Amenities</span><span class="detail-value">${item.amenities || item.features?.join(', ') || 'WiFi, Pool'}</span></div>
-                    <div class="detail-row"><span class="detail-label">Description</span><span class="detail-value">${item.description}</span></div>
-                `;
-            } else if (type === 'restaurant') {
-                detailsHTML = `
-                    <div class="detail-row"><span class="detail-label">Cuisine</span><span class="detail-value">${item.cuisine}</span></div>
-                    <div class="detail-row"><span class="detail-label">Location</span><span class="detail-value">${item.location}</span></div>
-                    <div class="detail-row"><span class="detail-label">Specialty</span><span class="detail-value">${item.specialty || 'Various Dishes'}</span></div>
-                    <div class="detail-row"><span class="detail-label">Hours</span><span class="detail-value">${item.hours || '9:00 AM - 10:00 PM'}</span></div>
-                `;
-            } else if (type === 'tour') {
-                detailsHTML = `
-                    <div class="detail-row"><span class="detail-label">Type</span><span class="detail-value">${item.type}</span></div>
-                    <div class="detail-row"><span class="detail-label">Duration</span><span class="detail-value">${item.duration}</span></div>
-                    <div class="detail-row"><span class="detail-label">Includes</span><span class="detail-value">${item.includes || item.features?.join(', ') || 'Guide, Transport'}</span></div>
-                    <div class="detail-row"><span class="detail-label">Description</span><span class="detail-value">${item.description}</span></div>
-                `;
-            }
-            
-            document.getElementById('modalDetails').innerHTML = detailsHTML;
+            document.getElementById('modalDetails').innerHTML = `<p>${item.description}</p>`;
             modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
             document.getElementById('detailsModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
         }
 
         function contactWhatsApp() {
-            window.open('https://wa.me/94766488689?text=Hello Travel Express! I need travel assistance.', '_blank');
+            window.open('https://wa.me/94766488689?text=Hello Travel Express!', '_blank');
         }
 
         function contactCall() {
             window.location.href = 'tel:0766488689';
-        }
-
-        function bookNow(itemName) {
-            if (confirm(`Book ${itemName}?\n\nClick OK to contact via WhatsApp or Cancel to call.`)) {
-                contactWhatsApp();
-            } else {
-                contactCall();
-            }
         }
 
         function scrollToSection(id) {
@@ -986,12 +742,7 @@
             }
         }
 
-        document.getElementById('detailsModal').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
-
         document.addEventListener('DOMContentLoaded', () => {
-            // Set default departure date to tomorrow
             const tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate() + 1);
             document.getElementById('flightDepart').value = tomorrow.toISOString().split('T')[0];
