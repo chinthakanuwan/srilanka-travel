@@ -6,150 +6,351 @@
     <title>Admin Panel - Travel Express</title>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: #f4f6f9; color: #333; }
-        #loginScreen { display: flex; justify-content: center; align-items: center; height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .login-box { background: white; padding: 2.5rem; border-radius: 15px; width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        .login-box h2 { text-align: center; margin-bottom: 1.5rem; color: #667eea; }
-        .form-group { margin-bottom: 1rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
-        .form-group input, .form-group textarea { width: 100%; padding: 0.8rem; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; }
-        .btn { width: 100%; padding: 1rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; }
+        
+        .admin-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem 2rem; color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .admin-header h1 { font-size: 1.8rem; display: flex; align-items: center; gap: 0.8rem; }
+        .admin-header p { opacity: 0.9; margin-top: 0.3rem; }
+        
+        .admin-container { max-width: 1400px; margin: 2rem auto; padding: 0 2rem; }
+        
+        .admin-tabs { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .admin-tab {
+            padding: 1rem 2rem;
+            background: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .admin-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .admin-tab:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        .add-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .form-group label { font-weight: 600; color: #333; font-size: 0.95rem; }
+        .form-group input, .form-group textarea, .form-group select {
+            padding: 0.9rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
         .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
-        .btn-danger { background: #f44336; color: white; width: auto; padding: 0.5rem 1rem; }
-        .btn-edit { background: #4CAF50; color: white; width: auto; padding: 0.5rem 1rem; margin-right: 0.5rem; }
-        .btn-delete { background: #f44336; color: white; width: auto; padding: 0.5rem 1rem; }
-        #dashboard { display: none; max-width: 1200px; margin: 0 auto; padding: 2rem; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; background: white; padding: 1.5rem; border-radius: 10px; }
-        .header h1 { color: #667eea; }
-        .tabs { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
-        .tab { padding: 1rem 2rem; background: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .tab.active { background: #667eea; color: white; }
-        .content-section { display: none; }
-        .content-section.active { display: block; }
-        .panel { background: white; padding: 2rem; border-radius: 10px; margin-bottom: 2rem; }
-        .panel h3 { margin-bottom: 1.5rem; border-bottom: 2px solid #f0f0f0; padding-bottom: 0.5rem; }
-        .item-list { display: grid; gap: 1rem; }
-        .item-card { display: flex; align-items: center; background: #f9f9f9; padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea; }
-        .item-card img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 1rem; }
-        .item-info { flex: 1; }
-        .item-info h4 { margin-bottom: 0.3rem; }
-        .item-info p { font-size: 0.9rem; color: #666; }
-        .item-actions { display: flex; gap: 0.5rem; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .error { color: red; text-align: center; margin-top: 1rem; }
-        .success { color: green; text-align: center; margin-top: 1rem; }
-        @media(max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+        .btn-success { background: #25D366; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-warning { background: #ffc107; color: #333; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .item-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        .item-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        
+        .item-card h3 { color: #333; margin-bottom: 0.5rem; font-size: 1.2rem; }
+        .item-card p { color: #666; font-size: 0.9rem; margin-bottom: 0.5rem; }
+        .item-card .price { color: #667eea; font-weight: bold; font-size: 1.1rem; margin-bottom: 1rem; }
+        .item-card .actions { display: flex; gap: 0.5rem; margin-top: 1rem; }
+        .item-card .actions .btn { flex: 1; padding: 0.7rem; font-size: 0.9rem; }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-card .number { font-size: 2.5rem; font-weight: bold; color: #667eea; }
+        .stat-card .label { color: #666; margin-top: 0.5rem; }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-content h2 { margin-bottom: 1.5rem; color: #333; }
+        .modal-actions { display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end; }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 2rem;
+            background: #25D366;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 3000;
+            display: none;
+            animation: slideIn 0.3s;
+        }
+        @keyframes slideIn { from { transform: translateX(400px); } to { transform: translateX(0); } }
+        
+        @media (max-width: 768px) {
+            .admin-container { padding: 0 1rem; }
+            .form-grid { grid-template-columns: 1fr; }
+            .items-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="loginScreen">
-        <div class="login-box">
-            <h2>🔐 Travel Express Admin</h2>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="loginEmail" placeholder="chinthaka36@gmail.com">
+    <div class="admin-header">
+        <h1><i class="fas fa-cog"></i> Travel Express Admin Panel</h1>
+        <p>Manage your website content</p>
+    </div>
+
+    <div class="admin-container">
+        
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="number" id="hotelCount">0</div>
+                <div class="label"><i class="fas fa-hotel"></i> Hotels</div>
             </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="loginPassword" placeholder="Enter password">
+            <div class="stat-card">
+                <div class="number" id="restaurantCount">0</div>
+                <div class="label"><i class="fas fa-utensils"></i> Restaurants</div>
             </div>
-            <button class="btn btn-primary" onclick="login()">Login</button>
-            <div class="error" id="loginError"></div>
+            <div class="stat-card">
+                <div class="number" id="tourCount">0</div>
+                <div class="label"><i class="fas fa-map-marked-alt"></i> Tours</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="admin-tabs">
+            <button class="admin-tab active" onclick="switchTab('hotels')">
+                <i class="fas fa-hotel"></i> Hotels
+            </button>
+            <button class="admin-tab" onclick="switchTab('restaurants')">
+                <i class="fas fa-utensils"></i> Restaurants
+            </button>
+            <button class="admin-tab" onclick="switchTab('tours')">
+                <i class="fas fa-map-marked-alt"></i> Tours & Activities
+            </button>
+        </div>
+
+        <!-- Hotels Tab -->
+        <div id="hotels-tab" class="tab-content active">
+            <div class="add-form">
+                <h2><i class="fas fa-plus-circle"></i> Add New Hotel</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Hotel Name</label>
+                        <input type="text" id="hotelName" placeholder="e.g., Cinnamon Grand">
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" id="hotelLocation" placeholder="e.g., Colombo">
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="text" id="hotelPrice" placeholder="e.g., LKR 25,000/night">
+                    </div>
+                    <div class="form-group">
+                        <label>Rating</label>
+                        <input type="text" id="hotelRating" placeholder="e.g., 4.8">
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL</label>
+                        <input type="text" id="hotelImage" placeholder="https://...">
+                    </div>
+                    <div class="form-group">
+                        <label>Features (comma separated)</label>
+                        <input type="text" id="hotelFeatures" placeholder="WiFi, Pool, Spa">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Description</label>
+                        <textarea id="hotelDescription" placeholder="Hotel description..."></textarea>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="addHotel()">
+                    <i class="fas fa-plus"></i> Add Hotel
+                </button>
+            </div>
+            <div class="items-grid" id="hotelsList"></div>
+        </div>
+
+        <!-- Restaurants Tab -->
+        <div id="restaurants-tab" class="tab-content">
+            <div class="add-form">
+                <h2><i class="fas fa-plus-circle"></i> Add New Restaurant</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Restaurant Name</label>
+                        <input type="text" id="restName" placeholder="e.g., Ministry of Crab">
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" id="restLocation" placeholder="e.g., Colombo">
+                    </div>
+                    <div class="form-group">
+                        <label>Cuisine</label>
+                        <input type="text" id="restCuisine" placeholder="e.g., Seafood">
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="text" id="restPrice" placeholder="e.g., LKR 8,000">
+                    </div>
+                    <div class="form-group">
+                        <label>Rating</label>
+                        <input type="text" id="restRating" placeholder="e.g., 4.8">
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL</label>
+                        <input type="text" id="restImage" placeholder="https://...">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Description</label>
+                        <textarea id="restDescription" placeholder="Restaurant description..."></textarea>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="addRestaurant()">
+                    <i class="fas fa-plus"></i> Add Restaurant
+                </button>
+            </div>
+            <div class="items-grid" id="restaurantsList"></div>
+        </div>
+
+        <!-- Tours Tab -->
+        <div id="tours-tab" class="tab-content">
+            <div class="add-form">
+                <h2><i class="fas fa-plus-circle"></i> Add New Tour / Activity</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Tour Name</label>
+                        <input type="text" id="tourName" placeholder="e.g., Sigiriya Rock Tickets">
+                    </div>
+                    <div class="form-group">
+                        <label>Icon (Emoji)</label>
+                        <input type="text" id="tourIcon" placeholder="e.g., 🏔️">
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="text" id="tourPrice" placeholder="e.g., From $35">
+                    </div>
+                    <div class="form-group">
+                        <label>Klook Affiliate Link</label>
+                        <input type="text" id="tourLink" placeholder="https://klook.tpo.mx/...">
+                    </div>
+                    <div class="form-group">
+                        <label>Button Text</label>
+                        <input type="text" id="tourButtonText" placeholder="e.g., Book Now">
+                    </div>
+                    <div class="form-group">
+                        <label>Button Icon Class</label>
+                        <input type="text" id="tourButtonIcon" placeholder="e.g., fas fa-ticket-alt">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Description</label>
+                        <textarea id="tourDescription" placeholder="Tour description..."></textarea>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="addTour()">
+                    <i class="fas fa-plus"></i> Add Tour
+                </button>
+            </div>
+            <div class="items-grid" id="toursList"></div>
+        </div>
+
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <h2><i class="fas fa-edit"></i> Edit Item</h2>
+            <div id="editForm"></div>
+            <div class="modal-actions">
+                <button class="btn btn-danger" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-success" onclick="saveEdit()">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+            </div>
         </div>
     </div>
 
-    <div id="dashboard">
-        <div class="header">
-            <h1>🛠️ Travel Express Dashboard</h1>
-            <button class="btn btn-danger" onclick="logout()">Logout</button>
-        </div>
-
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab('hotels')">🏨 Hotels</button>
-            <button class="tab" onclick="switchTab('restaurants')">🍽️ Restaurants</button>
-            <button class="tab" onclick="switchTab('tours')">🗺️ Tours</button>
-            <button class="tab" onclick="switchTab('bookings')">📋 Bookings</button>
-        </div>
-
-        <div id="hotels" class="content-section active">
-            <div class="panel">
-                <h3 id="hotelFormTitle">Add New Hotel</h3>
-                <input type="hidden" id="hotelId">
-                <div class="grid-2">
-                    <div class="form-group"><label>Hotel Name</label><input type="text" id="hotelName"></div>
-                    <div class="form-group"><label>Location</label><input type="text" id="hotelLocation"></div>
-                    <div class="form-group"><label>Price</label><input type="text" id="hotelPrice"></div>
-                    <div class="form-group"><label>Rating</label><input type="text" id="hotelRating"></div>
-                    <div class="form-group"><label>Image URL</label><input type="url" id="hotelImage"></div>
-                    <div class="form-group"><label>Features (comma separated)</label><input type="text" id="hotelFeatures"></div>
-                </div>
-                <div class="form-group"><label>Description</label><textarea id="hotelDesc" rows="3"></textarea></div>
-                <button class="btn btn-primary" onclick="saveItem('hotels')">Save Hotel</button>
-                <div id="hotelMsg"></div>
-            </div>
-            <div class="panel">
-                <h3>Existing Hotels</h3>
-                <div class="item-list" id="hotelList"></div>
-            </div>
-        </div>
-
-        <div id="restaurants" class="content-section">
-            <div class="panel">
-                <h3 id="restFormTitle">Add New Restaurant</h3>
-                <input type="hidden" id="restId">
-                <div class="grid-2">
-                    <div class="form-group"><label>Restaurant Name</label><input type="text" id="restName"></div>
-                    <div class="form-group"><label>Location</label><input type="text" id="restLocation"></div>
-                    <div class="form-group"><label>Cuisine Type</label><input type="text" id="restCuisine"></div>
-                    <div class="form-group"><label>Price Range</label><input type="text" id="restPrice"></div>
-                    <div class="form-group"><label>Rating</label><input type="text" id="restRating"></div>
-                    <div class="form-group"><label>Image URL</label><input type="url" id="restImage"></div>
-                </div>
-                <button class="btn btn-primary" onclick="saveItem('restaurants')">Save Restaurant</button>
-                <div id="restMsg"></div>
-            </div>
-            <div class="panel">
-                <h3>Existing Restaurants</h3>
-                <div class="item-list" id="restList"></div>
-            </div>
-        </div>
-
-        <div id="tours" class="content-section">
-            <div class="panel">
-                <h3 id="tourFormTitle">Add New Tour</h3>
-                <input type="hidden" id="tourId">
-                <div class="grid-2">
-                    <div class="form-group"><label>Tour Name</label><input type="text" id="tourName"></div>
-                    <div class="form-group"><label>Destination</label><input type="text" id="tourLocation"></div>
-                    <div class="form-group"><label>Tour Type</label><input type="text" id="tourType"></div>
-                    <div class="form-group"><label>Price</label><input type="text" id="tourPrice"></div>
-                    <div class="form-group"><label>Duration</label><input type="text" id="tourDuration"></div>
-                    <div class="form-group"><label>Image URL</label><input type="url" id="tourImage"></div>
-                </div>
-                <div class="form-group"><label>Description</label><textarea id="tourDesc" rows="3"></textarea></div>
-                <button class="btn btn-primary" onclick="saveItem('tours')">Save Tour</button>
-                <div id="tourMsg"></div>
-            </div>
-            <div class="panel">
-                <h3>Existing Tours</h3>
-                <div class="item-list" id="tourList"></div>
-            </div>
-        </div>
-
-        <div id="bookings" class="content-section">
-            <div class="panel">
-                <h3>Recent Bookings</h3>
-                <div class="item-list" id="bookingList"></div>
-            </div>
-        </div>
-    </div>
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
 
     <script>
-        // ✅ ඔයාගේ සම්පූර්ණ සහ නිවැරදි Firebase Config එක මෙතනයි!
         const firebaseConfig = {
             apiKey: "AIzaSyBQhTvJO0MafUNFHlP9LXPb-XBDic3X4pc",
             authDomain: "srilanka-travel-ddcc3.firebaseapp.com",
@@ -163,123 +364,188 @@
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-        const auth = firebase.auth();
 
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('dashboard').style.display = 'block';
-                loadAllData();
-            } else {
-                document.getElementById('loginScreen').style.display = 'flex';
-                document.getElementById('dashboard').style.display = 'none';
-            }
-        });
+        let currentEditId = null;
+        let currentEditCollection = null;
 
-        function login() {
-            const email = document.getElementById('loginEmail').value;
-            const pass = document.getElementById('loginPassword').value;
-            auth.signInWithEmailAndPassword(email, pass).catch(err => {
-                document.getElementById('loginError').textContent = "Error: " + err.message;
-            });
+        function switchTab(tab) {
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            event.target.closest('.admin-tab').classList.add('active');
+            document.getElementById(tab + '-tab').classList.add('active');
         }
 
-        function logout() { auth.signOut(); }
-
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById(tabId).classList.add('active');
+        function showNotification(message, type = 'success') {
+            const notif = document.getElementById('notification');
+            notif.textContent = message;
+            notif.style.background = type === 'success' ? '#25D366' : '#dc3545';
+            notif.style.display = 'block';
+            setTimeout(() => notif.style.display = 'none', 3000);
         }
 
-        function saveItem(collection) {
-            let data = {}, idField = '', msgId = '';
-            if (collection === 'hotels') {
-                data = { name: document.getElementById('hotelName').value, location: document.getElementById('hotelLocation').value, price: document.getElementById('hotelPrice').value, rating: document.getElementById('hotelRating').value, image: document.getElementById('hotelImage').value, features: document.getElementById('hotelFeatures').value.split(',').map(s => s.trim()), description: document.getElementById('hotelDesc').value };
-                idField = document.getElementById('hotelId').value; msgId = 'hotelMsg';
-            } else if (collection === 'restaurants') {
-                data = { name: document.getElementById('restName').value, location: document.getElementById('restLocation').value, cuisine: document.getElementById('restCuisine').value, price: document.getElementById('restPrice').value, rating: document.getElementById('restRating').value, image: document.getElementById('restImage').value };
-                idField = document.getElementById('restId').value; msgId = 'restMsg';
-            } else if (collection === 'tours') {
-                data = { name: document.getElementById('tourName').value, location: document.getElementById('tourLocation').value, type: document.getElementById('tourType').value, price: document.getElementById('tourPrice').value, duration: document.getElementById('tourDuration').value, image: document.getElementById('tourImage').value, description: document.getElementById('tourDesc').value };
-                idField = document.getElementById('tourId').value; msgId = 'tourMsg';
+        // Add Hotel
+        async function addHotel() {
+            const hotel = {
+                name: document.getElementById('hotelName').value,
+                location: document.getElementById('hotelLocation').value,
+                price: document.getElementById('hotelPrice').value,
+                rating: document.getElementById('hotelRating').value,
+                image: document.getElementById('hotelImage').value,
+                features: document.getElementById('hotelFeatures').value.split(',').map(f => f.trim()),
+                description: document.getElementById('hotelDescription').value
+            };
+
+            if (!hotel.name || !hotel.location) {
+                showNotification('Please fill required fields!', 'error');
+                return;
             }
 
-            if (idField) {
-                db.collection(collection).doc(idField).update(data).then(() => {
-                    document.getElementById(msgId).innerHTML = '<div class="success">Updated!</div>';
-                    clearForm(collection);
-                });
-            } else {
-                db.collection(collection).add(data).then(() => {
-                    document.getElementById(msgId).innerHTML = '<div class="success">Added!</div>';
-                    clearForm(collection);
-                });
+            await db.collection('hotels').add(hotel);
+            showNotification('Hotel added successfully!');
+            
+            // Clear form
+            document.getElementById('hotelName').value = '';
+            document.getElementById('hotelLocation').value = '';
+            document.getElementById('hotelPrice').value = '';
+            document.getElementById('hotelRating').value = '';
+            document.getElementById('hotelImage').value = '';
+            document.getElementById('hotelFeatures').value = '';
+            document.getElementById('hotelDescription').value = '';
+        }
+
+        // Add Restaurant
+        async function addRestaurant() {
+            const restaurant = {
+                name: document.getElementById('restName').value,
+                location: document.getElementById('restLocation').value,
+                cuisine: document.getElementById('restCuisine').value,
+                price: document.getElementById('restPrice').value,
+                rating: document.getElementById('restRating').value,
+                image: document.getElementById('restImage').value,
+                description: document.getElementById('restDescription').value
+            };
+
+            if (!restaurant.name || !restaurant.location) {
+                showNotification('Please fill required fields!', 'error');
+                return;
             }
+
+            await db.collection('restaurants').add(restaurant);
+            showNotification('Restaurant added successfully!');
+            
+            document.getElementById('restName').value = '';
+            document.getElementById('restLocation').value = '';
+            document.getElementById('restCuisine').value = '';
+            document.getElementById('restPrice').value = '';
+            document.getElementById('restRating').value = '';
+            document.getElementById('restImage').value = '';
+            document.getElementById('restDescription').value = '';
         }
 
-        function clearForm(collection) {
-            if (collection === 'hotels') ['hotelId','hotelName','hotelLocation','hotelPrice','hotelRating','hotelImage','hotelFeatures','hotelDesc'].forEach(id => document.getElementById(id).value = '');
-            else if (collection === 'restaurants') ['restId','restName','restLocation','restCuisine','restPrice','restRating','restImage'].forEach(id => document.getElementById(id).value = '');
-            else if (collection === 'tours') ['tourId','tourName','tourLocation','tourType','tourPrice','tourDuration','tourImage','tourDesc'].forEach(id => document.getElementById(id).value = '');
-        }
+        // Add Tour
+        async function addTour() {
+            const tour = {
+                name: document.getElementById('tourName').value,
+                icon: document.getElementById('tourIcon').value,
+                price: document.getElementById('tourPrice').value,
+                link: document.getElementById('tourLink').value,
+                buttonText: document.getElementById('tourButtonText').value,
+                buttonIcon: document.getElementById('tourButtonIcon').value,
+                description: document.getElementById('tourDescription').value
+            };
 
-        function deleteItem(collection, id) {
-            if(confirm('Delete this item?')) db.collection(collection).doc(id).delete();
-        }
-
-        function editItem(collection, id, data) {
-            if (collection === 'hotels') {
-                document.getElementById('hotelId').value = id;
-                document.getElementById('hotelName').value = data.name || '';
-                document.getElementById('hotelLocation').value = data.location || '';
-                document.getElementById('hotelPrice').value = data.price || '';
-                document.getElementById('hotelRating').value = data.rating || '';
-                document.getElementById('hotelImage').value = data.image || '';
-                document.getElementById('hotelFeatures').value = (data.features || []).join(', ');
-                document.getElementById('hotelDesc').value = data.description || '';
-            } else if (collection === 'restaurants') {
-                document.getElementById('restId').value = id;
-                document.getElementById('restName').value = data.name || '';
-                document.getElementById('restLocation').value = data.location || '';
-                document.getElementById('restCuisine').value = data.cuisine || '';
-                document.getElementById('restPrice').value = data.price || '';
-                document.getElementById('restRating').value = data.rating || '';
-                document.getElementById('restImage').value = data.image || '';
-            } else if (collection === 'tours') {
-                document.getElementById('tourId').value = id;
-                document.getElementById('tourName').value = data.name || '';
-                document.getElementById('tourLocation').value = data.location || '';
-                document.getElementById('tourType').value = data.type || '';
-                document.getElementById('tourPrice').value = data.price || '';
-                document.getElementById('tourDuration').value = data.duration || '';
-                document.getElementById('tourImage').value = data.image || '';
-                document.getElementById('tourDesc').value = data.description || '';
+            if (!tour.name || !tour.link) {
+                showNotification('Please fill required fields!', 'error');
+                return;
             }
+
+            await db.collection('tours').add(tour);
+            showNotification('Tour added successfully!');
+            
+            document.getElementById('tourName').value = '';
+            document.getElementById('tourIcon').value = '';
+            document.getElementById('tourPrice').value = '';
+            document.getElementById('tourLink').value = '';
+            document.getElementById('tourButtonText').value = '';
+            document.getElementById('tourButtonIcon').value = '';
+            document.getElementById('tourDescription').value = '';
         }
 
+        // Load Data
         function loadAllData() {
-            loadCollection('hotels', 'hotelList', 'hotels');
-            loadCollection('restaurants', 'restList', 'restaurants');
-            loadCollection('tours', 'tourList', 'tours');
-            loadBookings();
-        }
-
-        function loadCollection(collection, listId, formCollection) {
-            db.collection(collection).onSnapshot(snapshot => {
-                const list = document.getElementById(listId);
+            // Load Hotels
+            db.collection('hotels').onSnapshot((snapshot) => {
+                const list = document.getElementById('hotelsList');
                 list.innerHTML = '';
-                if (snapshot.empty) { list.innerHTML = '<p style="text-align:center;color:#666;">No items yet. Add one above!</p>'; return; }
+                document.getElementById('hotelCount').textContent = snapshot.size;
                 snapshot.forEach(doc => {
-                    const data = doc.data();
+                    const hotel = doc.data();
                     list.innerHTML += `
                         <div class="item-card">
-                            ${data.image ? `<img src="${data.image}">` : '<div style="width:60px;height:60px;background:#ddd;border-radius:8px;margin-right:1rem;"></div>'}
-                            <div class="item-info"><h4>${data.name}</h4><p>${data.location || data.type || ''} | ${data.price || ''}</p></div>
-                            <div class="item-actions">
-                                <button class="btn btn-edit" onclick='editItem("${formCollection}", "${doc.id}", ${JSON.stringify(data)})'>Edit</button>
-                                <button class="btn btn-delete" onclick="deleteItem('${formCollection}', '${doc.id}')">Delete</button>
+                            <h3>${hotel.name}</h3>
+                            <p><i class="fas fa-map-marker-alt"></i> ${hotel.location}</p>
+                            <p class="price">${hotel.price}</p>
+                            <p>⭐ ${hotel.rating}</p>
+                            <div class="actions">
+                                <button class="btn btn-warning" onclick="editItem('hotels', '${doc.id}')">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-danger" onclick="deleteItem('hotels', '${doc.id}')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+
+            // Load Restaurants
+            db.collection('restaurants').onSnapshot((snapshot) => {
+                const list = document.getElementById('restaurantsList');
+                list.innerHTML = '';
+                document.getElementById('restaurantCount').textContent = snapshot.size;
+                snapshot.forEach(doc => {
+                    const rest = doc.data();
+                    list.innerHTML += `
+                        <div class="item-card">
+                            <h3>${rest.name}</h3>
+                            <p><i class="fas fa-map-marker-alt"></i> ${rest.location}</p>
+                            <p class="price">${rest.price}</p>
+                            <p>⭐ ${rest.rating}</p>
+                            <div class="actions">
+                                <button class="btn btn-warning" onclick="editItem('restaurants', '${doc.id}')">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-danger" onclick="deleteItem('restaurants', '${doc.id}')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            });
+
+            // Load Tours
+            db.collection('tours').onSnapshot((snapshot) => {
+                const list = document.getElementById('toursList');
+                list.innerHTML = '';
+                document.getElementById('tourCount').textContent = snapshot.size;
+                snapshot.forEach(doc => {
+                    const tour = doc.data();
+                    list.innerHTML += `
+                        <div class="item-card">
+                            <div style="font-size: 3rem; text-align: center; margin-bottom: 0.5rem;">${tour.icon}</div>
+                            <h3>${tour.name}</h3>
+                            <p>${tour.description}</p>
+                            <p class="price">${tour.price}</p>
+                            <p><i class="fas fa-link"></i> ${tour.link.substring(0, 30)}...</p>
+                            <div class="actions">
+                                <button class="btn btn-warning" onclick="editItem('tours', '${doc.id}')">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-danger" onclick="deleteItem('tours', '${doc.id}')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
                             </div>
                         </div>
                     `;
@@ -287,17 +553,106 @@
             });
         }
 
-        function loadBookings() {
-            db.collection('bookings').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
-                const list = document.getElementById('bookingList');
-                list.innerHTML = '';
-                if (snapshot.empty) { list.innerHTML = '<p style="text-align:center;color:#666;">No bookings yet.</p>'; return; }
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    list.innerHTML += `<div class="item-card"><div class="item-info"><h4>${data.name || 'Booking'}</h4><p>${data.phone || ''} | ${data.email || ''}</p></div></div>`;
-                });
-            });
+        // Edit Item
+        async function editItem(collection, id) {
+            currentEditId = id;
+            currentEditCollection = collection;
+            
+            const doc = await db.collection(collection).doc(id).get();
+            const data = doc.data();
+            
+            const modal = document.getElementById('editModal');
+            const form = document.getElementById('editForm');
+            
+            let formHTML = '<div class="form-grid">';
+            
+            if (collection === 'hotels') {
+                formHTML += `
+                    <div class="form-group"><label>Name</label><input type="text" id="editName" value="${data.name}"></div>
+                    <div class="form-group"><label>Location</label><input type="text" id="editLocation" value="${data.location}"></div>
+                    <div class="form-group"><label>Price</label><input type="text" id="editPrice" value="${data.price}"></div>
+                    <div class="form-group"><label>Rating</label><input type="text" id="editRating" value="${data.rating}"></div>
+                    <div class="form-group"><label>Image URL</label><input type="text" id="editImage" value="${data.image}"></div>
+                    <div class="form-group"><label>Features</label><input type="text" id="editFeatures" value="${data.features?.join(', ') || ''}"></div>
+                    <div class="form-group" style="grid-column: 1 / -1;"><label>Description</label><textarea id="editDescription">${data.description}</textarea></div>
+                `;
+            } else if (collection === 'restaurants') {
+                formHTML += `
+                    <div class="form-group"><label>Name</label><input type="text" id="editName" value="${data.name}"></div>
+                    <div class="form-group"><label>Location</label><input type="text" id="editLocation" value="${data.location}"></div>
+                    <div class="form-group"><label>Cuisine</label><input type="text" id="editCuisine" value="${data.cuisine}"></div>
+                    <div class="form-group"><label>Price</label><input type="text" id="editPrice" value="${data.price}"></div>
+                    <div class="form-group"><label>Rating</label><input type="text" id="editRating" value="${data.rating}"></div>
+                    <div class="form-group"><label>Image URL</label><input type="text" id="editImage" value="${data.image}"></div>
+                    <div class="form-group" style="grid-column: 1 / -1;"><label>Description</label><textarea id="editDescription">${data.description}</textarea></div>
+                `;
+            } else if (collection === 'tours') {
+                formHTML += `
+                    <div class="form-group"><label>Name</label><input type="text" id="editName" value="${data.name}"></div>
+                    <div class="form-group"><label>Icon</label><input type="text" id="editIcon" value="${data.icon}"></div>
+                    <div class="form-group"><label>Price</label><input type="text" id="editPrice" value="${data.price}"></div>
+                    <div class="form-group"><label>Klook Link</label><input type="text" id="editLink" value="${data.link}"></div>
+                    <div class="form-group"><label>Button Text</label><input type="text" id="editButtonText" value="${data.buttonText}"></div>
+                    <div class="form-group"><label>Button Icon</label><input type="text" id="editButtonIcon" value="${data.buttonIcon}"></div>
+                    <div class="form-group" style="grid-column: 1 / -1;"><label>Description</label><textarea id="editDescription">${data.description}</textarea></div>
+                `;
+            }
+            
+            formHTML += '</div>';
+            form.innerHTML = formHTML;
+            modal.classList.add('active');
         }
+
+        // Save Edit
+        async function saveEdit() {
+            const data = {};
+            
+            if (currentEditCollection === 'hotels') {
+                data.name = document.getElementById('editName').value;
+                data.location = document.getElementById('editLocation').value;
+                data.price = document.getElementById('editPrice').value;
+                data.rating = document.getElementById('editRating').value;
+                data.image = document.getElementById('editImage').value;
+                data.features = document.getElementById('editFeatures').value.split(',').map(f => f.trim());
+                data.description = document.getElementById('editDescription').value;
+            } else if (currentEditCollection === 'restaurants') {
+                data.name = document.getElementById('editName').value;
+                data.location = document.getElementById('editLocation').value;
+                data.cuisine = document.getElementById('editCuisine').value;
+                data.price = document.getElementById('editPrice').value;
+                data.rating = document.getElementById('editRating').value;
+                data.image = document.getElementById('editImage').value;
+                data.description = document.getElementById('editDescription').value;
+            } else if (currentEditCollection === 'tours') {
+                data.name = document.getElementById('editName').value;
+                data.icon = document.getElementById('editIcon').value;
+                data.price = document.getElementById('editPrice').value;
+                data.link = document.getElementById('editLink').value;
+                data.buttonText = document.getElementById('editButtonText').value;
+                data.buttonIcon = document.getElementById('editButtonIcon').value;
+                data.description = document.getElementById('editDescription').value;
+            }
+            
+            await db.collection(currentEditCollection).doc(currentEditId).update(data);
+            showNotification('Updated successfully!');
+            closeModal();
+        }
+
+        // Delete Item
+        async function deleteItem(collection, id) {
+            if (confirm('Are you sure you want to delete this item?')) {
+                await db.collection(collection).doc(id).delete();
+                showNotification('Deleted successfully!');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('editModal').classList.remove('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAllData();
+        });
     </script>
 </body>
 </html>
