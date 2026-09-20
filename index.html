@@ -18,7 +18,7 @@
         .logo { font-size: 1.8rem; font-weight: bold; color: white; display: flex; align-items: center; gap: 0.5rem; }
         .menu-toggle { display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
         .nav-links { display: flex; gap: 1.5rem; list-style: none; }
-        .nav-links a { color: white; text-decoration: none; padding: 0.6rem 1.2rem; border-radius: 25px; transition: all 0.3s; font-weight: 500; }
+        .nav-links a { color: white; text-decoration: none; padding: 0.6rem 1.2rem; border-radius: 25px; transition: all 0.3s; font-weight: 500; cursor: pointer; }
         .nav-links a:hover { background: rgba(255,255,255,0.2); }
         
         @media (max-width: 768px) {
@@ -130,7 +130,7 @@
         /* Tours Grid */
         .tours-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
         }
@@ -138,11 +138,11 @@
         .tour-card {
             background: white;
             border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
+            padding: 1.5rem;
             box-shadow: 0 8px 20px rgba(0,0,0,0.1);
             transition: all 0.3s;
             border: 2px solid transparent;
+            cursor: pointer;
         }
 
         .tour-card:hover {
@@ -151,14 +151,23 @@
             border-color: #667eea;
         }
 
-        .tour-icon { font-size: 4rem; margin-bottom: 1rem; }
-        .tour-card h3 { color: #333; font-size: 1.3rem; margin-bottom: 0.8rem; }
-        .tour-card p { color: #666; font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.5; }
-        .tour-price { font-size: 1.5rem; color: #667eea; font-weight: bold; margin-bottom: 1.5rem; }
+        .tour-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .tour-icon { font-size: 4rem; margin-bottom: 1rem; text-align: center; }
+        .tour-card h3 { color: #333; font-size: 1.3rem; margin-bottom: 0.8rem; text-align: center; }
+        .tour-card p { color: #666; font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5; }
+        .tour-price { font-size: 1.5rem; color: #667eea; font-weight: bold; margin-bottom: 1.5rem; text-align: center; }
 
         .tour-btn {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
             padding: 1rem 2rem;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -167,8 +176,7 @@
             border-radius: 12px;
             font-weight: 600;
             transition: all 0.3s;
-            width: 100%;
-            justify-content: center;
+            flex: 1;
         }
 
         .tour-btn:hover {
@@ -216,10 +224,10 @@
             padding: 1.2rem; border: none; border-radius: 15px;
             font-size: 1.1rem; font-weight: bold; cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 0.8rem;
-            text-decoration: none;
+            text-decoration: none; color: white;
         }
-        .btn-whatsapp { background: #25D366; color: white; }
-        .btn-call { background: #667eea; color: white; }
+        .btn-whatsapp { background: #25D366; }
+        .btn-call { background: #667eea; }
         
         .floating-buttons {
             position: fixed; bottom: 20px; right: 20px;
@@ -331,7 +339,7 @@
         </div>
     </div>
 
-    <!-- TOURS & ACTIVITIES SECTION (Firebase වලින් load වෙනවා) -->
+    <!-- TOURS & ACTIVITIES SECTION -->
     <div class="content-section" id="tours">
         <div class="section-header">
             <h2 class="section-title"><i class="fas fa-map-marked-alt"></i> Amazing Tours & Activities</h2>
@@ -369,7 +377,7 @@
                     <h3><i class="fas fa-info-circle"></i> Details</h3>
                     <div id="modalDetails"></div>
                 </div>
-                <div class="contact-buttons">
+                <div class="contact-buttons" id="modalButtons">
                     <a href="https://wa.me/94766488689" class="contact-btn btn-whatsapp">
                         <i class="fab fa-whatsapp"></i> WhatsApp
                     </a>
@@ -406,14 +414,14 @@
 
         // Default Tours (Firebase එකේ දෙයක් නැත්නම් මේවා පෙන්නනවා)
         const sampleTours = [
-            { name: "Sigiriya Rock Tickets", icon: "️", price: "From $35", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Book Now", buttonIcon: "fas fa-ticket-alt", description: "Explore the ancient rock fortress" },
-            { name: "Safari Bookings", icon: "", price: "From $45", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Book Safari", buttonIcon: "fas fa-camera", description: "Yala, Udawalawe & Minneriya safari" },
-            { name: "Train Tickets (Kandy to Ella)", icon: "🚂", price: "From $15", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Book Train", buttonIcon: "fas fa-train", description: "Scenic train journey" },
-            { name: "Airport Transfers", icon: "🚗", price: "From $25", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Book Transfer", buttonIcon: "fas fa-plane", description: "Comfortable airport pickup/dropoff" },
-            { name: "City Tours", icon: "️", price: "From $30", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Explore City", buttonIcon: "fas fa-city", description: "Colombo, Kandy, Galle tours" },
-            { name: "Adventure Activities", icon: "️", price: "From $40", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Get Adventurous", buttonIcon: "fas fa-hiking", description: "Hiking, rafting, cycling" },
-            { name: "Water Sports", icon: "🏄", price: "From $35", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Water Fun", buttonIcon: "fas fa-water", description: "Surfing, diving, snorkeling" },
-            { name: "And More...", icon: "🎯", price: "From $20", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "View All", buttonIcon: "fas fa-star", description: "Cooking classes, spa, cultural shows" }
+            { name: "Ultimate Sigiriya Tour", icon: "🏔️", image: "https://images.unsplash.com/photo-1588258546145-12f59f1c1e3e?w=800", price: "US$ 50.00", link: "https://klook.tpo.mx/s8Q5qWsV", buttonText: "Book Now", buttonIcon: "fas fa-ticket-alt", description: "Climb the iconic Sigiriya Rock Fortress, explore village life, and enjoy a safari or cave temple visit.", fullDetails: "Step beyond the standard trails and dive into the heart of Sri Lanka! This premium private tour seamlessly combines ancient marvels, authentic eco-village life, and your choice of thrilling wildlife or rich cultural heritage. Begin at the majestic Sigiriya Rock. Discover its dual history, from King Kashyapa's architectural masterpiece to the mythical legends of King Ravana's sky palace. Next, immerse yourself in rural rhythms at an eco-village, featuring a hands-on traditional wood-fired cooking experience and an authentic local lunch. Finally, customize your afternoon: choose a private jeep safari in Minneriya to witness wild elephant herds, or explore the 2,000-year-old living rock art of the breathtaking Dambulla Cave Temple. Experience the ultimate Sri Lankan adventure!" },
+            { name: "Safari Bookings", icon: "", image: "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800", price: "From $45", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Book Safari", buttonIcon: "fas fa-camera", description: "Yala, Udawalawe & Minneriya safari adventures", fullDetails: "Experience Sri Lanka's incredible wildlife on our guided safari tours." },
+            { name: "Train Tickets (Kandy to Ella)", icon: "🚂", image: "https://images.unsplash.com/photo-1566939501733-7228f8d08825?w=800", price: "From $15", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Book Train", buttonIcon: "fas fa-train", description: "Scenic train journey through tea plantations", fullDetails: "One of the most beautiful train journeys in the world!" },
+            { name: "Airport Transfers", icon: "🚗", image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800", price: "From $25", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Book Transfer", buttonIcon: "fas fa-plane", description: "Comfortable & reliable airport pickup/dropoff", fullDetails: "Reliable airport transfers with professional drivers." },
+            { name: "City Tours", icon: "🏛️", image: "https://images.unsplash.com/photo-1588598198321-9735fd52061a?w=800", price: "From $30", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Explore City", buttonIcon: "fas fa-city", description: "Colombo, Kandy, Galle city exploration tours", fullDetails: "Discover the best of Sri Lanka's cities with our expert guides." },
+            { name: "Adventure Activities", icon: "🧗", image: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=800", price: "From $40", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Get Adventurous", buttonIcon: "fas fa-hiking", description: "Hiking, rafting, cycling & more adventures", fullDetails: "For the thrill-seekers! Hiking, white water rafting, cycling and more." },
+            { name: "Water Sports", icon: "🏄", image: "https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=800", price: "From $35", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Water Fun", buttonIcon: "fas fa-water", description: "Surfing, diving, snorkeling in beautiful beaches", fullDetails: "Enjoy Sri Lanka's beautiful beaches with exciting water sports." },
+            { name: "And More...", icon: "🎯", image: "https://images.unsplash.com/photo-1528127269322-539801943592?w=800", price: "From $20", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "View All", buttonIcon: "fas fa-star", description: "Cooking classes, spa, cultural shows & experiences", fullDetails: "Explore more unique experiences in Sri Lanka!" }
         ];
 
         function toggleMenu() {
@@ -488,19 +496,67 @@
             `;
         }
 
-        // ✅ Tour Card එක හදනවා
+        // ✅ Tour Card එක හදනවා - Photo + Details Button එක්ක
         function createTourCard(tour) {
+            const safeName = tour.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            const safeDesc = (tour.description || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            const safeFull = (tour.fullDetails || tour.description || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            const safeImage = tour.image || '';
+            const safePrice = (tour.price || '').replace(/'/g, "\\'");
+            const safeLink = tour.link || '#';
+            
             return `
                 <div class="tour-card">
-                    <div class="tour-icon">${tour.icon}</div>
+                    ${tour.image ? `<img src="${tour.image}" alt="${safeName}">` : `<div class="tour-icon">${tour.icon || '🎯'}</div>`}
                     <h3>${tour.name}</h3>
-                    <p>${tour.description}</p>
-                    <div class="tour-price">${tour.price}</div>
-                    <a href="${tour.link}" target="_blank" class="tour-btn">
-                        <i class="${tour.buttonIcon}"></i> ${tour.buttonText}
-                    </a>
+                    <p>${(tour.description || '').substring(0, 100)}${(tour.description || '').length > 100 ? '...' : ''}</p>
+                    <div class="tour-price">${tour.price || ''}</div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-secondary" style="flex: 1;" onclick="showTourDetails('${safeName}', '${safeDesc}', '${safeFull}', '${safeImage}', '${safePrice}', '${safeLink}')">
+                            <i class="fas fa-info-circle"></i> Details
+                        </button>
+                        <a href="${safeLink}" target="_blank" class="tour-btn" style="flex: 1;">
+                            <i class="${tour.buttonIcon || 'fas fa-ticket-alt'}"></i> ${tour.buttonText || 'Book Now'}
+                        </a>
+                    </div>
                 </div>
             `;
+        }
+
+        // ✅ Tour Details Modal පෙන්නනවා
+        function showTourDetails(name, description, fullDetails, image, price, link) {
+            const modal = document.getElementById('detailsModal');
+            document.getElementById('modalTitle').textContent = name;
+            document.getElementById('modalImage').src = image || 'https://images.unsplash.com/photo-1588258546145-12f59f1c1e3e?w=800';
+            
+            const detailsHTML = `
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-tag"></i> Price</span>
+                    <span class="detail-value">${price}</span>
+                </div>
+                <div style="margin-top: 1rem;">
+                    <h4 style="color: #667eea; margin-bottom: 0.5rem;"><i class="fas fa-info-circle"></i> Description</h4>
+                    <p style="color: #666; line-height: 1.6;">${description}</p>
+                </div>
+                <div style="margin-top: 1rem;">
+                    <h4 style="color: #667eea; margin-bottom: 0.5rem;"><i class="fas fa-list"></i> Full Details</h4>
+                    <p style="color: #666; line-height: 1.6;">${fullDetails}</p>
+                </div>
+            `;
+            
+            document.getElementById('modalDetails').innerHTML = detailsHTML;
+            
+            // Update buttons
+            document.getElementById('modalButtons').innerHTML = `
+                <a href="${link}" target="_blank" class="contact-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <i class="fas fa-ticket-alt"></i> Book Now
+                </a>
+                <a href="https://wa.me/94766488689?text=I'm interested in ${encodeURIComponent(name)}" class="contact-btn btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+            `;
+            
+            modal.classList.add('active');
         }
 
         function showDetails(type, data) {
@@ -509,6 +565,17 @@
             document.getElementById('modalImage').src = item.image;
             document.getElementById('modalTitle').textContent = item.name;
             document.getElementById('modalDetails').innerHTML = `<p>${item.description}</p>`;
+            
+            // Reset buttons for hotels/restaurants
+            document.getElementById('modalButtons').innerHTML = `
+                <a href="https://wa.me/94766488689?text=I'm interested in ${encodeURIComponent(item.name)}" class="contact-btn btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+                <a href="tel:0766488689" class="contact-btn btn-call">
+                    <i class="fas fa-phone"></i> Call Now
+                </a>
+            `;
+            
             modal.classList.add('active');
         }
 
@@ -535,7 +602,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadHotels();
             loadRestaurants();
-            loadTours(); // ✅ Tours load කරනවා
+            loadTours();
         });
     </script>
 </body>
