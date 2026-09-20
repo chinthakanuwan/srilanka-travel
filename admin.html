@@ -304,6 +304,10 @@
                         <input type="text" id="tourIcon" placeholder="e.g., 🏔️">
                     </div>
                     <div class="form-group">
+                        <label>Image URL</label>
+                        <input type="text" id="tourImage" placeholder="https://...">
+                    </div>
+                    <div class="form-group">
                         <label>Price</label>
                         <input type="text" id="tourPrice" placeholder="e.g., From $35">
                     </div>
@@ -321,7 +325,11 @@
                     </div>
                     <div class="form-group" style="grid-column: 1 / -1;">
                         <label>Description</label>
-                        <textarea id="tourDescription" placeholder="Tour description..."></textarea>
+                        <textarea id="tourDescription" placeholder="Tour description..." rows="3"></textarea>
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label>Full Details (Optional)</label>
+                        <textarea id="tourFullDetails" placeholder="Detailed description for modal..." rows="4"></textarea>
                     </div>
                 </div>
                 <button class="btn btn-primary" onclick="addTour()">
@@ -403,7 +411,6 @@
             await db.collection('hotels').add(hotel);
             showNotification('Hotel added successfully!');
             
-            // Clear form
             document.getElementById('hotelName').value = '';
             document.getElementById('hotelLocation').value = '';
             document.getElementById('hotelPrice').value = '';
@@ -447,11 +454,13 @@
             const tour = {
                 name: document.getElementById('tourName').value,
                 icon: document.getElementById('tourIcon').value,
+                image: document.getElementById('tourImage').value,
                 price: document.getElementById('tourPrice').value,
                 link: document.getElementById('tourLink').value,
                 buttonText: document.getElementById('tourButtonText').value,
                 buttonIcon: document.getElementById('tourButtonIcon').value,
-                description: document.getElementById('tourDescription').value
+                description: document.getElementById('tourDescription').value,
+                fullDetails: document.getElementById('tourFullDetails').value
             };
 
             if (!tour.name || !tour.link) {
@@ -464,11 +473,13 @@
             
             document.getElementById('tourName').value = '';
             document.getElementById('tourIcon').value = '';
+            document.getElementById('tourImage').value = '';
             document.getElementById('tourPrice').value = '';
             document.getElementById('tourLink').value = '';
             document.getElementById('tourButtonText').value = '';
             document.getElementById('tourButtonIcon').value = '';
             document.getElementById('tourDescription').value = '';
+            document.getElementById('tourFullDetails').value = '';
         }
 
         // Load Data
@@ -534,11 +545,10 @@
                     const tour = doc.data();
                     list.innerHTML += `
                         <div class="item-card">
-                            <div style="font-size: 3rem; text-align: center; margin-bottom: 0.5rem;">${tour.icon}</div>
+                            ${tour.image ? `<img src="${tour.image}" style="width: 100%; height: 150px; object-fit: cover; border-radius: 10px; margin-bottom: 1rem;">` : `<div style="font-size: 3rem; text-align: center; margin-bottom: 0.5rem;">${tour.icon}</div>`}
                             <h3>${tour.name}</h3>
-                            <p>${tour.description}</p>
+                            <p>${tour.description.substring(0, 80)}${tour.description.length > 80 ? '...' : ''}</p>
                             <p class="price">${tour.price}</p>
-                            <p><i class="fas fa-link"></i> ${tour.link.substring(0, 30)}...</p>
                             <div class="actions">
                                 <button class="btn btn-warning" onclick="editItem('tours', '${doc.id}')">
                                     <i class="fas fa-edit"></i> Edit
@@ -590,11 +600,13 @@
                 formHTML += `
                     <div class="form-group"><label>Name</label><input type="text" id="editName" value="${data.name}"></div>
                     <div class="form-group"><label>Icon</label><input type="text" id="editIcon" value="${data.icon}"></div>
+                    <div class="form-group"><label>Image URL</label><input type="text" id="editImage" value="${data.image || ''}"></div>
                     <div class="form-group"><label>Price</label><input type="text" id="editPrice" value="${data.price}"></div>
                     <div class="form-group"><label>Klook Link</label><input type="text" id="editLink" value="${data.link}"></div>
                     <div class="form-group"><label>Button Text</label><input type="text" id="editButtonText" value="${data.buttonText}"></div>
                     <div class="form-group"><label>Button Icon</label><input type="text" id="editButtonIcon" value="${data.buttonIcon}"></div>
                     <div class="form-group" style="grid-column: 1 / -1;"><label>Description</label><textarea id="editDescription">${data.description}</textarea></div>
+                    <div class="form-group" style="grid-column: 1 / -1;"><label>Full Details</label><textarea id="editFullDetails">${data.fullDetails || ''}</textarea></div>
                 `;
             }
             
@@ -626,11 +638,13 @@
             } else if (currentEditCollection === 'tours') {
                 data.name = document.getElementById('editName').value;
                 data.icon = document.getElementById('editIcon').value;
+                data.image = document.getElementById('editImage').value;
                 data.price = document.getElementById('editPrice').value;
                 data.link = document.getElementById('editLink').value;
                 data.buttonText = document.getElementById('editButtonText').value;
                 data.buttonIcon = document.getElementById('editButtonIcon').value;
                 data.description = document.getElementById('editDescription').value;
+                data.fullDetails = document.getElementById('editFullDetails').value;
             }
             
             await db.collection(currentEditCollection).doc(currentEditId).update(data);
