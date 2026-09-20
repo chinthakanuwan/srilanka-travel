@@ -64,10 +64,7 @@
             color: white;
         }
         
-        .aviasales-widget-container {
-            width: 100%;
-            min-height: 200px;
-        }
+        .aviasales-widget-container { width: 100%; min-height: 200px; }
         
         .quick-actions { 
             max-width: 1400px; 
@@ -93,41 +90,14 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
         }
         
-        .quick-action i { 
-            font-size: 3rem; 
-            color: #667eea; 
-            margin-bottom: 1rem; 
-        }
-        
+        .quick-action i { font-size: 3rem; color: #667eea; margin-bottom: 1rem; }
         .quick-action h3 { font-size: 1.1rem; color: #333; font-weight: 600; }
         
-        .content-section { 
-            max-width: 1400px; 
-            margin: 3rem auto; 
-            padding: 0 2rem; 
-        }
+        .content-section { max-width: 1400px; margin: 3rem auto; padding: 0 2rem; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; }
+        .section-title { font-size: 2.2rem; color: #333; display: flex; align-items: center; gap: 0.8rem; }
         
-        .section-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 2rem; 
-            flex-wrap: wrap; 
-        }
-        
-        .section-title { 
-            font-size: 2.2rem; 
-            color: #333; 
-            display: flex; 
-            align-items: center; 
-            gap: 0.8rem;
-        }
-        
-        .grid-view { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
-            gap: 2rem; 
-        }
+        .grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; }
         
         .card { 
             background: white; 
@@ -138,21 +108,12 @@
             cursor: pointer; 
         }
         
-        .card:hover { 
-            transform: translateY(-10px); 
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2); 
-        }
-        
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
         .card-image { width: 100%; height: 250px; object-fit: cover; position: relative; }
         .card-badge { 
-            position: absolute; 
-            top: 15px; 
-            left: 15px; 
+            position: absolute; top: 15px; left: 15px; 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-            color: white; 
-            padding: 0.5rem 1rem; 
-            border-radius: 25px; 
-            font-weight: bold; 
+            color: white; padding: 0.5rem 1rem; border-radius: 25px; font-weight: bold; 
         }
         .card-content { padding: 1.5rem; }
         .card-title { font-size: 1.4rem; margin-bottom: 0.8rem; color: #333; font-weight: 700; }
@@ -190,30 +151,10 @@
             border-color: #667eea;
         }
 
-        .tour-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
-
-        .tour-card h3 {
-            color: #333;
-            font-size: 1.3rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .tour-card p {
-            color: #666;
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-            line-height: 1.5;
-        }
-
-        .tour-price {
-            font-size: 1.5rem;
-            color: #667eea;
-            font-weight: bold;
-            margin-bottom: 1.5rem;
-        }
+        .tour-icon { font-size: 4rem; margin-bottom: 1rem; }
+        .tour-card h3 { color: #333; font-size: 1.3rem; margin-bottom: 0.8rem; }
+        .tour-card p { color: #666; font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.5; }
+        .tour-price { font-size: 1.5rem; color: #667eea; font-weight: bold; margin-bottom: 1.5rem; }
 
         .tour-btn {
             display: inline-flex;
@@ -257,14 +198,10 @@
         .modal-header { position: relative; }
         .modal-image { width: 100%; height: 400px; object-fit: cover; }
         .modal-close {
-            position: absolute;
-            top: 20px; right: 20px;
-            background: white;
-            border: none;
-            width: 50px; height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.5rem;
+            position: absolute; top: 20px; right: 20px;
+            background: white; border: none;
+            width: 50px; height: 50px; border-radius: 50%;
+            cursor: pointer; font-size: 1.5rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
         .modal-body { padding: 2rem; }
@@ -276,46 +213,28 @@
         .detail-value { color: #333; }
         .contact-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem; }
         .contact-btn {
-            padding: 1.2rem;
-            border: none;
-            border-radius: 15px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.8rem;
+            padding: 1.2rem; border: none; border-radius: 15px;
+            font-size: 1.1rem; font-weight: bold; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 0.8rem;
             text-decoration: none;
         }
         .btn-whatsapp { background: #25D366; color: white; }
         .btn-call { background: #667eea; color: white; }
         
         .floating-buttons {
-            position: fixed;
-            bottom: 20px; right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 1500;
+            position: fixed; bottom: 20px; right: 20px;
+            display: flex; flex-direction: column; gap: 10px; z-index: 1500;
         }
         .float-btn {
-            width: 50px; height: 50px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            font-size: 1.3rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            width: 50px; height: 50px; border-radius: 50%; border: none;
+            cursor: pointer; font-size: 1.3rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
         .float-whatsapp { background: #25D366; color: white; }
         .float-call { background: #667eea; color: white; }
         
         .footer {
-            background: rgba(0,0,0,0.9);
-            color: white;
-            text-align: center;
-            padding: 3rem 2rem;
-            margin-top: 5rem;
+            background: rgba(0,0,0,0.9); color: white;
+            text-align: center; padding: 3rem 2rem; margin-top: 5rem;
         }
         .footer h3 { font-size: 1.8rem; margin-bottom: 1rem; }
         .footer-links { display: flex; justify-content: center; gap: 2rem; margin: 1.5rem 0; flex-wrap: wrap; }
@@ -369,7 +288,6 @@
                 </button>
             </div>
             
-            <!-- AVIASALES FLIGHT SEARCH WIDGET -->
             <div class="aviasales-widget-container" id="flightsSearch">
                 <script async src="https://tpwidg.com/content?currency=usd&trs=575704&shmarker=779501&show_hotels=true&powered_by=true&locale=en&searchUrl=www.aviasales.com%2Fsearch&primary_override=%23667eea&color_button=%23667eea&color_icons=%23764ba2&dark=%23262626&light=%23FFFFFF&secondary=%23FFFFFF&special=%23C4C4C4&color_focused=%2332a8dd&border_radius=0&plain=false&promo_id=7879&campaign_id=100" charset="utf-8"></script>
             </div>
@@ -413,100 +331,13 @@
         </div>
     </div>
 
-    <!-- ✅ TOURS & ACTIVITIES SECTION -->
+    <!-- TOURS & ACTIVITIES SECTION (Firebase වලින් load වෙනවා) -->
     <div class="content-section" id="tours">
         <div class="section-header">
             <h2 class="section-title"><i class="fas fa-map-marked-alt"></i> Amazing Tours & Activities</h2>
         </div>
-        
-        <div class="tours-grid">
-            <!-- Sigiriya Rock Tickets -->
-            <div class="tour-card">
-                <div class="tour-icon">🏔️</div>
-                <h3>Sigiriya Rock Tickets</h3>
-                <p>Explore the ancient rock fortress with skip-the-line tickets</p>
-                <div class="tour-price">From $35</div>
-                <a href="https://klook.tpo.mx/eiJiEKq7" target="_blank" class="tour-btn">
-                    <i class="fas fa-ticket-alt"></i> Book Now
-                </a>
-            </div>
-
-            <!-- Safari Bookings -->
-            <div class="tour-card">
-                <div class="tour-icon"></div>
-                <h3>Safari Bookings</h3>
-                <p>Yala, Udawalawe & Minneriya safari adventures</p>
-                <div class="tour-price">From $45</div>
-                <a href="https://klook.tpo.mx/eiJiEKq7" target="_blank" class="tour-btn">
-                    <i class="fas fa-camera"></i> Book Safari
-                </a>
-            </div>
-
-            <!-- Train Tickets -->
-            <div class="tour-card">
-                <div class="tour-icon">🚂</div>
-                <h3>Train Tickets (Kandy to Ella)</h3>
-                <p>Scenic train journey through tea plantations</p>
-                <div class="tour-price">From $15</div>
-                <a href="https://klook.tpo.mx/eiJiEKq7" target="_blank" class="tour-btn">
-                    <i class="fas fa-train"></i> Book Train
-                </a>
-            </div>
-
-            <!-- Airport Transfers -->
-            <div class="tour-card">
-                <div class="tour-icon"></div>
-                <h3>Airport Transfers</h3>
-                <p>Comfortable & reliable airport pickup/dropoff</p>
-                <div class="tour-price">From $25</div>
-                <a href="https://klook.tpo.mx/eiJiEKq7" target="_blank" class="tour-btn">
-                    <i class="fas fa-plane"></i> Book Transfer
-                </a>
-            </div>
-
-            <!-- City Tours -->
-            <div class="tour-card">
-                <div class="tour-icon">🏛️</div>
-                <h3>City Tours</h3>
-                <p>Colombo, Kandy, Galle city exploration tours</p>
-                <div class="tour-price">From $30</div>
-                <a href="https://klook.tpo.mx/eiJiEKq7" target="_blank" class="tour-btn">
-                    <i class="fas fa-city"></i> Explore City
-                </a>
-            </div>
-
-            <!-- Adventure Activities -->
-            <div class="tour-card">
-                <div class="tour-icon">🏔️</div>
-                <h3>Adventure Activities</h3>
-                <p>Hiking, rafting, cycling & more adventures</p>
-                <div class="tour-price">From $40</div>
-                <a href="https://klook.tpo.mx/eiJiEKq7" target="_blank" class="tour-btn">
-                    <i class="fas fa-hiking"></i> Get Adventurous
-                </a>
-            </div>
-
-            <!-- Water Sports -->
-            <div class="tour-card">
-                <div class="tour-icon">🏄</div>
-                <h3>Water Sports</h3>
-                <p>Surfing, diving, snorkeling in beautiful beaches</p>
-                <div class="tour-price">From $35</div>
-                <a href="https://klook.tpo.mx/eiJiEKq7" target="_blank" class="tour-btn">
-                    <i class="fas fa-water"></i> Water Fun
-                </a>
-            </div>
-
-            <!-- More Activities -->
-            <div class="tour-card">
-                <div class="tour-icon">🎯</div>
-                <h3>And More...</h3>
-                <p>Cooking classes, spa, cultural shows & experiences</p>
-                <div class="tour-price">From $20</div>
-                <a href="https://klook.tpo.mx/eiJiEKq7" target="_blank" class="tour-btn">
-                    <i class="fas fa-star"></i> View All
-                </a>
-            </div>
+        <div class="tours-grid" id="toursGrid">
+            <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading tours...</div>
         </div>
     </div>
 
@@ -554,10 +385,12 @@
         const firebaseConfig = {
             apiKey: "AIzaSyBQhTvJO0MafUNFHlP9LXPb-XBDic3X4pc",
             authDomain: "srilanka-travel-ddcc3.firebaseapp.com",
+            databaseURL: "https://srilanka-travel-ddcc3-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "srilanka-travel-ddcc3",
             storageBucket: "srilanka-travel-ddcc3.firebasestorage.app",
             messagingSenderId: "964910006559",
-            appId: "1:964910006559:web:d3d2d3d678a0b02a73702a"
+            appId: "1:964910006559:web:d3d2d3d678a0b02a73702a",
+            measurementId: "G-FQP5RV0H14"
         };
 
         firebase.initializeApp(firebaseConfig);
@@ -569,6 +402,18 @@
 
         const sampleRestaurants = [
             { name: "Ministry of Crab", location: "Colombo", cuisine: "Seafood", price: "LKR 8,000", rating: "4.8", image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400", description: "Famous crab restaurant" }
+        ];
+
+        // Default Tours (Firebase එකේ දෙයක් නැත්නම් මේවා පෙන්නනවා)
+        const sampleTours = [
+            { name: "Sigiriya Rock Tickets", icon: "️", price: "From $35", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Book Now", buttonIcon: "fas fa-ticket-alt", description: "Explore the ancient rock fortress" },
+            { name: "Safari Bookings", icon: "", price: "From $45", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Book Safari", buttonIcon: "fas fa-camera", description: "Yala, Udawalawe & Minneriya safari" },
+            { name: "Train Tickets (Kandy to Ella)", icon: "🚂", price: "From $15", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Book Train", buttonIcon: "fas fa-train", description: "Scenic train journey" },
+            { name: "Airport Transfers", icon: "🚗", price: "From $25", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Book Transfer", buttonIcon: "fas fa-plane", description: "Comfortable airport pickup/dropoff" },
+            { name: "City Tours", icon: "️", price: "From $30", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Explore City", buttonIcon: "fas fa-city", description: "Colombo, Kandy, Galle tours" },
+            { name: "Adventure Activities", icon: "️", price: "From $40", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Get Adventurous", buttonIcon: "fas fa-hiking", description: "Hiking, rafting, cycling" },
+            { name: "Water Sports", icon: "🏄", price: "From $35", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Water Fun", buttonIcon: "fas fa-water", description: "Surfing, diving, snorkeling" },
+            { name: "And More...", icon: "🎯", price: "From $20", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "View All", buttonIcon: "fas fa-star", description: "Cooking classes, spa, cultural shows" }
         ];
 
         function toggleMenu() {
@@ -596,6 +441,16 @@
                 grid.innerHTML = '';
                 const rests = snapshot.empty ? sampleRestaurants : snapshot.docs.map(doc => doc.data());
                 rests.forEach(rest => grid.innerHTML += createRestaurantCard(rest));
+            });
+        }
+
+        // ✅ Tours Firebase වලින් load කරනවා
+        function loadTours() {
+            const grid = document.getElementById('toursGrid');
+            db.collection('tours').onSnapshot((snapshot) => {
+                grid.innerHTML = '';
+                const tours = snapshot.empty ? sampleTours : snapshot.docs.map(doc => doc.data());
+                tours.forEach(tour => grid.innerHTML += createTourCard(tour));
             });
         }
 
@@ -633,10 +488,24 @@
             `;
         }
 
+        // ✅ Tour Card එක හදනවා
+        function createTourCard(tour) {
+            return `
+                <div class="tour-card">
+                    <div class="tour-icon">${tour.icon}</div>
+                    <h3>${tour.name}</h3>
+                    <p>${tour.description}</p>
+                    <div class="tour-price">${tour.price}</div>
+                    <a href="${tour.link}" target="_blank" class="tour-btn">
+                        <i class="${tour.buttonIcon}"></i> ${tour.buttonText}
+                    </a>
+                </div>
+            `;
+        }
+
         function showDetails(type, data) {
             const modal = document.getElementById('detailsModal');
             const item = typeof data === 'string' ? JSON.parse(data.replace(/&quot;/g, '"')) : data;
-            
             document.getElementById('modalImage').src = item.image;
             document.getElementById('modalTitle').textContent = item.name;
             document.getElementById('modalDetails').innerHTML = `<p>${item.description}</p>`;
@@ -666,6 +535,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadHotels();
             loadRestaurants();
+            loadTours(); // ✅ Tours load කරනවා
         });
     </script>
 </body>
