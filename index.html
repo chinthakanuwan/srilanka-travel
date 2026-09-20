@@ -94,7 +94,7 @@
         .quick-action h3 { font-size: 1.1rem; color: #333; font-weight: 600; }
         
         .content-section { max-width: 1400px; margin: 3rem auto; padding: 0 2rem; }
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
         .section-title { font-size: 2.2rem; color: #333; display: flex; align-items: center; gap: 0.8rem; }
         
         .grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; }
@@ -123,8 +123,9 @@
         .card-features { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
         .feature-tag { background: #f0f0f0; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; }
         .card-actions { display: flex; gap: 0.8rem; }
-        .btn { flex: 1; padding: 1rem; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; }
+        .btn { flex: 1; padding: 1rem; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.3s; }
         .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
         .btn-secondary { background: #f0f0f0; color: #333; }
         
         /* Tours Grid */
@@ -132,7 +133,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
-            margin-top: 2rem;
+            margin-top: 1rem;
         }
 
         .tour-card {
@@ -339,10 +340,13 @@
         </div>
     </div>
 
-    <!-- TOURS & ACTIVITIES SECTION -->
+    <!-- TOURS & ACTIVITIES SECTION (View All Button එකතු කරලා) -->
     <div class="content-section" id="tours">
         <div class="section-header">
             <h2 class="section-title"><i class="fas fa-map-marked-alt"></i> Amazing Tours & Activities</h2>
+            <a href="tours-search.html" class="btn btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; flex: none;">
+                <i class="fas fa-th"></i> View All Tours
+            </a>
         </div>
         <div class="tours-grid" id="toursGrid">
             <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading tours...</div>
@@ -414,12 +418,12 @@
 
         // Default Tours (Firebase එකේ දෙයක් නැත්නම් මේවා පෙන්නනවා)
         const sampleTours = [
-            { name: "Ultimate Sigiriya Tour", icon: "🏔️", image: "https://images.unsplash.com/photo-1588258546145-12f59f1c1e3e?w=800", price: "US$ 50.00", link: "https://klook.tpo.mx/s8Q5qWsV", buttonText: "Book Now", buttonIcon: "fas fa-ticket-alt", description: "Climb the iconic Sigiriya Rock Fortress, explore village life, and enjoy a safari or cave temple visit.", fullDetails: "Step beyond the standard trails and dive into the heart of Sri Lanka! This premium private tour seamlessly combines ancient marvels, authentic eco-village life, and your choice of thrilling wildlife or rich cultural heritage. Begin at the majestic Sigiriya Rock. Discover its dual history, from King Kashyapa's architectural masterpiece to the mythical legends of King Ravana's sky palace. Next, immerse yourself in rural rhythms at an eco-village, featuring a hands-on traditional wood-fired cooking experience and an authentic local lunch. Finally, customize your afternoon: choose a private jeep safari in Minneriya to witness wild elephant herds, or explore the 2,000-year-old living rock art of the breathtaking Dambulla Cave Temple. Experience the ultimate Sri Lankan adventure!" },
+            { name: "Ultimate Sigiriya Tour", icon: "️", image: "https://images.unsplash.com/photo-1588258546145-12f59f1c1e3e?w=800", price: "US$ 50.00", link: "https://klook.tpo.mx/s8Q5qWsV", buttonText: "Book Now", buttonIcon: "fas fa-ticket-alt", description: "Climb the iconic Sigiriya Rock Fortress, explore village life, and enjoy a safari or cave temple visit.", fullDetails: "Step beyond the standard trails and dive into the heart of Sri Lanka! This premium private tour seamlessly combines ancient marvels, authentic eco-village life, and your choice of thrilling wildlife or rich cultural heritage. Begin at the majestic Sigiriya Rock. Discover its dual history, from King Kashyapa's architectural masterpiece to the mythical legends of King Ravana's sky palace. Next, immerse yourself in rural rhythms at an eco-village, featuring a hands-on traditional wood-fired cooking experience and an authentic local lunch. Finally, customize your afternoon: choose a private jeep safari in Minneriya to witness wild elephant herds, or explore the 2,000-year-old living rock art of the breathtaking Dambulla Cave Temple. Experience the ultimate Sri Lankan adventure!" },
             { name: "Safari Bookings", icon: "", image: "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800", price: "From $45", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Book Safari", buttonIcon: "fas fa-camera", description: "Yala, Udawalawe & Minneriya safari adventures", fullDetails: "Experience Sri Lanka's incredible wildlife on our guided safari tours." },
             { name: "Train Tickets (Kandy to Ella)", icon: "🚂", image: "https://images.unsplash.com/photo-1566939501733-7228f8d08825?w=800", price: "From $15", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Book Train", buttonIcon: "fas fa-train", description: "Scenic train journey through tea plantations", fullDetails: "One of the most beautiful train journeys in the world!" },
             { name: "Airport Transfers", icon: "🚗", image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800", price: "From $25", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Book Transfer", buttonIcon: "fas fa-plane", description: "Comfortable & reliable airport pickup/dropoff", fullDetails: "Reliable airport transfers with professional drivers." },
-            { name: "City Tours", icon: "🏛️", image: "https://images.unsplash.com/photo-1588598198321-9735fd52061a?w=800", price: "From $30", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Explore City", buttonIcon: "fas fa-city", description: "Colombo, Kandy, Galle city exploration tours", fullDetails: "Discover the best of Sri Lanka's cities with our expert guides." },
-            { name: "Adventure Activities", icon: "🧗", image: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=800", price: "From $40", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Get Adventurous", buttonIcon: "fas fa-hiking", description: "Hiking, rafting, cycling & more adventures", fullDetails: "For the thrill-seekers! Hiking, white water rafting, cycling and more." },
+            { name: "City Tours", icon: "️", image: "https://images.unsplash.com/photo-1588598198321-9735fd52061a?w=800", price: "From $30", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Explore City", buttonIcon: "fas fa-city", description: "Colombo, Kandy, Galle city exploration tours", fullDetails: "Discover the best of Sri Lanka's cities with our expert guides." },
+            { name: "Adventure Activities", icon: "", image: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=800", price: "From $40", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Get Adventurous", buttonIcon: "fas fa-hiking", description: "Hiking, rafting, cycling & more adventures", fullDetails: "For the thrill-seekers! Hiking, white water rafting, cycling and more." },
             { name: "Water Sports", icon: "🏄", image: "https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=800", price: "From $35", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "Water Fun", buttonIcon: "fas fa-water", description: "Surfing, diving, snorkeling in beautiful beaches", fullDetails: "Enjoy Sri Lanka's beautiful beaches with exciting water sports." },
             { name: "And More...", icon: "🎯", image: "https://images.unsplash.com/photo-1528127269322-539801943592?w=800", price: "From $20", link: "https://klook.tpo.mx/eiJiEKq7", buttonText: "View All", buttonIcon: "fas fa-star", description: "Cooking classes, spa, cultural shows & experiences", fullDetails: "Explore more unique experiences in Sri Lanka!" }
         ];
