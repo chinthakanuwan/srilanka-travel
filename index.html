@@ -236,6 +236,7 @@
             overflow: hidden; 
             box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
             transition: all 0.3s; 
+            position: relative;
         }
         .card:hover { 
             transform: translateY(-10px); 
@@ -547,15 +548,84 @@
             <div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading tours...</div>
         </div>
 
-        <!-- ✅ KLOOK WIDGET -->
-        <div style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid #f0f0f0;">
+        <!-- ✅ KLOOK WIDGET - MANUAL TOURS -->
+        <div style="margin-top: 4rem; padding: 2rem; background: white; border-radius: 15px;">
             <h3 style="text-align: center; margin-bottom: 2rem; color: #333; font-size: 1.8rem;">
-                <i class="fas fa-star" style="color: #ffd700;"></i> Featured Klook Experiences
+                <i class="fas fa-star" style="color: #ffd700;"></i> Popular Tours in Sri Lanka
             </h3>
             
-            <!-- Klook Widget Code -->
-            <script async src="https://tpwidg.com/content?currency=USD&trs=575704&shmarker=779501&locale=en&city_id=2&category=4&amount=10&powered_by=true&campaign_id=137&promo_id=4497" charset="utf-8"></script>
+            <div class="tours-grid">
+                <!-- Tour 1: Sigiriya -->
+                <div class="tour-card">
+                    <div class="tour-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1588258546145-12f59f1c1e3e?w=800" alt="Sigiriya Tour">
+                        <span style="position: absolute; top: 10px; left: 10px; background: #51cf66; color: white; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700;">BEST SELLER</span>
+                    </div>
+                    <div class="tour-content">
+                        <div class="tour-category">Cultural Tour</div>
+                        <h3 class="tour-title">Ultimate Sigiriya Rock Tour</h3>
+                        <div class="tour-rating">
+                            <i class="fas fa-star" style="color: #ffd700;"></i>
+                            <span>4.5 (120 reviews)</span>
+                        </div>
+                        <div class="tour-price">From US$ 50.00</div>
+                        <div class="tour-actions">
+                            <a href="https://www.klook.com/activity/224379-ultimate-sigiriya-tour-rock-village-life-safari-or-cave-temple/?aid=575704&klook_adid=779501" target="_blank" class="tour-btn tour-btn-book">
+                                <i class="fas fa-external-link-alt"></i> Book Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tour 2: Ella -->
+                <div class="tour-card">
+                    <div class="tour-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1566939501733-7228f8d08825?w=800" alt="Ella Tour">
+                    </div>
+                    <div class="tour-content">
+                        <div class="tour-category">Adventure Tour</div>
+                        <h3 class="tour-title">Ella & Nine Arch Bridge Tour</h3>
+                        <div class="tour-rating">
+                            <i class="fas fa-star" style="color: #ffd700;"></i>
+                            <span>4.8 (85 reviews)</span>
+                        </div>
+                        <div class="tour-price">From US$ 35.00</div>
+                        <div class="tour-actions">
+                            <a href="https://www.klook.com/en-SG/destinations/142-sri-lanka/?aid=575704&klook_adid=779501" target="_blank" class="tour-btn tour-btn-book">
+                                <i class="fas fa-external-link-alt"></i> Book Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tour 3: Safari -->
+                <div class="tour-card">
+                    <div class="tour-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800" alt="Safari Tour">
+                        <span style="position: absolute; top: 10px; left: 10px; background: #ff6b35; color: white; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700;">POPULAR</span>
+                    </div>
+                    <div class="tour-content">
+                        <div class="tour-category">Wildlife Safari</div>
+                        <h3 class="tour-title">Yala National Park Safari</h3>
+                        <div class="tour-rating">
+                            <i class="fas fa-star" style="color: #ffd700;"></i>
+                            <span>4.6 (95 reviews)</span>
+                        </div>
+                        <div class="tour-price">From US$ 65.00</div>
+                        <div class="tour-actions">
+                            <a href="https://www.klook.com/en-SG/destinations/142-sri-lanka/?aid=575704&klook_adid=779501" target="_blank" class="tour-btn tour-btn-book">
+                                <i class="fas fa-external-link-alt"></i> Book Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
+            <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #f0f0f0;">
+                <a href="https://www.klook.com/en-SG/destinations/142-sri-lanka/?aid=575704&klook_adid=779501" target="_blank" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-external-link-alt"></i> View All Sri Lanka Tours on Klook
+                </a>
+            </div>
         </div>
     </div>
 
